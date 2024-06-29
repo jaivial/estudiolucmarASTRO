@@ -1,74 +1,69 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import LayoutMenu from '../layouts/LayoutMenu.astro';
 import { Image } from 'astro:assets';
 import logoLucmar from '../../public/assets/img/logolucmar.jpg';
 import LoginForm from '../components/loginForm.astro';
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		  <!-- Loading screen -->
-		  <div id="loading-screen" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-white bg-opacity-100 z-50 ">
-			<svg class="h-[100px] w-auto" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-				<circle cx="12" cy="2" r="0" fill="currentColor">
-					<animate attributeName="r" begin="0" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(45 12 12)">
-					<animate attributeName="r" begin="0.125s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(90 12 12)">
-					<animate attributeName="r" begin="0.25s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(135 12 12)">
-					<animate attributeName="r" begin="0.375s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(180 12 12)">
-					<animate attributeName="r" begin="0.5s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(225 12 12)">
-					<animate attributeName="r" begin="0.625s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(270 12 12)">
-					<animate attributeName="r" begin="0.75s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-				<circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(315 12 12)">
-					<animate attributeName="r" begin="0.875s" calcMode="spline" dur="1s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
-				</circle>
-			</svg>
-		</div>
-		<section class="h-screen overflow-y-hidden w-full bg-slate-50 flex flex-row justify-center items-start pt-20">
-			<div class="flex flex-col items-center justify-start h-full w-96 px-8">
-				<div class="w-full px-5 flex flex-row items-center justify-evenly gap-0 mb-10">
-					<div class="h-auto w-[70px]">
-						<Image class="w-full rounded-xl" src={logoLucmar} alt="" />
-					</div>
-					<div class="flex flex-col items-start justify-center w-fit h-full">
-						<span class="font-bold font-sans text-xl tracking-wide text-slate-800">Lucmar Cloud</span>
-						<span class="font-sans font-extralight text-base text-slate-800">Panel de administración</span>
-					</div>
-				</div>
+<LayoutMenu title="Welcome to Astro.">
 	
-				<div class="w-full">
-					<h1 class="font-sans font-bold text-4xl tracking-wide text-slate-800">homw</h1>
-					<LoginForm>
-				</div>
-	
-				<div class="login__footer text-neutral-700"></div>
-			</div>
-			<div class="login__background h-screen"></div>
-		</section>
-	</main>
+<body class="overflow-x-hidden bg-slate-200">
 
-	<script>
-		function hideLoadingScreen() {
-				const loadingScreen = document.getElementById('loading-screen');
-				loadingScreen.classList.add('hidden');
-			}
-	
-			// Call hideLoadingScreen function when content is fully loaded
-			window.addEventListener('load', function() {
-				hideLoadingScreen();
-			});
-	</script>
-</Layout>
+    <main class="h-auto w-[100%] flex flex-row justify-start items-stretch bg-slate-200">
+        <div id='sidenavbar' class="fixed left-0 top-0 w-auto overflow-y-auto z-20 hidden lg:block">
+            <?php
+            include 'sidenavbar.php';
+            ?>
+        </div>
+        <div id='mobilesidenavbar' class="fixed left-0 bottom-0 w-auto overflow-visible z-30 block h-auto lg:hidden">
+            <?php
+            include 'mobilesidenavbar.php';
+            ?>
+        </div>
+        <div id="home" class="lg:ml-52 w-[100%] h-auto bg-slate-200 overflow-y-hidden">
+            <?php
+            include 'home.php';
+            ?>
+        </div>
+    </main>
+
+   
+    <script>
+		import Toastify from 'toastify-js'
+
+        Toastify({
+            text: "Sesión iniciada",
+            duration: 2500,
+            destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: false,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                borderRadius: "10px",
+                backgroundImage: "background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))",
+                backgroundColor: "#34D399",
+                backgroundColor: "#047857",
+            },
+            onClick: function() {} // Callback after click
+        }).showToast();
+        const mobileItemBuscador = document.getElementById("mobile-itemHome");
+
+        // Function to update the visibility based on localStorage
+        function updateVisibility() {
+            document.querySelectorAll('[id*="mobile-item"]').forEach(function(element) {
+                element.classList.remove('h-[55px]', 'bg-blue-400', 'p-2.5', 'text-white');
+                element.classList.add('h-[45px]', 'bg-white', 'p-2', 'text-black');
+            });
+            mobileItemBuscador.classList.remove('h-[45px]', 'bg-white', 'p-2', 'text-black');
+            mobileItemBuscador.classList.add('h-[55px]', 'bg-blue-400', 'p-2.5', 'text-white');
+        }
+
+        // Initial check
+        updateVisibility();
+    </script>
+</body>
+
+</LayoutMenu>
 
