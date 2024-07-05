@@ -1,23 +1,52 @@
 ---
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
+import LoadingScreen from '../components/LoadingScreen.astro';
 ---
 
-<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-		
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script>
+      import axios from 'axios';
+      import Toastify from 'toastify-js';
+      function showLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.remove('hidden');
+      }
+      function hideLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.add('hidden');
+      }
+      showLoadingScreen();
+      axios
+        .get('http://localhost:8000/backend/auth/check_login_status.php', {
+          withCredentials: true,
+        })
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data.loggedIn) {
+            window.location.href = '/home';
+          } else {
+            hideLoadingScreen();
+          }
+        })
+        .catch(function (error) {
+          console.error('Error checking login status:', error);
+        });
+    </script>
+  </head>
+  <body>
+    <LoadingScreen />
+    <slot />
+  </body>
 </html>

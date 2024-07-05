@@ -1,0 +1,36 @@
+---
+import MoreInfo from './MoreInfo.astro';
+---
+
+<div class="h-auto w-full flex flex-col justify-center items-center pt-8 mb-12 pb-8">
+  <div class="bg-slate-50 flex flex-col justify-start items-center h-auto py-5 lg:py-10 px-3 lg:px-12 gap-4 rounded-2xl shadow-2xl w-[90%] relative">
+    <h1 class="font-sans text-xl font-bold text-slate-900">El buscador de inmuebles</h1>
+    <form id="search-form" class="mb-4 flex flex-row justify-center gap-5 items-center flex-wrap w-full px-4">
+      <label class="text-slate-900 text-base font-semibold" for="direccion">Introduce la dirección:</label>
+      <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 hover:bg-slate-100" type="text" placeholder="Dirección" name="direccion" />
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Buscar</button>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" id="clear-form">Limpiar</button>
+    </form>
+    <table class="text-center w-full table-fixed">
+      <thead>
+        <tr class="bg-slate-500 text-white">
+          <th class="inherit overflow-hidden w-[60%]">Direccion</th>
+          <th class="hidden xl:table-cell overflow-hidden">Tipo</th>
+          <th class="hidden xl:table-cell overflow-hidden">Uso</th>
+          <th class="hidden xl:table-cell overflow-hidden">Superficie</th>
+          <th class="hidden xl:table-cell overflow-hidden">Año</th>
+          <th class="inherit overflow-hidden w-[30%] h-[100%]"></th>
+          <th class="inherit overflow-hidden"></th>
+        </tr>
+      </thead>
+      <tbody id="search-data"></tbody>
+    </table>
+
+    <div class="flex flex-row justify-center gap-5 items-center">
+      <button id="prev-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer">Anterior</button>
+      <span id="page-info"></span>
+      <button id="next-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer">Siguiente</button>
+    </div>
+  </div>
+  <MoreInfo />
+</div>
