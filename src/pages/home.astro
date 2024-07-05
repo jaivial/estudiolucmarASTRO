@@ -1,69 +1,57 @@
 ---
 import LayoutMenu from '../layouts/LayoutMenu.astro';
-import { Image } from 'astro:assets';
-import logoLucmar from '../../public/assets/img/logolucmar.jpg';
-import LoginForm from '../components/loginForm.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import LoadingScreenThree from '../components/LoadingScreenThree.astro';
 ---
 
-<LayoutMenu title="Welcome to Astro.">
-	
-<body class="overflow-x-hidden bg-slate-200">
+<script>
+  import axios from 'axios';
+  import Toastify from 'toastify-js';
+  function showLoadingScreenThree() {
+    const loadingScreen = document.getElementById('loading-screen-Three');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+  }
+  function hideLoadingScreenThree() {
+    const loadingScreen = document.getElementById('loading-screen-Three');
+    loadingScreen.classList.remove('flex');
+    loadingScreen.classList.add('hidden');
+  }
 
-    <main class="h-auto w-[100%] flex flex-row justify-start items-stretch bg-slate-200">
-        <div id='sidenavbar' class="fixed left-0 top-0 w-auto overflow-y-auto z-20 hidden lg:block">
-            <?php
-            include 'sidenavbar.php';
-            ?>
-        </div>
-        <div id='mobilesidenavbar' class="fixed left-0 bottom-0 w-auto overflow-visible z-30 block h-auto lg:hidden">
-            <?php
-            include 'mobilesidenavbar.php';
-            ?>
-        </div>
-        <div id="home" class="lg:ml-52 w-[100%] h-auto bg-slate-200 overflow-y-hidden">
-            <?php
-            include 'home.php';
-            ?>
-        </div>
-    </main>
+  showLoadingScreenThree();
 
-   
-    <script>
-		import Toastify from 'toastify-js'
-
+  axios
+    .get('http://localhost:8000/backend/auth/check_login_status.php', {
+      withCredentials: true,
+    })
+    .then(function (response) {
+      if (response.data.loggedIn) {
         Toastify({
-            text: "Sesión iniciada",
-            duration: 2500,
-            destination: "https://github.com/apvarun/toastify-js",
-            newWindow: true,
-            close: false,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                borderRadius: "10px",
-                backgroundImage: "background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))",
-                backgroundColor: "#34D399",
-                backgroundColor: "#047857",
-            },
-            onClick: function() {} // Callback after click
+          text: 'Sesión iniciada',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right top, #005d09, #0b6316, #146921, #1d6f2b, #247535, #267a39, #287e3d, #2a8341, #278740, #248b3f, #20903e, #1c943d)',
+          },
+          onClick: function () {}, // Callback after click
         }).showToast();
-        const mobileItemBuscador = document.getElementById("mobile-itemHome");
+      } else {
+        window.location.href = '/';
+      }
+    })
+    .catch(function (error) {
+      console.error('Error checking login status:', error);
+    });
 
-        // Function to update the visibility based on localStorage
-        function updateVisibility() {
-            document.querySelectorAll('[id*="mobile-item"]').forEach(function(element) {
-                element.classList.remove('h-[55px]', 'bg-blue-400', 'p-2.5', 'text-white');
-                element.classList.add('h-[45px]', 'bg-white', 'p-2', 'text-black');
-            });
-            mobileItemBuscador.classList.remove('h-[45px]', 'bg-white', 'p-2', 'text-black');
-            mobileItemBuscador.classList.add('h-[55px]', 'bg-blue-400', 'p-2.5', 'text-white');
-        }
-
-        // Initial check
-        updateVisibility();
-    </script>
-</body>
-
+  hideLoadingScreenThree();
+</script>
+<LayoutMenu title="Lucmar Cloud">
+  <HeroSection />
+  <LoadingScreenThree />
 </LayoutMenu>
-
