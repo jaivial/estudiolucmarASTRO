@@ -1,0 +1,8 @@
+---
+import MapComponent from '../components/MapComponent.jsx';
+import LayoutMenu from '../layouts/LayoutMenu.astro';
+---
+
+<LayoutMenu title="Mapa">
+  <MapComponent client:only="react" />
+</LayoutMenu>
