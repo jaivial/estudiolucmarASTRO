@@ -166,6 +166,7 @@ import TablaBuscador from '../components/buscador/TablaBuscador.astro';
       const row = document.createElement('tr');
       row.classList.add('border-b', 'border-zinc-300');
       row.id = 'row-' + item.id;
+      console.log('item', item.zona);
       // Create a new row element
 
       // Function to create a td element with given classes and inner HTML
@@ -178,6 +179,7 @@ import TablaBuscador from '../components/buscador/TablaBuscador.astro';
 
       // Append cells to the row
       row.appendChild(createCell('text-center xl:text-start py-5 text-sm overflow-hidden w-[100%]', item.direccion));
+      row.appendChild(createCell('text-center xl:text-start py-5 text-sm overflow-hidden w-[100%]', item.zona));
       row.appendChild(createCell('hidden xl:table-cell', item.tipo));
       row.appendChild(createCell('hidden xl:table-cell', item.uso));
       row.appendChild(createCell('hidden xl:table-cell', item.superficie));
