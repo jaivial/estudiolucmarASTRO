@@ -49,6 +49,8 @@ function checkBoundingBoxInZones()
         }
 
         $inmueblesInZones = array();
+        $inmueblesIdsInZones = array(); // To keep track of inmueble IDs that are in zones
+
         while ($rowInmueble = $resultInmuebles->fetch_assoc()) {
             $coordinates = json_decode($rowInmueble['coordinates'], true);
             $boundingBox = array(
@@ -73,6 +75,7 @@ function checkBoundingBoxInZones()
                         'zone_id' => $zone['code_id'],
                         'zone_name' => $zone['zone_name']
                     );
+                    $inmueblesIdsInZones[] = $rowInmueble['id']; // Add to the list of IDs in zones
                 }
             }
         }
@@ -85,6 +88,15 @@ function checkBoundingBoxInZones()
             $sqlUpdate = "UPDATE inmuebles SET zona = '$zone_name' WHERE id = $inmueble_id";
             $conn->query($sqlUpdate);
         }
+
+        // Update inmuebles table to set zona to null for those not in zones
+        if (!empty($inmueblesIdsInZones)) {
+            $inmueblesIdsInZonesStr = implode(',', $inmueblesIdsInZones);
+            $sqlUpdateNull = "UPDATE inmuebles SET zona = NULL WHERE id NOT IN ($inmueblesIdsInZonesStr)";
+        } else {
+            $sqlUpdateNull = "UPDATE inmuebles SET zona = NULL";
+        }
+        $conn->query($sqlUpdateNull);
 
         return $inmueblesInZones;
     } else {
