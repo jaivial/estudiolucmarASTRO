@@ -6,3 +6,57 @@ import LayoutMenu from '../layouts/LayoutMenu.astro';
 <LayoutMenu title="Mapa">
   <MapComponent client:only="react" />
 </LayoutMenu>
+
+<!-- 
+<script>
+  const searchElement = document.querySelector('.leaflet-control-geosearch');
+  if (searchElement) {
+    searchElement.style.position = 'fixed';
+    searchElement.style.top = '20px';
+    searchElement.style.left = '50%';
+    searchElement.style.transform = 'translateX(-50%)';
+    searchElement.style.zIndex = 1000;
+    searchElement.style.border = 'none';
+    searchElement.style.width = '70%';
+    searchElement.style.margin = 0;
+  }
+
+  const searchForm = searchElement.querySelector('form');
+  if (searchForm) {
+    searchForm.style.width = '100%';
+  }
+
+  const aSearch = searchElement.querySelector('a');
+  if (aSearch) {
+    aSearch.style.display = 'none';
+  }
+
+  const searchInput = document.querySelector('input.glass');
+  if (searchInput) {
+    searchInput.style.width = '100%';
+    searchInput.style.height = '100%';
+    searchInput.style.outline = 'none';
+    searchInput.style.backgroundColor = 'white';
+    searchInput.style.color = 'black';
+    searchInput.style.padding = '10px';
+    searchInput.style.borderRadius = '5px';
+    searchInput.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+    searchInput.placeholder = 'Buscar dirección';
+  }
+
+  const buttonReset = document.querySelector('button.reset');
+  if (buttonReset) {
+    buttonReset.style.display = 'none';
+  }
+
+  const results = searchForm.querySelector('div.results');
+  if (results) {
+    results.style.width = '100%';
+    results.style.backgroundColor = 'white';
+    results.style.display = 'flex';
+    results.style.flexDirection = 'column';
+    results.style.alignItems = 'center';
+    results.style.justifyContent = 'center';
+    results.style.padding = '10px';
+  }
+</script> -->

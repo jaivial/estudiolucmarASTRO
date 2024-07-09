@@ -1,11 +1,81 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MapContainer, TileLayer, FeatureGroup, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, FeatureGroup, Polygon, useMap, Marker } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import L from 'leaflet';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 
+const SearchField = () => {
+  const provider = new OpenStreetMapProvider();
+
+  // @ts-ignore
+  const searchControl = new GeoSearchControl({
+    provider: provider,
+  });
+
+  const map = useMap();
+  useEffect(() => {
+    map.addControl(searchControl);
+    const searchElement = document.querySelector('.leaflet-control-geosearch');
+    if (searchElement) {
+      searchElement.style.position = 'fixed';
+      searchElement.style.top = '20px';
+      searchElement.style.left = '50%';
+      searchElement.style.transform = 'translateX(-50%)';
+      searchElement.style.zIndex = 1000;
+      searchElement.style.border = 'none';
+      searchElement.style.width = '70%';
+      searchElement.style.margin = 0;
+    }
+
+    const searchForm = searchElement.querySelector('form');
+    if (searchForm) {
+      searchForm.style.width = '100%';
+    }
+
+    const aSearch = searchElement.querySelector('a');
+    if (aSearch) {
+      aSearch.style.display = 'none';
+    }
+
+    const searchInput = document.querySelector('input.glass');
+    if (searchInput) {
+      searchInput.style.width = '100%';
+      searchInput.style.height = '100%';
+      searchInput.style.outline = 'none';
+      searchInput.style.backgroundColor = 'white';
+      searchInput.style.color = 'black';
+      searchInput.style.padding = '10px';
+      searchInput.style.borderRadius = '5px';
+      searchInput.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+      searchInput.placeholder = 'Buscar dirección';
+    }
+
+    const buttonReset = document.querySelector('button.reset');
+    if (buttonReset) {
+      buttonReset.style.display = 'none';
+    }
+
+    const results = searchForm.querySelector('div.results');
+    if (results) {
+      results.style.width = '100%';
+      results.style.backgroundColor = 'white';
+      results.style.display = 'flex';
+      results.style.flexDirection = 'column';
+      results.style.alignItems = 'start';
+      results.style.justifyContent = 'center';
+      results.style.gap = '10px';
+      results.style.marginTop = '2px';
+    }
+
+    return () => map.removeControl(searchControl);
+  }, []);
+
+  return null;
+};
 const colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white', 'gray', 'cyan'];
 const responsables = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown'];
 
@@ -164,6 +234,7 @@ const MapComponent = () => {
     <div className="w-full flex flex-col items-center justify-start h-dvh bg-red-100">
       <MapContainer center={center} zoom={ZOOM_LEVEL} ref={mapRef} className="w-full h-dvh z-0">
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <SearchField />
         <FeatureGroup ref={featureGroupRef}>
           {zones.map((zone) => (
             <Polygon
