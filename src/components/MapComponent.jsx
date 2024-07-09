@@ -5,9 +5,8 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import L from 'leaflet';
+
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import { c } from '../../dist/_astro/_commonjsHelpers.Cpj98o6Y';
 
 const SearchField = () => {
   const provider = new OpenStreetMapProvider();
@@ -306,7 +305,7 @@ const MapComponent = () => {
       });
 
     console.log('zones pedro', zonesOrganized);
-  }, [zones, zoneStatistics]);
+  }, [zoneStatistics]);
 
   const handleZoneClick = (zone, layer) => {
     console.log('Zone clicked:', zone);
