@@ -31,7 +31,7 @@ function checkBoundingBoxInZones()
 {
     global $conn;
 
-    $sqlInmuebles = "SELECT id, coordinates FROM inmuebles";
+    $sqlInmuebles = "SELECT id, coordinates, noticiastate, encargoState, categoria FROM inmuebles";
     $resultInmuebles = $conn->query($sqlInmuebles);
 
     $sqlZones = "SELECT code_id, zone_name, latlngs, zone_responsable FROM map_zones"; // Include zone_responsable
@@ -74,38 +74,21 @@ function checkBoundingBoxInZones()
                         'inmueble_id' => $rowInmueble['id'],
                         'zone_id' => $zone['code_id'],
                         'zone_name' => $zone['zone_name'],
-                        'zone_responsable' => $zone['zone_responsable'] // Include zone_responsable
+                        'zone_responsable' => $zone['zone_responsable'],
+                        'noticiastate' => $rowInmueble['noticiastate'],
+                        'encargoState' => $rowInmueble['encargoState'],
+                        'categoria' => $rowInmueble['categoria']
                     );
                     $inmueblesIdsInZones[] = $rowInmueble['id']; // Add to the list of IDs in zones
                 }
             }
         }
 
-        // Update inmuebles table with zone_name and responsable
-        foreach ($inmueblesInZones as $inmuebleZone) {
-            $inmueble_id = $inmuebleZone['inmueble_id'];
-            $zone_name = $inmuebleZone['zone_name'];
-            $zone_responsable = $inmuebleZone['zone_responsable'];
-
-            $sqlUpdate = "UPDATE inmuebles SET zona = '$zone_name', responsable = '$zone_responsable' WHERE id = $inmueble_id";
-            $conn->query($sqlUpdate);
-        }
-
-        // Update inmuebles table to set zona and responsable to null for those not in zones
-        if (!empty($inmueblesIdsInZones)) {
-            $inmueblesIdsInZonesStr = implode(',', $inmueblesIdsInZones);
-            $sqlUpdateNull = "UPDATE inmuebles SET zona = NULL, responsable = NULL WHERE id NOT IN ($inmueblesIdsInZonesStr)";
-        } else {
-            $sqlUpdateNull = "UPDATE inmuebles SET zona = NULL, responsable = NULL";
-        }
-        $conn->query($sqlUpdateNull);
-
         return $inmueblesInZones;
     } else {
         return array(); // Return empty array if no zones or inmuebles found
     }
 }
-
 
 // Handle GET request to check bounding box in zones
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
