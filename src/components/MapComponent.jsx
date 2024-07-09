@@ -11,7 +11,7 @@ const responsables = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown'];
 
 const MapComponent = () => {
   const [center] = useState({ lat: 39.4033747, lng: -0.4028759 });
-  const ZOOM_LEVEL = 16;
+  const ZOOM_LEVEL = 15;
   const mapRef = useRef();
   const [zones, setZones] = useState([]);
   const [zoneData, setZoneData] = useState({ id: null, latlngs: [] });
@@ -87,6 +87,7 @@ const MapComponent = () => {
     try {
       const response = await axios.post('http://localhost:8000/backend/zonas/updateZone.php', { code_id: codeID, latlngs });
       console.log('Zone updated in backend:', response.data);
+      window.location.reload();
     } catch (error) {
       console.error('Error updating zone:', error);
       throw error; // Propagate the error for handling elsewhere if needed
@@ -106,6 +107,7 @@ const MapComponent = () => {
 
   useEffect(() => {
     console.log('zones changed', zones);
+    console.log('zone data changed', zoneData);
     axios.get('http://localhost:8000/backend/zonas/checkInmuebleInZone.php').then((response) => {
       console.log('Inmueble data fetched:', response.data);
     });
@@ -135,7 +137,7 @@ const MapComponent = () => {
       setColor(colors[0]);
       setResponsable(responsables[0]);
       setIsPopupOpen(false);
-      fetchZones();
+      window.location.reload();
     } catch (error) {
       console.error('Error saving zone:', error);
     }
