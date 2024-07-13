@@ -2,7 +2,8 @@
 // Set allowed origins
 $allowedOrigins = [
     'http://localhost:4321',
-    'https://estudiolucmar.com'
+    'https://estudiolucmar.com',
+    'http://localhost:8000',
 ];
 
 // Function to handle CORS headers
