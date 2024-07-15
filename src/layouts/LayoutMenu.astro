@@ -18,23 +18,55 @@ import LoadingScreen from '../components/LoadingScreen.astro';
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <!-- <script>
+    <script>
       import axios from 'axios';
+      import Toastify from 'toastify-js';
 
-      axios
-        .get('http://localhost:8000/backend/auth/check_login_status.php', {
-          withCredentials: true,
-        })
-        .then(function (response) {
-          if (response.data.loggedIn) {
-          } else {
-            window.location.href = '/';
-          }
-        })
-        .catch(function (error) {
-          console.error('Error checking login status:', error);
-        });
-    </script> -->
+      function getCookies() {
+        let cookies = {};
+        let allCookies = document.cookie;
+        if (allCookies === '') {
+          return cookies;
+        }
+
+        let cookieArray = allCookies.split(';');
+        for (let cookie of cookieArray) {
+          let [name, value] = cookie.split('=');
+          name = name.trim();
+          value = value ? value.trim() : '';
+          cookies[name] = decodeURIComponent(value);
+        }
+        return cookies;
+      }
+
+      function getCookieByName(name) {
+        let cookies = getCookies();
+        return cookies[name] || null;
+      }
+
+      function checkLogin() {
+        const hashID = getCookieByName('hashID');
+        const userID = getCookieByName('userID');
+        if (!hashID || !userID) {
+          window.location.href = '/';
+        } else {
+          axios
+            .get('http://localhost:8000/backend/auth/checkCurrentSession.php', {
+              withCredentials: true,
+            })
+            .then(function (response) {
+              console.log(response.data);
+              if (response.data.success === false) {
+                window.location.href = '/';
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+      checkLogin();
+    </script>
   </head>
 
   <body class="overflow-x-hidden overflow-y-auto bg-slate-200">

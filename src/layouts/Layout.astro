@@ -20,6 +20,7 @@ import LoadingScreen from '../components/LoadingScreen.astro';
     <script>
       import axios from 'axios';
       import Toastify from 'toastify-js';
+
       function showLoadingScreen() {
         const loadingScreen = document.getElementById('loading-screen');
         loadingScreen.classList.remove('hidden');
@@ -28,22 +29,57 @@ import LoadingScreen from '../components/LoadingScreen.astro';
         const loadingScreen = document.getElementById('loading-screen');
         loadingScreen.classList.add('hidden');
       }
-      showLoadingScreen();
-      axios
-        .get('http://localhost:8000/backend/auth/check_login_status.php', {
-          withCredentials: true,
-        })
-        .then(function (response) {
-          console.log(response.data);
-          if (response.data.loggedIn) {
-            window.location.href = '/home';
-          } else {
-            hideLoadingScreen();
-          }
-        })
-        .catch(function (error) {
-          console.error('Error checking login status:', error);
-        });
+      // showLoadingScreen();
+      hideLoadingScreen();
+
+      //Function to retrieve cookies from browser using javascript
+      function getCookies() {
+        let cookies = {};
+        let allCookies = document.cookie;
+        if (allCookies === '') {
+          return cookies;
+        }
+
+        let cookieArray = allCookies.split(';');
+        for (let cookie of cookieArray) {
+          let [name, value] = cookie.split('=');
+          name = name.trim();
+          value = value ? value.trim() : '';
+          cookies[name] = decodeURIComponent(value);
+        }
+        return cookies;
+      }
+
+      function getCookieByName(name) {
+        let cookies = getCookies();
+        return cookies[name] || null;
+      }
+
+      function checkLogin() {
+        const hashID = getCookieByName('hashID');
+        const userID = getCookieByName('userID');
+        if (!hashID || !userID) {
+          // window.location.href = '/';
+        } else {
+          axios
+            .get('http://localhost:8000/backend/auth/checkCurrentSession.php', {
+              withCredentials: true,
+            })
+            .then(function (response) {
+              console.log(response.data);
+              if (response.data.success === false) {
+              } else if (response.data.success === true) {
+                window.location.href = '/home';
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+      checkLogin();
+
+      // Both 'hashID' and 'loggedIn' are not empty
     </script>
   </head>
   <body>

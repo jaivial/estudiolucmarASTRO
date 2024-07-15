@@ -21,12 +21,12 @@ function trackActiveSession($user_id, $session_id)
     }
 }
 
-function clearActiveSession($user_id, $session_id)
+function clearActiveSession($user_id)
 {
     global $conn;
     // Prepare and execute the SQL statement to update the hashLogin only if it is null
-    $stmt = $conn->prepare("DELETE FROM active_sessions WHERE user_id = ? AND session_id = ?");
-    $stmt->bind_param('ss', $user_id, $session_id);
+    $stmt = $conn->prepare("DELETE FROM active_sessions WHERE user_id = ?");
+    $stmt->bind_param('s', $user_id);
 
     if ($stmt->execute() && $stmt->affected_rows > 0) {
 
@@ -37,7 +37,7 @@ function clearActiveSession($user_id, $session_id)
     }
 }
 
-function isActiveSession($user_id, $session_id)
+function isActiveSession($user_id, $hashID)
 {
     global $conn;
     require_once '../db_Connection/db_Connection.php';

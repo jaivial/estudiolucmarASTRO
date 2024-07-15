@@ -1,52 +1,43 @@
 <?php
 // Include the CORS configuration file
 require_once '../cors_config.php';
+require_once '../db_Connection/db_Connection.php';
 
 // Call the function to handle CORS headers
 handleCorsHeaders();
 // Include auth.php to use the authenticate function
-require 'auth.php';
-require 'active_sessions.php';
+
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-
-// Check if user is already logged in somewhere else
-if (isset($_SESSION['user_id'])) {
-    // Invalidate previous session (optional)
-    session_destroy(); // Destroy current session
-    session_start(); // Start a new session
-}
-
-// Initialize the response array
 $response = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['email']) && isset($_GET['password'])) {
-    $email = $_GET['email'];
-    $contra = $_GET['password'];
-    $user = authenticate($email, $contra);
+if (isset($_COOKIE['userID'])) {
+    $userID = $_COOKIE['userID'];
+    // Generate a unique session ID
+    $unique_data = $userID . microtime(); // Combine data to ensure uniqueness
+    $session_id = hash('sha256', $unique_data); // Create a SHA-256 hash of the unique data
 
-    if ($user) {
-        // Return success JSON response
-        $response['email'] = $_SESSION['email'];
-        $response['name'] = $_SESSION['name'];
-        $response['password'] = $_SESSION['password'];
-        $response['last_name'] = $_SESSION['last_name'];
-        $response['user_id'] = $_SESSION['user_id'];
-        $user_id = $_SESSION['user_id'];
-        $_SESSION['loggedIn'] = true;
-        // Track active session in database or storage (pseudo code)
-        if (getActiveSessions($user_id)) {
-            echo json_encode(['success' => false, 'error' => 'User already logged in from another device']);
-        } else if (!getActiveSessions($user_id)) {
-            trackActiveSession($user_id, session_id());
-            echo json_encode(['success' => true]);
-        }
+    global $conn;
+    $data = array();
+    $data['hashID'] = $session_id;
+    // Prepare and execute the SQL statement to update the hashLogin only if it is null
+    $stmt = $conn->prepare("INSERT IGNORE INTO active_sessions (user_id, session_id) VALUES (?, ?)");
+    $stmt->bind_param('ss', $userID, $session_id);
+
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+
+        $response = array('success' => true, 'message' => 'user session set', 'data' => $data);
+        // Set cookie 'hashID' with $session_id for 2 hours with path '/'
+        setcookie('hashID', $session_id, time() + 7200, '/');
+        echo json_encode($response);
     } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid credentials']);
+
+        $response = array('success' => false, 'message' => 'user session setting went wrong', 'data' => $data);
+        echo json_encode($response);
     }
 } else {
     // Return failure JSON response
