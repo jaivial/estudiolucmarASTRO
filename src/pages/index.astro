@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import logoLucmar from '../../public/assets/img/logolucmar.jpg';
 import LoginForm from '../components/loginForm.astro';
 import LoadingScreenTwo from '../components/LoadingScreenTwo.astro';
+import '@capacitor-community/safe-area';
 ---
 
 <script>
@@ -18,28 +19,30 @@ import LoadingScreenTwo from '../components/LoadingScreenTwo.astro';
   }
 </script>
 <Layout title="Iniciar sesión">
-  <LoadingScreenTwo />
-  <main>
-    <section class="h-screen overflow-y-hidden w-full bg-slate-50 flex flex-row justify-center items-start pt-20">
-      <div class="flex flex-col items-center justify-start h-full w-96 px-8">
-        <div class="w-full px-5 flex flex-row items-center justify-evenly gap-0 mb-10">
-          <div class="h-auto w-[70px]">
-            <Image class="w-full rounded-xl" src={logoLucmar} alt="" />
+  <div style="padding-top: var(--safe-area-inset-top);  ">
+    <LoadingScreenTwo />
+    <main>
+      <section class="h-screen overflow-y-hidden w-full bg-slate-50 flex flex-row justify-center items-start pt-20">
+        <div class="flex flex-col items-center justify-start h-full w-96 px-8">
+          <div class="w-full px-5 flex flex-row items-center justify-evenly gap-0 mb-10">
+            <div class="h-auto w-[70px]">
+              <Image class="w-full rounded-xl" src={logoLucmar} alt="" />
+            </div>
+            <div class="flex flex-col items-start justify-center w-fit h-full">
+              <span class="font-bold font-sans text-xl tracking-wide text-slate-800">Lucmar Cloud</span>
+              <span class="font-sans font-extralight text-base text-slate-800">Panel de administración</span>
+            </div>
           </div>
-          <div class="flex flex-col items-start justify-center w-fit h-full">
-            <span class="font-bold font-sans text-xl tracking-wide text-slate-800">Lucmar Cloud</span>
-            <span class="font-sans font-extralight text-base text-slate-800">Panel de administración</span>
+
+          <div class="w-full">
+            <h1 class="font-sans font-bold text-4xl tracking-wide text-slate-800">Iniciar sesión</h1>
+            <LoginForm />
+
+            <div class="login__footer text-neutral-700"></div>
           </div>
+          <div class="login__background h-screen"></div>
         </div>
-
-        <div class="w-full">
-          <h1 class="font-sans font-bold text-4xl tracking-wide text-slate-800">Iniciar sesión</h1>
-          <LoginForm />
-
-          <div class="login__footer text-neutral-700"></div>
-        </div>
-        <div class="login__background h-screen"></div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 </Layout>

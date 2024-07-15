@@ -13,7 +13,7 @@ import LoadingScreen from '../components/LoadingScreen.astro';
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
     <meta name="generator" content={Astro.generator} />
@@ -71,7 +71,16 @@ import LoadingScreen from '../components/LoadingScreen.astro';
 
   <body class="overflow-x-hidden overflow-y-auto bg-slate-200">
     <!-- <LoadingScreen /> -->
-    <slot />
+    <slot style="margin-top: env(safe-area-inset-top);
+        margin-bottom: env(safe-area-inset-bottom);" />
     <Mobilemenubar />
   </body>
 </html>
+
+<style>
+  <style > body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    @apply bg-slate-50;
+  }
+</style>

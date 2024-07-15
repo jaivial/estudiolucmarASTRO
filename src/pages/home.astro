@@ -23,6 +23,9 @@ import LoadingScreenThree from '../components/LoadingScreenThree.astro';
   hideLoadingScreenThree();
 </script>
 <LayoutMenu title="Lucmar Cloud">
-  <HeroSection />
-  <LoadingScreenThree />
+  <div style="margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);">
+    <HeroSection />
+    <LoadingScreenThree />
+  </div>
 </LayoutMenu>
