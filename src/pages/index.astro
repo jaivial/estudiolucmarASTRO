@@ -16,21 +16,6 @@ import LoadingScreenTwo from '../components/LoadingScreenTwo.astro';
     const loadingScreen = document.getElementById('loading-screen-two');
     loadingScreen.classList.add('hidden');
   }
-  showLoadingScreenTwo();
-  axios
-    .get('http://localhost:8000/backend/auth/check_login_status.php', {
-      withCredentials: true,
-    })
-    .then(function (response) {
-      if (response.data.loggedIn) {
-        window.location.href = '/home';
-      } else {
-        hideLoadingScreenTwo();
-      }
-    })
-    .catch(function (error) {
-      console.error('Error checking login status:', error);
-    });
 </script>
 <Layout title="Iniciar sesión">
   <LoadingScreenTwo />

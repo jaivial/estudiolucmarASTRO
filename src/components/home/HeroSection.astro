@@ -65,9 +65,37 @@ import CalendarApp from '../calendar/Calendar.jsx';
 <script>
   import axios from 'axios';
   function getUserData() {
+    //Set const userID from cookie userID retrieving it from browser cookies
+    //Function to retrieve cookies from browser using javascript
+    function getCookies() {
+      let cookies = {};
+      let allCookies = document.cookie;
+      if (allCookies === '') {
+        return cookies;
+      }
+
+      let cookieArray = allCookies.split(';');
+      for (let cookie of cookieArray) {
+        let [name, value] = cookie.split('=');
+        name = name.trim();
+        value = value ? value.trim() : '';
+        cookies[name] = decodeURIComponent(value);
+      }
+      return cookies;
+    }
+
+    function getCookieByName(name) {
+      let cookies = getCookies();
+      return cookies[name] || null;
+    }
+    const userID = getCookieByName('userID');
+
     axios
       .get('http://localhost:8000/backend/users/fetchusers.php', {
         withCredentials: true,
+        params: {
+          user_id: userID,
+        },
       })
       .then(function (response) {
         console.log('User data:', response.data);

@@ -16,11 +16,7 @@
         Usuario y/o contraseña incorrectos. <br />Inténtalo de nuevo.
       </p>
       <svg id="cerrarNotification" xmlns="http://www.w3.org/2000/svg" class="icon cross absolute top-2 right-1 hover:cursor-pointer" width="1.5em" height="1.5em" viewBox="0 0 20 20">
-        <path
-          fill="currentColor"
-          d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15l-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152l2.758 3.15a1.2 1.2 0 0 1 0 1.698"
-        >
-        </path>
+        <path fill="currentColor" d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15l-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152l2.758 3.15a1.2 1.2 0 0 1 0 1.698"></path>
       </svg>
     </div>
   </div>
@@ -57,11 +53,35 @@
       notification.classList.remove('flex');
     });
 
+    //Function to retrieve cookies from browser using javascript
+    function getCookies() {
+      let cookies = {};
+      let allCookies = document.cookie;
+      if (allCookies === '') {
+        return cookies;
+      }
+
+      let cookieArray = allCookies.split(';');
+      for (let cookie of cookieArray) {
+        let [name, value] = cookie.split('=');
+        name = name.trim();
+        value = value ? value.trim() : '';
+        cookies[name] = decodeURIComponent(value);
+      }
+      return cookies;
+    }
+
+    function getCookieByName(name) {
+      let cookies = getCookies();
+      return cookies[name] || null;
+    }
+
     function login() {
       const email = document.getElementById('email').value;
       const contra = document.getElementById('password').value;
+
       axios
-        .get('http://localhost:8000/backend/auth/login.php', {
+        .get('http://localhost:8000/backend/auth/auth.php', {
           withCredentials: true,
           params: {
             email: email,
@@ -70,11 +90,69 @@
         })
         .then(function (response) {
           console.log(response.data);
-          if (response.data.success) {
-            window.location.href = '/home';
+          if (response.data.success === true) {
+            //Get cookie userID value and console log it
+            axios
+              .get('http://localhost:8000/backend/auth/checkActiveSession.php', {
+                withCredentials: true,
+              })
+              .then(function (response) {
+                console.log(response.data);
+                if (response.data.success === false) {
+                  axios
+                    .get('http://localhost:8000/backend/auth/login.php', {
+                      withCredentials: true,
+                    })
+                    .then(function (response) {
+                      console.log(response.data);
+                      if (response.data.success === true) {
+                        Toastify({
+                          text: 'Sesión inciada.',
+                          duration: 2500,
+                          destination: 'https://github.com/apvarun/toastify-js',
+                          newWindow: true,
+                          close: false,
+                          gravity: 'top', // `top` or `bottom`
+                          position: 'center', // `left`, `center` or `right`
+                          stopOnFocus: true, // Prevents dismissing of toast on hover
+                          style: {
+                            borderRadius: '10px',
+                            backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+                            textAlign: 'center',
+                          },
+                          onClick: function () {}, // Callback after click
+                        }).showToast();
+                        window.location.href = '/home';
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                } else {
+                  Toastify({
+                    text: 'Sesión activa en otro dispositivo.',
+                    duration: 2500,
+                    destination: 'https://github.com/apvarun/toastify-js',
+                    newWindow: true,
+                    close: false,
+                    gravity: 'top', // `top` or `bottom`
+                    position: 'center', // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                      borderRadius: '10px',
+                      backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+                      textAlign: 'center',
+                    },
+                    onClick: function () {}, // Callback after click
+                  }).showToast();
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
           } else {
             Toastify({
-              text: 'Usuario o contraseña \nincorrectos.',
+              text: 'Usuario o contraseña incorrectos.',
               duration: 2500,
               destination: 'https://github.com/apvarun/toastify-js',
               newWindow: true,
