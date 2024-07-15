@@ -1,8 +1,11 @@
 ---
 import MapComponent from '../components/MapComponent.jsx';
 import LayoutMenu from '../layouts/LayoutMenu.astro';
+import '@capacitor-community/safe-area';
 ---
 
 <LayoutMenu title="Mapa">
-  <MapComponent client:only="react" />
+  <div style="padding-top: var(--safe-area-inset-top);">
+    <MapComponent client:only="react" />
+  </div>
 </LayoutMenu>
