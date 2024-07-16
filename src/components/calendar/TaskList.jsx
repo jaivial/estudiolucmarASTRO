@@ -5,8 +5,30 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [taskInput, setTaskInput] = useState('');
 
-  // Get user ID from localStorage
-  const userId = localStorage.getItem('hidden-id-user');
+  function getCookies() {
+    let cookies = {};
+    let allCookies = document.cookie;
+    if (allCookies === '') {
+      return cookies;
+    }
+
+    let cookieArray = allCookies.split(';');
+    for (let cookie of cookieArray) {
+      let [name, value] = cookie.split('=');
+      name = name.trim();
+      value = value ? value.trim() : '';
+      cookies[name] = decodeURIComponent(value);
+    }
+    return cookies;
+  }
+
+  function getCookieByName(name) {
+    let cookies = getCookies();
+    return cookies[name] || null;
+  }
+
+  // Get user ID from cookies
+  const userId = getCookieByName('userID');
 
   // Handle task completion by toggling the completed state
   const handleTaskCompletion = async (taskId) => {

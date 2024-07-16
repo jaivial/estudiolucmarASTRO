@@ -55,7 +55,6 @@ import LoadingScreen from '../components/LoadingScreen.astro';
               withCredentials: true,
             })
             .then(function (response) {
-              console.log(response.data);
               if (response.data.success === false) {
                 window.location.href = '/';
               }
