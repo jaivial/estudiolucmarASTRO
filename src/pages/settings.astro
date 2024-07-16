@@ -456,6 +456,31 @@ import '@capacitor-community/safe-area';
   var isDesplegarInformacionUsuarioAllUsers = true;
   getUserData();
 
+  function getCookies() {
+    let cookies = {};
+    let allCookies = document.cookie;
+    if (allCookies === '') {
+      return cookies;
+    }
+
+    let cookieArray = allCookies.split(';');
+    for (let cookie of cookieArray) {
+      let [name, value] = cookie.split('=');
+      name = name.trim();
+      value = value ? value.trim() : '';
+      cookies[name] = decodeURIComponent(value);
+    }
+    return cookies;
+  }
+
+  function getCookieByName(name) {
+    let cookies = getCookies();
+    return cookies[name] || null;
+  }
+
+  // Get user ID from cookies
+  const userId = getCookieByName('userID');
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -483,7 +508,6 @@ import '@capacitor-community/safe-area';
   setInterval(updateTime, 1000);
 
   function hideLoadingScreenTwo() {
-    console.log('Hiding loading screen...');
     const loadingScreen = document.getElementById('loading-screen-two');
     loadingScreen.classList.remove('flex');
     loadingScreen.classList.add('hidden');
@@ -516,8 +540,10 @@ import '@capacitor-community/safe-area';
     tablaallusers.innerHTML = '';
 
     axios.get('http://localhost:8000/backend/users/fetchusersdatabase.php').then((response) => {
+      const users = response.data;
+
       // Handle the data here
-      response.data.forEach((user) => {
+      users.forEach((user) => {
         const userrow = document.createElement('div');
         userrow.classList.add('flex', 'flex-row', 'justify-between', 'items-center', 'gap-2', 'w-full', 'h-auto', 'py-2', 'border-b', 'border-gray-400', 'mt-2', 'px-8');
         tablaallusers.appendChild(userrow);
@@ -1448,14 +1474,12 @@ import '@capacitor-community/safe-area';
   }
 
   function hideLoadingScreenSettings() {
-    console.log('Hiding loading screen...');
     const loadingScreen = document.getElementById('loading-screen-settings');
     loadingScreen.classList.remove('flex');
     loadingScreen.classList.add('hidden');
   }
 
   function showLoadingScreenSettings() {
-    console.log('Hiding loading screen...');
     const loadingScreen = document.getElementById('loading-screen-settings');
     loadingScreen.classList.add('flex');
     loadingScreen.classList.remove('hidden');

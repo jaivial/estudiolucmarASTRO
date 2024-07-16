@@ -11,8 +11,30 @@ const CalendarApp = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [taskDates, setTaskDates] = useState(new Set());
 
-  // Get user ID from localStorage
-  const userId = localStorage.getItem('hidden-id-user');
+  function getCookies() {
+    let cookies = {};
+    let allCookies = document.cookie;
+    if (allCookies === '') {
+      return cookies;
+    }
+
+    let cookieArray = allCookies.split(';');
+    for (let cookie of cookieArray) {
+      let [name, value] = cookie.split('=');
+      name = name.trim();
+      value = value ? value.trim() : '';
+      cookies[name] = decodeURIComponent(value);
+    }
+    return cookies;
+  }
+
+  function getCookieByName(name) {
+    let cookies = getCookies();
+    return cookies[name] || null;
+  }
+
+  // Get user ID from cookies
+  const userId = getCookieByName('userID');
 
   useEffect(() => {
     const initializeTasks = async () => {

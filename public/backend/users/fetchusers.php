@@ -5,9 +5,9 @@ require_once '../db_Connection/db_Connection.php';
 header('Content-Type: application/json');
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['user_id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_COOKIE['userID'])) {
 
-    $user_id = $_GET['user_id'];
+    $user_id = $_COOKIE['userID'];
 
     // Prepare and execute the SQL query
     $sql = "SELECT * FROM users WHERE id = ?";
