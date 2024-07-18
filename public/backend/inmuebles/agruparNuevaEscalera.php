@@ -6,11 +6,15 @@ require_once '../db_Connection/db_Connection.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Validate input data
-if (isset($data['type'], $data['name'], $data['number'], $data['inmuebles'])) {
+if (isset($data['type'], $data['name'], $data['number'], $data['inmuebles'], $data['grupo'])) {
     $type = $data['type'];
     $name = $data['name'];
     $number = isset($data['number']) ? $data['number'] : '';
     $inmuebles = $data['inmuebles'];
+    $AgrupacionID_Edificio = $data['grupo'];
+
+    // Validate AgrupacionID_Edificio
+
 
     // Sanitize inputs
     $type = $conn->real_escape_string($type);
@@ -18,24 +22,16 @@ if (isset($data['type'], $data['name'], $data['number'], $data['inmuebles'])) {
     $number = $conn->real_escape_string($number);
     $inmueblesIds = implode(',', array_map('intval', $inmuebles)); // Convert array to comma-separated list of integers
 
-    // Insert a new record into the Inmuebles table
-    $insertInmueblesSql = "INSERT INTO inmuebles (direccion, numero, TipoAgrupacion, AgrupacionParent, AgrupacionID) 
-                           VALUES ('$name', '$number', '$type', 1, NULL)";
+    $insertInmueblesSql = "INSERT INTO inmuebles (direccion, Numero, TipoAgrupacion, ParentEscalera, ChildEdificio, AgrupacionID_Edificio)
+        VALUES ('$name', '$number', '$type', 1, 1, $AgrupacionID_Edificio)";
     if ($conn->query($insertInmueblesSql) === TRUE) {
-        $agrupacionId = $conn->insert_id; // Get the ID of the newly inserted row
+        $agrupacionId = $conn->insert_id;
 
-        // Update the existing records in the inmuebles table
-        $updateSql = "UPDATE inmuebles
-                      SET AgrupacionChild = TRUE, AgrupacionID = $agrupacionId
-                      WHERE id IN ($inmueblesIds)";
-
-        if ($conn->query($updateSql) === TRUE) {
-            // Set AgrupacionID for the newly inserted row
-            $updateInsertedSql = "UPDATE inmuebles
-                                  SET AgrupacionID = $agrupacionId
-                                  WHERE id = $agrupacionId";
-
-            if ($conn->query($updateInsertedSql) === TRUE) {
+        $updateInsertedSql = "UPDATE inmuebles SET AgrupacionID_Escalera = $agrupacionId WHERE id = $agrupacionId";
+        if ($conn->query($updateInsertedSql) === TRUE) {
+            // Update the existing records in the inmuebles table
+            $updateSql = "UPDATE inmuebles SET ChildEdificio = NULL, ChildEscalera = 1, AgrupacionID_Edificio = NULL, AgrupacionID_Escalera = $agrupacionId, TipoAgrupacion = '$type' WHERE id IN ($inmueblesIds)";
+            if ($conn->query($updateSql) === TRUE) {
                 echo json_encode(['status' => 'success']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => $conn->error]);
