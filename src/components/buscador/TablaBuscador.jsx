@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ItemDetails from './ItemDetails';
 import LoadingScreen from '../loadingScreen';
-import { a } from '../../../dist/_astro/axios.B4uVmeYG';
 
 const Table = () => {
   const [loading, setLoading] = useState(true);
@@ -27,13 +26,18 @@ const Table = () => {
   const [formData, setFormData] = useState({
     tipo: '',
     nombre: '',
-    numero: '',
     existingGroup: '',
     grupo: '',
   });
   const [selectedId, setSelectedId] = useState(null);
-  const [showOrphanPopup, setShowOrphanPopup] = useState(false);
-  const [orphanInfo, setOrphanInfo] = useState('');
+  const [showAskForDeleteOrphan, setShowAskForDeleteOrphan] = useState(false);
+  const [orphanInfo, setOrphanInfo] = useState([]);
+  const [showDeleteInmuebleButtons, setShowDeleteInmuebleButtons] = useState(false);
+  const [showAddInmuebleButtons, setShowAddInmuebleButtons] = useState(false);
+  const [showPopupDeleteInmueble, setShowPopupDeleteInmueble] = useState(false);
+  const [thereAreChildrenDelete, setThereAreChildrenDelete] = useState(false);
+  const [keepChildren, setKeepChildren] = useState([]);
+  const [parentData, setParentData] = useState([]);
 
   useEffect(() => {
     fetchData(currentPage, searchTerm);
@@ -114,6 +118,7 @@ const Table = () => {
       newSelectedItems.has(itemId) ? newSelectedItems.delete(itemId) : newSelectedItems.add(itemId);
       return newSelectedItems;
     });
+    console.log('selectedItems', selectedItems);
   };
 
   const handleCheckboxChangeUngroup = (itemId) => {
@@ -127,11 +132,37 @@ const Table = () => {
   const handleIconClick = () => {
     setShowExtraButtons(!showExtraButtons);
     if (showUngroupButtons) setShowUngroupButtons(false);
+    if (showDeleteInmuebleButtons) setShowDeleteInmuebleButtons(false);
+    if (showAddInmuebleButtons) setShowAddInmuebleButtons(false);
+    setSelectedItems(new Set());
+    setSelectedItemsUngroup(new Set());
   };
 
   const handleIconClickUngroup = () => {
     setShowUngroupButtons(!showUngroupButtons);
     if (showExtraButtons) setShowExtraButtons(false);
+    if (showDeleteInmuebleButtons) setShowDeleteInmuebleButtons(false);
+    if (showAddInmuebleButtons) setShowAddInmuebleButtons(false);
+    setSelectedItems(new Set());
+    setSelectedItemsUngroup(new Set());
+  };
+
+  const handleIconDeleteInmueble = () => {
+    setShowDeleteInmuebleButtons(!showDeleteInmuebleButtons);
+    if (showExtraButtons) setShowExtraButtons(false);
+    if (showUngroupButtons) setShowUngroupButtons(false);
+    if (showAddInmuebleButtons) setShowAddInmuebleButtons(false);
+    setSelectedItems(new Set());
+    setSelectedItemsUngroup(new Set());
+  };
+
+  const handleIconAddInmueble = () => {
+    setShowAddInmuebleButtons(!showAddInmuebleButtons);
+    if (showExtraButtons) setShowExtraButtons(false);
+    if (showUngroupButtons) setShowUngroupButtons(false);
+    if (showDeleteInmuebleButtons) setShowDeleteInmuebleButtons(false);
+    setSelectedItems(new Set());
+    setSelectedItemsUngroup(new Set());
   };
 
   const handlePopupToggle = () => {
@@ -139,8 +170,44 @@ const Table = () => {
     setShowFormType(null); // Reset form type when closing popup
   };
 
+  const ressetSelectedType = () => {
+    setSelectedType('');
+  };
+
+  useEffect(() => {
+    ressetSelectedType();
+  }, [showFormType]);
+
   const handlePopupToggleUngroup = () => {
     setShowPopupUngroup(!showPopupUngroup);
+  };
+
+  const handlePopupToggleDeleteInmueble = () => {
+    // Example: Send DELETE request to backend
+    console.log('Chcking children:', selectedItems);
+
+    axios
+      .get('http://localhost:8000/backend/inmuebles/checkChildrenDelete.php', {
+        params: {
+          inmuebles: Array.from(selectedItems),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.status === 'success') {
+          setKeepChildren(response.data.data);
+          setParentData(response.data.parentdata);
+          setThereAreChildrenDelete(true);
+        } else {
+          setThereAreChildrenDelete(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting orphan:', error);
+        alert('Error deleting orphan: ' + error.message);
+      });
+
+    setShowPopupDeleteInmueble(!showPopupDeleteInmueble);
   };
 
   const handleFormChange = (e) => {
@@ -161,7 +228,6 @@ const Table = () => {
       payload = {
         type: formData.tipo,
         name: formData.nombre,
-        number: formData.numero,
         inmuebles: Array.from(selectedItems),
       };
     } else if (showFormType === 'new' && formData.tipo === 'Escalera') {
@@ -170,7 +236,6 @@ const Table = () => {
         // Payload for the POST request
         type: formData.tipo, // Type of building (Edificio or Escalera)
         name: formData.nombre, // Name of the building
-        number: formData.numero, // Number of the building
         inmuebles: Array.from(selectedItems), // Array of selected items
         grupo: formData.grupo, // ID of the group to assign the building to
       }; // Payload for the POST request
@@ -197,10 +262,12 @@ const Table = () => {
       alert('Operation successful!');
       setShowPopup(false);
       setSelectedItems(new Set());
-      setFormData({ tipo: '', nombre: '', numero: '', existingGroup: '', grupo: '' });
+      setFormData({ tipo: '', nombre: '', existingGroup: '', grupo: '' });
       handleIconClick();
       fetchData(currentPage, searchTerm);
       fetchParentsAndChilds();
+      setShowExtraButtons(false);
+      setShowUngroupButtons(false);
     } catch (error) {
       console.error('Error performing operation:', error);
     }
@@ -212,53 +279,127 @@ const Table = () => {
     const payload = { inmuebles: Array.from(selectedItemsUngroup) };
 
     try {
-      await axios.post(url, payload);
-
-      // Check for orphans after ungrouping
-      const orphansEdificio = findOrphansEdificio(parentsEdificio, childsEdificio);
-      const orphansEscalera = findOrphansEscalera(parentsEscalera, childsEscalera);
-
-      console.log('orphansEdificio: ', orphansEdificio);
-      console.log('orphansEscalera: ', orphansEscalera);
-
-      let orphan = null;
-      if (orphansEdificio.length > 0) {
-        orphan = orphansEdificio[0];
-      } else if (orphansEscalera.length > 0) {
-        orphan = orphansEscalera[0];
+      const response = await axios.post(url, payload);
+      console.log(response.data);
+      if (response.data.status === 'failure') {
+        setShowAskForDeleteOrphan(true);
+        setOrphanInfo(response.data.data);
       }
-
-      console.log('orphan: ', orphan);
-
-      if (orphan) {
-        setOrphanInfo(`${orphan.direccion} ${orphan.Numero}`);
-        setShowOrphanPopup(true);
-      } else {
-        alert('Operation successful! No orphans found.');
-      }
-      // Ensure parents and children are updated
 
       alert('Operation successful!');
       setShowPopupUngroup(false);
       setSelectedItemsUngroup(new Set());
       fetchData(currentPage, searchTerm);
-      await fetchParentsAndChilds();
+      fetchParentsAndChilds();
+      setShowExtraButtons(false);
+      setShowUngroupButtons(false);
     } catch (error) {
       console.error('Error performing operation:', error);
     }
   };
 
   const handleDeleteOrphan = () => {
-    // Implement logic to delete the orphan item
-    // Example: Send DELETE request to backend
-    console.log('Deleting orphan:', orphanInfo);
-    setShowOrphanPopup(false);
+    if (!orphanInfo || orphanInfo.length === 0) {
+      console.error('Orphan info is empty or undefined');
+      return;
+    }
+
+    console.log('Deleting orphan:', orphanInfo[0]);
+
+    axios
+      .get('http://localhost:8000/backend/inmuebles/deleteOrphan.php', {
+        params: {
+          id: orphanInfo[0].id,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.status === 'success') {
+          setShowAskForDeleteOrphan(false);
+          fetchData(currentPage, searchTerm);
+          fetchParentsAndChilds();
+        } else {
+          console.error('Error deleting orphan:', response.data.message);
+          alert('Error deleting orphan: ' + response.data.message);
+          setShowAskForDeleteOrphan(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting orphan:', error);
+        alert('Error deleting orphan: ' + error.message);
+      });
   };
 
   const handleKeepOrphan = () => {
     // Implement logic to keep the orphan item
-    console.log('Keeping orphan:', orphanInfo);
-    setShowOrphanPopup(false);
+    setShowAskForDeleteOrphan(false);
+    setOrphanInfo([]);
+  };
+
+  const handleKeepDeleteInmueble = () => {
+    // Implement logic to keep the orphan item
+    setShowPopupDeleteInmueble(false);
+    setSelectedId(null);
+  };
+
+  const handleDeleteInmueble = () => {
+    console.log('handleDeleteInmueble', Array.from(selectedItems));
+    axios
+      .get('http://localhost:8000/backend/inmuebles/deleteInmueble.php', {
+        params: {
+          inmuebles: Array.from(selectedItems),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.status === 'success') {
+          setShowPopupDeleteInmueble(false);
+          fetchData(currentPage, searchTerm);
+          fetchParentsAndChilds();
+          setShowExtraButtons(false);
+          setShowUngroupButtons(false);
+          setSelectedItems(new Set());
+          setKeepChildren(new Set());
+          setParentData([]);
+          setThereAreChildrenDelete(false);
+        } else {
+          console.error('Error deleting orphan:', response.data.message);
+          alert('Error deleting orphan: ' + response.data.message);
+          setShowPopupDeleteInmueble(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting orphan:', error);
+        alert('Error deleting orphan: ' + error.message);
+      });
+  };
+
+  const handleDeleteKeepChildren = () => {
+    console.log('handleDeleteKeepChildren', Array.from(keepChildren));
+    console.log('selectedItems', selectedItems);
+    console.log('parentData', Array.from(parentData));
+    axios
+      .get('http://localhost:8000/backend/inmuebles/deleteKeepChildren.php', {
+        params: {
+          inmuebles: Array.from(keepChildren),
+          parentdata: parentData,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        setShowPopupDeleteInmueble(false);
+        fetchData(currentPage, searchTerm);
+        fetchParentsAndChilds();
+        setShowExtraButtons(false);
+        setShowUngroupButtons(false);
+        setSelectedItems(new Set());
+        setKeepChildren(new Set());
+      })
+      .catch((error) => {
+        console.error('Error deleting orphan:', error);
+        alert('Error deleting orphan: ' + error.message);
+      });
   };
 
   const handleItemClick = (id) => {
@@ -306,9 +447,10 @@ const Table = () => {
             >
               {showUngroupButtons && <input type="checkbox" checked={selectedItemsUngroup.has(child.id)} onChange={() => handleCheckboxChangeUngroup(child.id)} className="mr-4" />}
               {showExtraButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
+              {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
               <div className="flex flex-row justify-start items-center gap-1 w-[70%] py-2">
                 <p className="w-[55%] text-center">
-                  <strong>Dirección:</strong> <br /> {child.direccion} {child.numero}
+                  <strong>Dirección:</strong> <br /> {child.direccion}
                 </p>
                 <p className="text-center w-[32%]">
                   <strong>Zona:</strong> <br /> {child.zona ? child.zona : 'N/A'}
@@ -355,9 +497,10 @@ const Table = () => {
           <div key={child.id} className={`relative border py-4 mb-6 rounded-xl shadow-xl flex items-center justify-center flex-row w-full ${child.dataUpdateTime === 'red' ? 'bg-red-100' : child.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'}`}>
             {showUngroupButtons && <input type="checkbox" checked={selectedItemsUngroup.has(child.id)} onChange={() => handleCheckboxChangeUngroup(child.id)} className="mr-4" />}
             {showExtraButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
+            {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
             <div className="flex flex-row justify-start items-center gap-1 w-[70%] py-2">
               <p className="w-[55%] text-center">
-                <strong>Dirección:</strong> <br /> {child.direccion} {child.numero}
+                <strong>Dirección:</strong> <br /> {child.direccion}
               </p>
               <p className="text-center w-[32%]">
                 <strong>Zona:</strong> <br /> {child.zona ? child.zona : 'N/A'}
@@ -394,10 +537,11 @@ const Table = () => {
               key={child.id}
               className={`relative border py-4 mb-6 rounded-xl shadow-xl flex items-center flex-col w-full ${child.ParentEscalera == '1' ? 'bg-slate-100' : child.dataUpdateTime === 'red' ? 'bg-red-100' : child.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'}`}
             >
+              {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
               <div className="flex flex-row justify-start items-center gap-2 w-full mb-4 cursor-pointer" onClick={() => handleToggle(child.id)}>
                 <div className="flex flex-row justify-start items-center gap-2 w-[70%] py-2">
                   <p className="w-[60%] text-center">
-                    <strong>Dirección:</strong> <br /> {child.direccion} {child.Numero}
+                    <strong>Dirección:</strong> <br /> {child.direccion}
                   </p>
                   <p className="text-center w-[40%]">
                     <strong>Zona:</strong> <br /> {child.zona ? child.zona : 'N/A'}
@@ -444,17 +588,51 @@ const Table = () => {
               </button>
             </div>
           </form>
-          <div className="flex flex-row gap-4 pt-2 pb-2 w-full justify-center">
-            <button type="button" onClick={handleIconClick} className={`flex items-center justify-center p-2 rounded shadow-lg hover:bg-green-300 w-fit ${showExtraButtons ? 'bg-green-300' : 'bg-blue-300'}`}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M2 6H1l4-4l4 4H8v3H6V6H4v3H2zm11 4.9l1.3 1.1H16V9h2v3h3V8h1l-5-5l-5 5h1zm.8 11.1c-.5-.9-.8-1.9-.8-3c0-1.6.6-3.1 1.7-4.1L9 10l-7 6h2v6h3v-5h4v5zm4.2-7v3h-3v2h3v3h2v-3h3v-2h-3v-3z" />
-              </svg>
-            </button>
-            <button type="button" onClick={handleIconClickUngroup} className={`flex items-center justify-center p-2 rounded shadow-lg bg-blue-300 hover:bg-green-300 w-fit ${showUngroupButtons ? 'bg-green-300' : 'bg-blue-300'}`}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M2 6H1l4-4l4 4H8v3H6V6H4v3H2zm11 4.9l1.3 1.1H16V9h2v3h3V8h1l-5-5l-5 5h1zm.8 11.1c-.5-.9-.8-1.9-.8-3c0-1.6.6-3.1 1.7-4.1L9 10l-7 6h2v6h3v-5h4v5zm1.2-4v2h8v-2z" />
-              </svg>
-            </button>
+          <div className="flex flex-row gap-4 pt-2 pb-2 w-full justify-between">
+            <div className="flex flex-row gap-4">
+              <button type="button" onClick={handleIconClick} className={`flex items-center justify-center p-2 rounded shadow-lg hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M2 6H1l4-4l4 4H8v3H6V6H4v3H2zm11 4.9l1.3 1.1H16V9h2v3h3V8h1l-5-5l-5 5h1zm.8 11.1c-.5-.9-.8-1.9-.8-3c0-1.6.6-3.1 1.7-4.1L9 10l-7 6h2v6h3v-5h4v5zm4.2-7v3h-3v2h3v3h2v-3h3v-2h-3v-3z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={handleIconClickUngroup}
+                className={`flex items-center justify-center p-2 rounded shadow-lg bg-blue-300 hover:bg-blue-950 hover:text-white w-fit ${showUngroupButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M2 6H1l4-4l4 4H8v3H6V6H4v3H2zm11 4.9l1.3 1.1H16V9h2v3h3V8h1l-5-5l-5 5h1zm.8 11.1c-.5-.9-.8-1.9-.8-3c0-1.6.6-3.1 1.7-4.1L9 10l-7 6h2v6h3v-5h4v5zm1.2-4v2h8v-2z" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex flex-row gap-4">
+              <button
+                type="button"
+                onClick={handleIconDeleteInmueble}
+                className={`flex items-center justify-center p-2 rounded shadow-lg bg-blue-300 hover:bg-blue-950 hover:text-white w-fit ${showDeleteInmuebleButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+                  <g fill="currentColor">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
+                    <path d="m8 3.293l4.712 4.712A4.5 4.5 0 0 0 8.758 15H3.5A1.5 1.5 0 0 1 2 13.5V9.293z" />
+                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7a3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 1 1 0-1" />
+                  </g>
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={handleIconAddInmueble}
+                className={`flex items-center justify-center p-2 rounded shadow-lg bg-blue-300 hover:bg-blue-950 hover:text-white w-fit ${showAddInmuebleButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16">
+                  <g fill="currentColor">
+                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7a3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 1 1-1 0v-1h-1a.5.5 0 1 1 0-1h1v-1a.5.5 0 0 1 1 0" />
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
+                    <path d="m8 3.293l4.712 4.712A4.5 4.5 0 0 0 8.758 15H3.5A1.5 1.5 0 0 1 2 13.5V9.293z" />
+                  </g>
+                </svg>
+              </button>
+            </div>
           </div>
           {showExtraButtons && (
             <div className="flex gap-4 mt-4 pb-4 w-full justify-center">
@@ -476,6 +654,26 @@ const Table = () => {
               </button>
             </div>
           )}
+          {showDeleteInmuebleButtons && (
+            <div className="flex gap-4 mt-4 pb-4 w-full justify-center">
+              <button type="button" onClick={handlePopupToggleDeleteInmueble} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Eliminar
+              </button>
+              <button type="button" onClick={() => setShowDeleteInmuebleButtons(false)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Cerrar
+              </button>
+            </div>
+          )}
+          {showAddInmuebleButtons && (
+            <div className="flex gap-4 mt-4 pb-4 w-full justify-center">
+              <button type="button" onClick={handlePopupToggleUngroup} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Añadir
+              </button>
+              <button type="button" onClick={() => setShowAddInmuebleButtons(false)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Cerrar
+              </button>
+            </div>
+          )}
           <div className="flex flex-col gap-4">
             {Array.isArray(data) && data.length > 0 ? (
               data.map((item) =>
@@ -488,9 +686,10 @@ const Table = () => {
                   >
                     <div className="flex flex-row justify-between w-full">
                       {showExtraButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
+                      {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
                       <div className="flex flex-row justify-start items-center gap-1 w-[70%] py-2">
                         <p className="w-[55%] text-center">
-                          <strong>Dirección:</strong> <br /> {item.direccion} {item.Numero}
+                          <strong>Dirección:</strong> <br /> {item.direccion}
                         </p>
                         <p className="text-center w-[32%]">
                           <strong>Zona:</strong> <br /> {item.zona ? item.zona : 'N/A'}
@@ -531,11 +730,13 @@ const Table = () => {
                         item.ParentEdificio == '1' ? 'bg-slate-100' : item.dataUpdateTime === 'red' ? 'bg-red-100' : item.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'
                       }`}
                     >
+                      {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
+
                       <div className="w-full flex flex-col justify-center items-center">
                         <div className="flex flex-row justify-start items-center gap-2 w-full mb-4 cursor-pointer" onClick={() => handleToggle(item.id)}>
                           <div className="flex flex-row justify-start items-center gap-2 w-[70%] py-2">
                             <p className="w-[60%] text-center">
-                              <strong>Dirección:</strong> <br /> {item.direccion} {item.Numero}
+                              <strong>Dirección:</strong> <br /> {item.direccion}
                             </p>
                             <p className="text-center w-[40%]">
                               <strong>Zona:</strong> <br /> {item.zona ? item.zona : 'N/A'}
@@ -624,10 +825,6 @@ const Table = () => {
                             <label className="block mb-2">Nombre:</label>
                             <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
                           </div>
-                          <div>
-                            <label className="block mb-2">Número:</label>
-                            <input type="text" name="numero" value={formData.numero} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
-                          </div>
                         </div>
                       ) : formData.tipo === 'Escalera' ? (
                         <div>
@@ -635,17 +832,13 @@ const Table = () => {
                             <label className="block mb-2">Nombre:</label>
                             <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
                           </div>
-                          <div>
-                            <label className="block mb-2">Número:</label>
-                            <input type="text" name="numero" value={formData.numero} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
-                          </div>
                           <p>Debes seleccionar un grupo de pisos para crear una escalera</p>
                           <label className="block mb-2">Grupo:</label>
                           <select name="grupo" value={formData.grupo} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full">
                             <option value="">Seleccione un grupo</option>
                             {parentsEdificio.map((parent) => (
                               <option key={parent.id} value={parent.AgrupacionID_Edificio}>
-                                {parent.direccion} {parent.Numero} {parent.AgrupacionID_Edificio}
+                                {parent.direccion} {parent.AgrupacionID_Edificio}
                               </option>
                             ))}
                           </select>
@@ -655,10 +848,6 @@ const Table = () => {
                           <div>
                             <label className="block mb-2">Nombre:</label>
                             <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
-                          </div>
-                          <div>
-                            <label className="block mb-2">Número:</label>
-                            <input type="text" name="numero" value={formData.numero} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
                           </div>
                         </div>
                       )}
@@ -720,12 +909,12 @@ const Table = () => {
                           {selectedType === 'Edificio'
                             ? parentsEdificio.map((parent) => (
                                 <option key={parent.id} value={parent.AgrupacionID_Edificio}>
-                                  {parent.direccion} {parent.Numero}
+                                  {parent.direccion}
                                 </option>
                               ))
                             : parentsEscalera.map((parent) => (
                                 <option key={parent.id} value={parent.AgrupacionID_Escalera}>
-                                  {parent.direccion} {parent.Numero}
+                                  {parent.direccion}
                                 </option>
                               ))}
                         </select>
@@ -775,19 +964,56 @@ const Table = () => {
           )}
         </div>
       )}
-      {showOrphanPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <p>{`Orphan address: ${orphanInfo}`}</p>
-            <p>Do you want to delete it?</p>
+      {showAskForDeleteOrphan && (
+        <div className="popup-container fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="popup-content bg-white p-4 shadow-lg flex flex-col justify-center items-center gap-4 rounded-lg w-4/6">
+            <h2 className="text-lg font-bold w-[80%] text-center flex justify-center">El siguiente grupo se ha quedado vacío:</h2>
+            <p>{`${orphanInfo[0].direccion}`}</p>
+            <p>¿Desea eliminarlo?</p>
             <div className="flex justify-center gap-4">
               <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeleteOrphan}>
-                Delete
+                Eliminar
               </button>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleKeepOrphan}>
-                Keep
+                Mantener
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {showPopupDeleteInmueble && (
+        <div className="popup-container fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="popup-content bg-white p-4 shadow-lg flex flex-col justify-center items-center gap-4 rounded-lg w-4/6">
+            <h2 className="text-lg font-bold w-[80%] text-center flex justify-center">Eliminar elemento</h2>
+            {thereAreChildrenDelete ? (
+              <div className="flex flex-col gap-4 w-fit justify-center items-center">
+                <p className="text-center w-full">Alguno de los elementos seleccionados contiene elementos agrupados.</p>
+                <p className="text-center w-full">¿Desea eliminar los elementos agrupados o mantenerlos?</p>
+                <div className="flex flex-row justify-center items-center gap-4">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeleteInmueble}>
+                    Eliminar
+                  </button>
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeleteKeepChildren}>
+                    Mantener
+                  </button>
+                </div>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleKeepDeleteInmueble}>
+                  Cancelar
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4 w-full justify-center items-center text-center">
+                <p>¿Está seguro?</p>
+                <div className="flex justify-center gap-4">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeleteInmueble}>
+                    Eliminar
+                  </button>
+                  <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleKeepDeleteInmueble}>
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
