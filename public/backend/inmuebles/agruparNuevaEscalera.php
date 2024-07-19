@@ -6,10 +6,9 @@ require_once '../db_Connection/db_Connection.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Validate input data
-if (isset($data['type'], $data['name'], $data['number'], $data['inmuebles'], $data['grupo'])) {
+if (isset($data['type'], $data['name'], $data['inmuebles'], $data['grupo'])) {
     $type = $data['type'];
     $name = $data['name'];
-    $number = isset($data['number']) ? $data['number'] : '';
     $inmuebles = $data['inmuebles'];
     $AgrupacionID_Edificio = $data['grupo'];
 
@@ -19,11 +18,10 @@ if (isset($data['type'], $data['name'], $data['number'], $data['inmuebles'], $da
     // Sanitize inputs
     $type = $conn->real_escape_string($type);
     $name = $conn->real_escape_string($name);
-    $number = $conn->real_escape_string($number);
     $inmueblesIds = implode(',', array_map('intval', $inmuebles)); // Convert array to comma-separated list of integers
 
-    $insertInmueblesSql = "INSERT INTO inmuebles (direccion, Numero, TipoAgrupacion, ParentEscalera, ChildEdificio, AgrupacionID_Edificio)
-        VALUES ('$name', '$number', '$type', 1, 1, $AgrupacionID_Edificio)";
+    $insertInmueblesSql = "INSERT INTO inmuebles (direccion, TipoAgrupacion, ParentEscalera, ChildEdificio, AgrupacionID_Edificio)
+        VALUES ('$name', '$type', 1, 1, $AgrupacionID_Edificio)";
     if ($conn->query($insertInmueblesSql) === TRUE) {
         $agrupacionId = $conn->insert_id;
 
