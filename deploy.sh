@@ -8,10 +8,7 @@ cd .
 # Change to the 'dist' directory
 echo "Changing to 'dist' directory"
 cd dist
-git add . -f
+git add ../dist -f
 git status
-git commit -m "Deploying to GitHub Pages"
-git status
-git remote add pepe https://github.com/jaivial/dist.git
-git remote -v
+
 
