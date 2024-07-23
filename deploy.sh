@@ -1,7 +1,11 @@
 #!/bin/bash
-git rm -r --cached .
+
 # Change directory to 'dist'
-cd ./dist
+cd dist
+
+git init
+
+git remote add origin https://github.com/jaivial/dist.git
 
 # Add all changes to the staging area
 git add . -f
@@ -10,7 +14,9 @@ git add . -f
 git commit -m "deployment build"
 
 # Push changes to the remote 'dist-branch'
-git push dist-branch main
+git push origin main
 
 # Return to the previous directory
 cd ..
+
+git init
