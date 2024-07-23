@@ -11,5 +11,6 @@ cd dist
 git add ../dist -f
 git status
 git commit -m "Deploying to GitHub Pages"
+git pull pepe main
 git push pepe main
 
