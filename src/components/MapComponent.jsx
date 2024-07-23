@@ -7,6 +7,15 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+const icon = L.icon({
+  iconUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  shadowSize: [41, 41],
+  shadowAnchor: [12, 41],
+});
 
 const SearchField = () => {
   const provider = new OpenStreetMapProvider();
@@ -14,6 +23,10 @@ const SearchField = () => {
   // @ts-ignore
   const searchControl = new GeoSearchControl({
     provider: provider,
+    marker: {
+      icon: icon,
+      draggable: false,
+    },
   });
 
   const map = useMap();
@@ -196,8 +209,6 @@ const MapComponent = () => {
   };
 
   useEffect(() => {
-    console.log('zones changed', zones);
-    console.log('zone data changed', zoneData);
     axios.get('http://localhost:8000/backend/zonas/checkInmuebleInZone.php').then((response) => {
       console.log('Inmueble data fetched:', response.data);
     });
