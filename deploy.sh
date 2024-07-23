@@ -12,5 +12,6 @@ git add . -f
 git status
 git commit -m "Deploying to GitHub Pages"
 git status
+git remote add origin https://github.com/jaivial/dist.git
 git remote -v
 
