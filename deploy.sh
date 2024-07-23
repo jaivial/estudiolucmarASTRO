@@ -10,4 +10,6 @@ echo "Changing to 'dist' directory"
 cd dist
 git add . -f
 git status
+git commit -m "Deploying to GitHub Pages"
+git status
 
