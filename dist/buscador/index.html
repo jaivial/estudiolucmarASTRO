@@ -1,0 +1,2264 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-ivytjhiz> <head><meta charset="UTF-8"><meta name="description" content="Astro description"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"><meta name="generator" content="Astro v4.11.3"><title>Buscador</title><link rel="stylesheet" href="/_astro/buscador.Cm5eCLWU.css">
+<style><style > body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);--tw-bg-opacity: 1;background-color:rgb(248 250 252 / var(--tw-bg-opacity))}
+</style>
+<link rel="stylesheet" href="/_astro/MapComponent.B5CTtyC8.css">
+<link rel="stylesheet" href="/_astro/leaflet.jCI8mrZJ.css">
+<link rel="stylesheet" href="/_astro/TablaBuscador.BTGsrsBX.css"><script type="module" src="/_astro/hoisted.DPTSRxCA.js"></script></head> <body class="overflow-x-hidden overflow-y-auto bg-slate-200" data-astro-cid-ivytjhiz> <!-- <LoadingScreen /> -->  <div style="padding-top: var(--safe-area-inset-top);" id="root"> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();;(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t)},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="ZFnCQo" component-url="/_astro/TablaBuscador.DxiqIeBt.js" component-export="default" renderer-url="/_astro/client.B-qJxcaO.js" props="{}" ssr="" client="only" opts="{&quot;name&quot;:&quot;TablaBuscador&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> </div>  <div id="completesidenavbar" class="relative"> <!-- Navigation bar --> <nav class="h-9 w-full flex flex-row justify-between bg-white border-t shadow-xl fixed bottom-0 left-0 z-30 overflow-visible"> <ul class="w-full h-full flex flex-row justify-around items-end transition-all ml-3 pb-2 overflow-y-visible shadow-xl"> <a href="/home" id="mobile-itemHome" class="h-[55px] bg-blue-400 p-2.5 px-3.5 rounded-3xl shadow-lg text-white flex items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 1024 1024"> <path fill="currentColor" d="M946.5 505L534.6 93.4a31.93 31.93 0 0 0-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3c0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8c24.9-25 24.9-65.5-.1-90.5"></path> </svg> </a> <a href="/buscador" id="mobile-itemBuscador" class="h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg flex items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 14 14"> <path fill="currentColor" fill-rule="evenodd" d="M2 6a4 4 0 1 1 8 0a4 4 0 0 1-8 0m4-6a6 6 0 1 0 3.476 10.89l2.817 2.817a1 1 0 0 0 1.414-1.414l-2.816-2.816A6 6 0 0 0 6 0" cap-rule="evenodd"></path> </svg> </a> <a href="/mapa" id="mobile-itemMapa" class="h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg flex items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.9em" height="1.9em" viewBox="0 0 100 100"> <path fill="currentColor" d="m70.387 70l-3.854 7.247l18.87-3.085c-3.808-1.91-8.963-3.275-15.016-4.162m-48.61 1.58C13.037 73.885 7.5 77.662 7.5 83.272a8.4 8.4 0 0 0 .774 3.497l30.285-4.95zM91.79 80l-42.15 6.87l11.116 12.646C79.01 97.881 92.5 92.05 92.5 83.272c0-1.17-.252-2.257-.71-3.271m-49.272 8.055l-28.48 4.655C21.566 97.374 34.853 100 50 100c.918 0 1.815-.026 2.719-.045z"></path><path fill="currentColor" d="M50.002 0c-16.3 0-29.674 13.333-29.674 29.596c0 6.252 1.987 12.076 5.342 16.865l19.234 33.25l.082.107c.759.991 1.5 1.773 2.37 2.348c.87.576 1.95.92 3.01.814c2.118-.212 3.415-1.708 4.646-3.376l.066-.086l21.234-36.141l.012-.023c.498-.9.866-1.816 1.178-2.708a29.246 29.246 0 0 0 2.17-11.05C79.672 13.333 66.302 0 50.002 0m0 17.045c7.071 0 12.59 5.509 12.59 12.55c0 7.043-5.519 12.55-12.59 12.55c-7.072 0-12.594-5.508-12.594-12.55c0-7.04 5.523-12.55 12.594-12.55" color="currentColor"></path> </svg> </a> <div id="moreMobileMenu" class="h-auto pt-3.5 px-3.5 rounded-3xl flex flex-col items-center justify-center"> <ul class="w-auto h-full flex flex-col justify-between gap-6"> <a id="mobile-itemEncargos" class="h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg hidden items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 20 20"> <path fill="currentColor" d="M2 3a1 1 0 0 1 2 0h13a1 1 0 1 1 0 2H4v12.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v7a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 5 13.5zm3 7a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-2.55a1 1 0 0 0-.336-.748L11.332 8.13a.5.5 0 0 0-.664 0L8.336 10.2a1 1 0 0 0-.336.75z"></path> </svg> </a> <a id="mobile-itemNoticias" class="hidden h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24"> <path fill="currentColor" d="M10 6h4V4h-4zm8 17q-2.075 0-3.537-1.463T13 18t1.463-3.537T18 13t3.538 1.463T23 18t-1.463 3.538T18 23M4 21q-.825 0-1.412-.587T2 19V8q0-.825.588-1.412T4 6h4V4q0-.825.588-1.412T10 2h4q.825 0 1.413.588T16 4v2h4q.825 0 1.413.588T22 8v2.9q0 .45-.387.675t-.813.025q-.65-.3-1.362-.45T18 11q-2.9 0-4.95 2.05T11 18q0 .45.063.913t.187.912q.125.425-.137.8t-.688.375zm14 0q.2 0 .35-.15t.15-.35t-.15-.35T18 20t-.35.15t-.15.35t.15.35t.35.15m0-2q.2 0 .35-.15t.15-.35v-3q0-.2-.15-.35T18 15t-.35.15t-.15.35v3q0 .2.15.35T18 19"></path> </svg> </a> <a href="/settings" id="mobile-itemSettings" class="h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg hidden items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 512 512"> <path fill="currentColor" d="M256 176a80 80 0 1 0 80 80a80.24 80.24 0 0 0-80-80m172.72 80a165.5 165.5 0 0 1-1.64 22.34l48.69 38.12a11.59 11.59 0 0 1 2.63 14.78l-46.06 79.52a11.64 11.64 0 0 1-14.14 4.93l-57.25-23a176.6 176.6 0 0 1-38.82 22.67l-8.56 60.78a11.93 11.93 0 0 1-11.51 9.86h-92.12a12 12 0 0 1-11.51-9.53l-8.56-60.78A169.3 169.3 0 0 1 151.05 393L93.8 416a11.64 11.64 0 0 1-14.14-4.92L33.6 331.57a11.59 11.59 0 0 1 2.63-14.78l48.69-38.12A175 175 0 0 1 83.28 256a165.5 165.5 0 0 1 1.64-22.34l-48.69-38.12a11.59 11.59 0 0 1-2.63-14.78l46.06-79.52a11.64 11.64 0 0 1 14.14-4.93l57.25 23a176.6 176.6 0 0 1 38.82-22.67l8.56-60.78A11.93 11.93 0 0 1 209.94 26h92.12a12 12 0 0 1 11.51 9.53l8.56 60.78A169.3 169.3 0 0 1 361 119l57.2-23a11.64 11.64 0 0 1 14.14 4.92l46.06 79.52a11.59 11.59 0 0 1-2.63 14.78l-48.69 38.12a175 175 0 0 1 1.64 22.66"></path> </svg> </a> <a id="mobile-itemLogOut" class="h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg hidden items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24"> <path fill="none" stroke="currentColor" stroke-anecap="round" stroke-anejoin="round" stroke-width="2" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4m-5-4l5-5l-5-5m5 5H3"></path> </svg> </a> <a id="mobile-itemMoreMenuIcon" class="h-[45px] bg-white p-2 px-3.5 rounded-3xl shadow-lg flex items-center justify-center hover:cursor-pointer hover:bg-blue-400 hover:text-white"> <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24"> <path fill="none" stroke="currentColor" stroke-anecap="round" stroke-anejoin="round" stroke-width="1.5" d="M2 18c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C3.689 14 4.46 14 6 14s2.31 0 2.876.347c.317.194.583.46.777.777C10 15.689 10 16.46 10 18s0 2.31-.347 2.877c-.194.316-.46.582-.777.776C8.311 22 7.54 22 6 22s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.776C2 20.31 2 19.54 2 18m12 0c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C15.689 14 16.46 14 18 14s2.31 0 2.877.347c.316.194.582.46.776.777C22 15.689 22 16.46 22 18s0 2.31-.347 2.877a2.36 2.36 0 0 1-.776.776C20.31 22 19.54 22 18 22s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.776C14 20.31 14 19.54 14 18M2 6c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C3.689 2 4.46 2 6 2s2.31 0 2.876.347c.317.194.583.46.777.777C10 3.689 10 4.46 10 6s0 2.31-.347 2.876c-.194.317-.46.583-.777.777C8.311 10 7.54 10 6 10s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.777C2 8.311 2 7.54 2 6m12 0c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C15.689 2 16.46 2 18 2s2.31 0 2.877.347c.316.194.582.46.776.777C22 3.689 22 4.46 22 6s0 2.31-.347 2.876c-.194.317-.46.583-.776.777C20.31 10 19.54 10 18 10s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.777C14 8.311 14 7.54 14 6" color="currentColor"></path> </svg> </a> </ul> </div> </ul> </nav> </div>  </body></html> <!-- 
+<script>
+  import Toastify from 'toastify-js';
+  import axios from 'axios';
+
+  function hideLoadingScreen() {
+    console.log('Hiding loading screen...');
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('flex');
+    loadingScreen.classList.add('hidden');
+  }
+
+  function showLoadingScreenMoreInfo() {
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+  }
+  function hideLoadingScreenTwo() {
+    console.log('Hiding loading screen...');
+    const loadingScreen = document.getElementById('loading-screen-two');
+    loadingScreen.classList.remove('flex');
+    loadingScreen.classList.add('hidden');
+  }
+
+  function ShowLoadingScreenTwo() {
+    const loadingScreen = document.getElementById('loading-screen-two');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+  }
+
+  const searchForm = document.getElementById('search-form');
+  searchForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    let direccion = formData.get('direccion');
+    currentPage = 1;
+    if (direccion === '') {
+      Toastify({
+        text: 'Introduce una dirección',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          background: 'rgb(162,6,10)',
+          backgroundImage: 'linear-gradient(153deg, rgba(162,6,10,1) 2%, rgba(85,3,3,1) 89%)',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+    }
+    fetchData(direccion, currentPage);
+  });
+
+  const tableBody = document.getElementById('search-data');
+  let direccion = '';
+
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
+  const pageInfo = document.getElementById('page-info');
+
+  const clearForm = document.getElementById('clear-form');
+
+  let currentPage = 1;
+  let totalPages = 1;
+  const itemsPerPage = 10;
+
+  // Automatically fetch data when the document is loaded
+  fetchData(direccion, currentPage);
+
+  prevButton.addEventListener('click', function () {
+    if (currentPage > 1) {
+      currentPage--;
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto', // for smooth scrolling
+      });
+      fetchData(direccion, currentPage);
+    }
+  });
+
+  nextButton.addEventListener('click', function () {
+    if (currentPage < totalPages) {
+      currentPage++;
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto', // for smooth scrolling
+      });
+      fetchData(direccion, currentPage);
+    }
+  });
+
+  clearForm.addEventListener('click', function () {
+    document.getElementById('search-form').reset();
+    direccion = '';
+    fetchData(direccion, currentPage);
+  });
+
+  function fetchData(direccion, page) {
+    ShowLoadingScreenTwo();
+    axios
+      .get('https://estudiolucmar.com/backend/inmuebles/tabla.php', {
+        params: {
+          direccion: direccion,
+          itemsPerPage: itemsPerPage,
+          page: page,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+        totalPages = Math.ceil(response.data.totalItems / itemsPerPage);
+        displayData(response.data.data);
+        updatePaginationInfo();
+      })
+      .catch(function (error) {
+        console.error('Error fetching JSON data:', error);
+      });
+  }
+
+  function displayData(data) {
+    // Clear existing rows
+    tableBody.innerHTML = '';
+
+    // Populate table with data
+    data.forEach((item) => {
+      const row = document.createElement('tr');
+      row.classList.add('border-b', 'border-zinc-300');
+      row.id = 'row-' + item.id;
+      console.log('item', item.zona);
+      // Create a new row element
+
+      // Function to create a td element with given classes and inner HTML
+      function createCell(classes, innerHTML) {
+        const cell = document.createElement('td');
+        cell.className = classes;
+        cell.innerHTML = innerHTML;
+        return cell;
+      }
+
+      // Append cells to the row
+      row.appendChild(createCell('text-center xl:text-start py-5 text-sm overflow-hidden w-[100%]', item.direccion));
+      row.appendChild(createCell('text-center xl:text-start py-5 text-sm overflow-hidden w-[100%]', item.zona));
+      row.appendChild(createCell('hidden xl:table-cell', item.tipo));
+      row.appendChild(createCell('hidden xl:table-cell', item.uso));
+      row.appendChild(createCell('hidden xl:table-cell', item.superficie));
+      row.appendChild(createCell('hidden xl:table-cell', item.ano_construccion));
+
+      // Create the cell with SVG icons
+      const svgCell = document.createElement('td');
+      svgCell.className = 'xl:table-cell';
+      const svgDiv = document.createElement('div');
+      svgDiv.className = 'flex flex-row px-1 w-full h-full gap-2 justify-start items-center';
+
+      const noticiaSvg = `<svg id="noticia-table-cell${item.id}" class="text-red-700 hidden" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 20 20"><path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M9 5v6h2V5zm0 8v2h2v-2z" /></svg>`;
+      const encargoSvg = `<svg id="encargo-table-cell${item.id}" class="text-red-700 hidden" xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 20 20"><path fill="currentColor" d="M2 3a1 1 0 0 1 2 0h13a1 1 0 1 1 0 2H4v12.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v7a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 5 13.5zm3 7a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-2.55a1 1 0 0 0-.336-.748L11.332 8.13a.5.5 0 0 0-.664 0L8.336 10.2a1 1 0 0 0-.336.75z" /></svg>`;
+
+      svgDiv.innerHTML = noticiaSvg + encargoSvg;
+      svgCell.appendChild(svgDiv);
+      row.appendChild(svgCell);
+
+      // Create the cell with the button
+      const buttonCell = document.createElement('td');
+      buttonCell.className = 'relative';
+      const containerButtonDiv = document.createElement('div');
+      containerButtonDiv.classList = 'w-auto absolute top-1/2 -translate-y-1/2 right-3 xl:table-cell';
+      const buttonDiv = document.createElement('div');
+      buttonDiv.id = item.id;
+      buttonDiv.className = 'bg-slate-500 hover:bg-slate-900 w-[2em] h-[2em] rounded-lg flex flex-col items-center justify-center hover:rounded-3xl transition-all duration-[0.5s] ease-in-out hover:w-11 hover:h-11 overflow-hidden hover:cursor-pointer';
+      buttonDiv.onclick = function () {
+        verMasInfo(this);
+      };
+      const buttonSvg = `<svg class="p-2" id="more-info-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#63E6BE" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>`;
+      buttonDiv.innerHTML = buttonSvg;
+      containerButtonDiv.appendChild(buttonDiv);
+      buttonCell.appendChild(containerButtonDiv);
+      row.appendChild(buttonCell);
+
+      tableBody.appendChild(row);
+
+      axios
+        .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php?', {
+          params: {
+            id: item.id,
+          },
+        })
+        .then((response) => {
+          const row = document.getElementById('row-' + item.id);
+
+          if (response.data.inmueble.encargoState === 1) {
+            const noticiatablecell = document.getElementById('encargo-table-cell' + item.id);
+            noticiatablecell.classList.remove('hidden');
+          } else if (response.data.inmueble.encargoState === 0 || response.data.inmueble.encargoState === null) {
+            const noticiatablecell = document.getElementById('encargo-table-cell' + item.id);
+            noticiatablecell.classList.add('hidden');
+          }
+
+          if (response.data.inmueble.noticiastate === 1) {
+            const encargotablecell = document.getElementById('noticia-table-cell' + item.id);
+            encargotablecell.classList.remove('hidden');
+          } else if (response.data.inmueble.noticiastate === 0 || response.data.inmueble.noticiastate === null) {
+            const encargotablecell = document.getElementById('noticia-table-cell' + item.id);
+            encargotablecell.classList.add('hidden');
+          }
+
+          if (response.data.dataUpdateTime === 'red') {
+            row.classList.add('bg-red-100');
+          } else if (response.data.dataUpdateTime === 'yellow') {
+            row.classList.add('bg-yellow-100');
+          } else if (response.data.dataUpdateTime === 'green') {
+            row.classList.add('bg-green-100');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    });
+    hideLoadingScreen();
+    setTimeout(function () {
+      hideLoadingScreenTwo();
+    }, 500);
+  }
+
+  function updatePaginationInfo() {
+    pageInfo.textContent = `${currentPage} de ${totalPages}`;
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = currentPage === totalPages;
+  }
+
+  const forminsertarcomentario = document.getElementById('form-insertar-comentario');
+  const enviarComentario = document.createElement('button');
+  enviarComentario.id = 'enviar-comentario';
+  enviarComentario.classList.add('p-3', 'text-sm', 'text-white', 'bg-green-800', 'hover:bg-green-600', 'rounded-md', 'transition-all', 'duration-[0.5s]', 'ease-in-out', 'hover:cursor-pointer', 'mb-4');
+  enviarComentario.textContent = 'Enviar';
+  forminsertarcomentario.appendChild(enviarComentario);
+
+  function verMasInfo(clickedDiv) {
+    showLoadingScreenMoreInfo();
+    axios
+      .get('https://estudiolucmar.com/backend/users/fetchusers.php', {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data[0].admin === 1) {
+          localStorage.setItem('currentAdmin', 1);
+        } else {
+          localStorage.setItem('currentAdmin', 0);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
+
+    let id = '';
+    console.log('ID:', clickedDiv.id);
+    id = clickedDiv.id;
+    localStorage.setItem('currentInmueble', id);
+    fetchComments();
+
+    const moreInfoContainer = document.getElementById('more-info-container');
+    moreInfoContainer.classList.remove('hidden');
+    moreInfoContainer.classList.add('flex');
+    moreInfoContainer.classList.add('flex-col');
+    const moreinfotipo = document.getElementById('tipo');
+    const moreinfouso = document.getElementById('uso');
+    const moreinfosuperficie = document.getElementById('superficie');
+    const moreinfoano = document.getElementById('ano');
+    const moreinfodireccion = document.getElementById('direccion');
+    const formID = document.getElementById('form_id');
+    const comentariosdatabasecontainer = document.getElementById('comentarios-database-container');
+    const comentarioTextarea = document.getElementById('comentarioTextarea');
+    const hiddenagregarnoticia = document.getElementById('agregar-noticia-edit-more-info');
+    const encargocontainer = document.getElementById('encargos-container');
+
+    const potencalAdquisicion = document.getElementById('potencialAdquisicion');
+    potencalAdquisicion.classList.remove('flex');
+    potencalAdquisicion.classList.add('hidden');
+
+    const categoria = document.getElementById('categoria');
+    categoria.textContent = '';
+
+    const editMoreInfo = document.getElementById('edit-more-info');
+    editMoreInfo.value = id;
+
+    formID.value = clickedDiv.id;
+    const valueOculto = formID.value;
+
+    console.log('el id oculto del input', valueOculto);
+    comentariosdatabasecontainer.innerHTML = '';
+    comentarioTextarea.value = '';
+    moreinfotipo.textContent = '';
+    moreinfouso.textContent = '';
+    moreinfosuperficie.textContent = '';
+    moreinfoano.textContent = '';
+    moreinfodireccion.textContent = '';
+    const comentarioscontainer = document.getElementById('comentarios-container');
+
+    const tipoPVAtexto = document.getElementById('tipoPVA-texto');
+    const valoraciontexto = document.getElementById('valoracion-texto');
+    const valoracionestablecidatexto = document.getElementById('valoracionestablecida-texto');
+    const noticiafechatexto = document.getElementById('noticia-fecha-texto');
+    const prioridadtexto = document.getElementById('prioridad-texto');
+    const comercialtexto = document.getElementById('comercial-texto');
+
+    const encargofecha = document.getElementById('encargo-fecha-texto');
+    encargofecha.textContent = '';
+    const encargotipotexto = document.getElementById('encargo-tipo-texto');
+    encargotipotexto.textContent = '';
+    const encargocliente = document.getElementById('encargo-cliente-texto');
+    encargocliente.textContent = '';
+    const encargoprecio = document.getElementById('encargo-precio1-texto');
+    encargoprecio.textContent = '';
+    const encargoprecio2 = document.getElementById('encargo-precio2-texto');
+    encargoprecio2.textContent = '';
+    const encargocomision = document.getElementById('encargo-comision-texto');
+    encargocomision.textContent = '';
+    const encargocomercial = document.getElementById('encargo-comercial-texto');
+    encargocomercial.textContent = '';
+
+    tipoPVAtexto.textContent = '';
+    valoraciontexto.textContent = '';
+    valoracionestablecidatexto.textContent = '';
+    noticiafechatexto.textContent = '';
+    prioridadtexto.textContent = '';
+    comercialtexto.textContent = '';
+
+    // Function to fetch comments
+    function fetchComments() {
+      axios
+        .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
+          params: {
+            id: id,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          let databuscador = response.data;
+
+          // Fetch RESPONSABLE
+          console.log('Responsable:', databuscador.inmueble.responsable);
+          const responsabletexto = document.getElementById('responsable-texto');
+          if (databuscador.inmueble.responsable === null) {
+            responsabletexto.innerHTML = 'No definido';
+          } else {
+            responsabletexto.textContent = databuscador.inmueble.responsable;
+          }
+
+          const responsablenombre = databuscador.inmueble.responsable;
+
+          // FETCH NOTICIAS
+          const id = localStorage.getItem('currentInmueble');
+          const noticiastate = localStorage.getItem('currentNoticiaState');
+          localStorage.setItem('currentEncargoState', databuscador.inmueble.encargoState);
+          const encargostate = localStorage.getItem('currentEncargoState');
+
+          if (noticiastate === '1') {
+            const encargocontainer = document.getElementById('encargocontainer');
+            encargocontainer.classList.remove('hidden');
+            encargocontainer.classList.add('flex');
+
+            axios
+              .get('https://estudiolucmar.com/backend/noticias/noticiasfetch.php', {
+                params: {
+                  id: id,
+                },
+              })
+              .then((response) => {
+                console.log(response.data);
+                let data = response.data;
+
+                if (data.tipo_PV === 'PV') {
+                  tipoPVAtexto.innerHTML = data.tipo_PV + '</br>Piso en Venta';
+                } else if (data.tipo_PV === 'PVA') {
+                  tipoPVAtexto.innerHTML = data.tipo_PV + '</br>Piso en Venta con Anterioridad';
+                }
+
+                console.log('data valoracion:', data.valoracion);
+                if (data.valoracion == '1') {
+                  valoraciontexto.innerHTML = 'Valoración<br>SÍ';
+                  valoracionestablecidatexto.classList.remove('hidden');
+                  valoracionestablecidatexto.classList.add('flex');
+                  valoracionestablecidatexto.innerHTML = 'Valoración establecida:<br>' + data.valoracion_establecida + '€';
+                } else if (data.valoracion == '0') {
+                  valoraciontexto.innerHTML = 'Valoración<br>NO';
+                  valoracionestablecidatexto.classList.remove('flex');
+                  valoracionestablecidatexto.classList.add('hidden');
+                }
+
+                const fechaFormateada = formatDate(data.noticia_fecha);
+                noticiafechatexto.textContent = fechaFormateada;
+                prioridadtexto.innerHTML = 'Prioridad:<br>' + data.prioridad;
+                comercialtexto.innerHTML = 'Comercial:<br>' + data.comercial_noticia;
+              })
+              .catch((error) => {
+                console.error('Error fetching data:', error);
+              });
+          } else if (noticiastate === '0') {
+            const encargocontainer = document.getElementById('encargocontainer');
+            encargocontainer.classList.remove('flex');
+            encargocontainer.classList.add('hidden');
+          }
+
+          if (encargostate === '1') {
+            const encargocontainer = document.getElementById('encargocontainer');
+            encargocontainer.classList.remove('hidden');
+            encargocontainer.classList.add('flex');
+
+            axios
+              .get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
+                params: {
+                  id: id,
+                },
+              })
+              .then((response) => {
+                let data = response.data;
+                const encargoFechaFormateada = formatDate(data.encargo_fecha);
+                encargofecha.innerHTML = 'Fecha: ' + '<br>' + encargoFechaFormateada;
+                encargotipotexto.innerHTML = 'Tipo de Encargo: ' + '<br>' + response.data.tipo_encargo;
+                const clienteID = response.data.cliente_id;
+
+                axios
+                  .get('https://estudiolucmar.com/backend/clientes/seleccionaClienteID.php', {
+                    params: {
+                      cliente_id: clienteID,
+                    },
+                  })
+                  .then((response) => {
+                    const cliente = response.data;
+                    cliente.forEach((cliente) => {
+                      encargocliente.innerHTML = 'Cliente: ' + '<br>' + cliente.nombrecompleto_cliente;
+                    });
+                  })
+                  .catch((error) => {
+                    console.error('Error fetching data:', error);
+                  });
+
+                encargoprecio.innerHTML = 'Precio: ' + '<br>' + response.data.precio_1 + '€';
+
+                if (response.data.tipo_comision_encargo === 'PORCENTAJE') {
+                  encargocomision.innerHTML = 'Comisión: ' + '<br>' + response.data.comision_encargo + '%';
+                } else if (response.data.tipo_comision_encargo === 'FIJO') {
+                  encargocomision.innerHTML = 'Comisión: ' + '<br>' + response.data.comision_encargo + '€';
+                }
+
+                if (response.data.precio_2 === null) {
+                  encargoprecio2.classList.add('hidden');
+                  encargoprecio2.innerHTML = '';
+                } else {
+                  encargoprecio2.classList.remove('hidden');
+                  encargoprecio2.innerHTML = 'Inmueble Rebajado: ' + '<br>' + response.data.precio_2 + '€';
+                }
+
+                encargocomercial.innerHTML = 'Comercial: ' + '<br>' + response.data.comercial_encargo;
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          } else {
+            const encargocontainer = document.getElementById('encargocontainer');
+            encargocontainer.classList.remove('flex');
+            encargocontainer.classList.add('hidden');
+          }
+
+          const comentariosdatabasecontainer = document.getElementById('comentarios-database-container');
+          const comentarioTextarea = document.getElementById('comentarioTextarea');
+          const comentariosData = databuscador.comentarios; // Correct property name
+          const direccion = databuscador.inmueble.direccion;
+          const tipo = databuscador.inmueble.tipo;
+          const uso = databuscador.inmueble.uso;
+          const superficie = databuscador.inmueble.superficie;
+          const ano_construccion = databuscador.inmueble.ano_construccion;
+
+          comentariosdatabasecontainer.innerHTML = '';
+          comentarioTextarea.value = '';
+          moreinfotipo.textContent = tipo;
+          moreinfouso.textContent = uso;
+          moreinfosuperficie.textContent = superficie;
+          moreinfoano.textContent = ano_construccion;
+          moreinfodireccion.textContent = direccion;
+
+          const tipoEdit = document.getElementById('tipo-edit');
+          const usoEdit = document.getElementById('uso-edit');
+          const superficieEdit = document.getElementById('superficie-edit');
+          const anoEdit = document.getElementById('ano-edit');
+          tipoEdit.value = databuscador.inmueble.tipo;
+          tipoEdit.placeholder = databuscador.inmueble.tipo;
+          usoEdit.value = databuscador.inmueble.uso;
+          usoEdit.placeholder = databuscador.inmueble.uso;
+          superficieEdit.value = databuscador.inmueble.superficie;
+          superficieEdit.placeholder = databuscador.inmueble.superficie;
+          anoEdit.value = databuscador.inmueble.ano_construccion;
+          anoEdit.placeholder = databuscador.inmueble.ano_construccion;
+
+          const categoriaEdit = document.getElementById('categoria-edit');
+          categoriaEdit.value = databuscador.inmueble.categoria;
+          categoriaEdit.placeholder = databuscador.inmueble.categoria;
+
+          const categoria = document.getElementById('categoria');
+          const categoriaContainer = document.getElementById('categoriacontainer');
+          categoria.textContent = '';
+          if (databuscador.inmueble.categoria === null) {
+            categoriaContainer.classList.add('hidden');
+            categoria.classList.add('hidden');
+          } else {
+            categoria.classList.remove('hidden');
+            categoria.textContent = databuscador.inmueble.categoria;
+          }
+
+          const inquilinoPhoto = document.getElementById('inquilino-photo');
+          const propietarioPhoto = document.getElementById('propietario-photo');
+          const vacioPhoto = document.getElementById('vacio-photo');
+          if (databuscador.inmueble.categoria === 'Inquilino') {
+            inquilinoPhoto.classList.remove('hidden');
+            propietarioPhoto.classList.add('hidden');
+            vacioPhoto.classList.add('hidden');
+          } else if (databuscador.inmueble.categoria === 'Propietario') {
+            inquilinoPhoto.classList.add('hidden');
+            propietarioPhoto.classList.remove('hidden');
+            vacioPhoto.classList.add('hidden');
+          } else {
+            inquilinoPhoto.classList.add('hidden');
+            propietarioPhoto.classList.add('hidden');
+            vacioPhoto.classList.remove('hidden');
+          }
+
+          // Potencial Adquisicion if statement
+          const potencialAdquisicion = document.getElementById('potencialAdquisicion');
+          if (databuscador.inmueble.potencial_adquisicion === '1') {
+            potencialAdquisicion.classList.remove('hidden');
+            potencialAdquisicion.classList.add('flex');
+          } else {
+            potencialAdquisicion.classList.remove('flex');
+            potencialAdquisicion.classList.add('hidden');
+          }
+
+          // // Calle if statement
+          // const direccionTexto = document.getElementById("direccion-texto");
+          // if (databuscador.inmueble.calle === null) {
+          //   direccionTexto.innerHTML = "No definido";
+          // } else {
+          //   direccionTexto.textContent = databuscador.inmueble.calle;
+          // }
+
+          const formID = document.getElementById('form_id');
+          const enviarComentario = document.getElementById('enviar-comentario');
+          enviarComentario.onclick = function () {
+            const insertarID = formID.value;
+
+            const comentarioValue = comentarioTextarea.value;
+            if (comentarioValue === '') {
+              Toastify({
+                text: 'Introduce un comentario',
+                duration: 2500,
+                destination: 'https://github.com/apvarun/toastify-js',
+                newWindow: true,
+                close: false,
+                gravity: 'top', // `top` or `bottom`
+                position: 'center', // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                  borderRadius: '10px',
+                  background: 'rgb(162,6,10)',
+                  background: 'linear-gradient(153deg, rgba(162,6,10,1) 2%, rgba(85,3,3,1) 89%)',
+                },
+                onClick: function () {}, // Callback after click
+              }).showToast();
+              fetchComments();
+            } else {
+              axios
+                .get('https://estudiolucmar.com/backend/comentarios/insertarcomentario.php?', {
+                  params: {
+                    id: insertarID,
+                    comentario: comentarioValue,
+                  },
+                })
+                .then((response) => {
+                  console.log(response.data);
+                  // Reload comments after deletion
+                  Toastify({
+                    text: 'Comentario añadido',
+                    duration: 2500,
+                    destination: 'https://github.com/apvarun/toastify-js',
+                    newWindow: true,
+                    close: false,
+                    gravity: 'top', // `top` or `bottom`
+                    position: 'center', // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                      borderRadius: '10px',
+                      backgroundImage: 'linear-gradient(to right top, #005d09, #0b6316, #146921, #1d6f2b, #247535, #267a39, #287e3d, #2a8341, #278740, #248b3f, #20903e, #1c943d)',
+                      textAlign: 'center',
+                    },
+                    onClick: function () {}, // Callback after click
+                  }).showToast();
+                  fetchData('', currentPage);
+                  fetchComments();
+                })
+                .catch((error) => console.error('Error inserting comment:', error));
+
+              axios
+                .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
+                  params: {
+                    id: insertarID,
+                  },
+                })
+                .then((response) => {
+                  console.log(response.data.dataUpdateTime);
+                  const row = document.getElementById('row-' + insertarID);
+                  console.log('el row elegiddo' + row.id);
+
+                  if (response.data.dataUpdateTime === 'red') {
+                    row.classList.remove('bg-green-100');
+                    row.classList.remove('bg-yellow-100');
+                    row.classList.add('bg-red-100');
+                  } else if (response.data.dataUpdateTime === 'yellow') {
+                    row.classList.remove('bg-green-100');
+                    row.classList.remove('bg-red-100');
+                    row.classList.add('bg-yellow-100');
+                  } else if (response.data.dataUpdateTime === 'green') {
+                    row.classList.remove('bg-red-100');
+                    row.classList.remove('bg-yellow-100');
+                    row.classList.add('bg-green-100');
+                  }
+                  hideLoadingScreen();
+                })
+                .catch((error) => {
+                  console.error('Error fetching data:', error);
+                });
+            }
+          };
+          comentariosData.forEach((comentario) => {
+            // Select the columns to display
+            const comentarioId = comentario.id;
+            const comentarioTexto = comentario.texto;
+            const comentarioFechaOriginal = comentario.date_time;
+            const comentarioFecha = formatDateTime(comentarioFechaOriginal);
+
+            // Create a new div element to hold the comment
+            const comentariobox = document.createElement('div');
+            comentariobox.classList.add('border-b', 'border-zinc-200', 'w-[100%]', 'relative', 'py-4', 'bg-zinc-200', 'rounded-md', 'px-5');
+            comentariobox.id = comentarioId;
+            comentariosdatabasecontainer.appendChild(comentariobox);
+            const adminPower = localStorage.getItem('currentAdmin');
+            if (adminPower === '1') {
+              const deletecomentario = document.createElement('button');
+              deletecomentario.classList.add('absolute', 'right-0', '-top-1', 'py-1.5', 'px-0', 'text-gray-800', 'transition-all', 'duration-[0.5s]', 'ease-in-out', 'hover:cursor-pointer', 'text-xs');
+              deletecomentario.id = comentarioId;
+              const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+              svg.classList.add('text-2xl', 'text-red-800');
+              svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+              svg.setAttribute('width', '30px');
+              svg.setAttribute('height', '30px');
+              svg.setAttribute('viewBox', '0 0 20 20');
+
+              // Create SVG path
+              const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              path.setAttribute('fill', 'currentColor');
+              path.setAttribute('d', 'M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15l-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152l2.758 3.15a1.2 1.2 0 0 1 0 1.698');
+
+              // Append path to SVG
+              svg.appendChild(path);
+
+              // Append SVG to button
+              deletecomentario.appendChild(svg);
+              comentariobox.appendChild(deletecomentario);
+              deletecomentario.onclick = function () {
+                axios
+                  .get('https://estudiolucmar.com/backend/comentarios/deletecomment.php', {
+                    params: {
+                      id: comentarioId,
+                    },
+                  })
+                  .then((response) => {
+                    console.log(response.data);
+                    Toastify({
+                      text: 'Comentario eliminado',
+                      duration: 2500,
+                      destination: 'https://github.com/apvarun/toastify-js',
+                      newWindow: true,
+                      close: false,
+                      gravity: 'top', // `top` or `bottom`
+                      position: 'center', // `left`, `center` or `right`
+                      stopOnFocus: true, // Prevents dismissing of toast on hover
+                      style: {
+                        borderRadius: '10px',
+                        backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+                        textAlign: 'center',
+                      },
+                      onClick: function () {}, // Callback after click
+                    }).showToast();
+                    // Reload comments after deletion
+                    fetchData('', currentPage);
+                    fetchComments();
+                  })
+                  .catch((error) => console.error('Error deleting comment:', error));
+              };
+            }
+
+            const comentariofecha = document.createElement('p');
+            comentariofecha.classList.add('text-sm', 'text-gray-800', 'absolute', 'left-1.5', 'top-1.5');
+            comentariofecha.textContent = comentarioFecha;
+            comentariobox.appendChild(comentariofecha);
+            const comentariotexto = document.createElement('p');
+            comentariotexto.classList.add('text-sm', 'text-gray-800', 'mt-4', 'overflow-hidden', 'whitespace-normal', 'text-justify');
+            comentariotexto.textContent = comentarioTexto;
+            comentariobox.appendChild(comentariotexto);
+          });
+        })
+        .catch((error) => console.error('Error fetching data:', error));
+    }
+    fetchMoreInfo();
+    hideLoadingScreenMoreInfo();
+  }
+
+  function formatDateTime(dateTime) {
+    const date = new Date(dateTime);
+
+    // Add two hours to the time
+    date.setHours(date.getHours() + 2);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${day} / ${month} / ${year} ${hours}:${minutes}`;
+  }
+
+  // Example usage:
+
+  function formatDate(dateTime) {
+    const date = new Date(dateTime);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
+  let isDesplegar = true; // Variable to track the current function
+  let isDesplegarNoticias = true;
+  let isDesplegarEncargos = true;
+
+  function fetchMoreInfo() {
+    console.log('FETCH MORE INFO');
+    isDesplegar = true;
+    isDesplegarNoticias = true;
+    isDesplegarEncargos = true;
+    const id = localStorage.getItem('currentInmueble');
+    const tipo = document.getElementById('tipo');
+    const uso = document.getElementById('uso');
+    const superficie = document.getElementById('superficie');
+    const ano_construccion = document.getElementById('ano');
+    const potencialAdquisicion = document.getElementById('potencialAdquisicion');
+    const categoria = document.getElementById('categoria');
+    const encargosContainer = document.getElementById('enargos-container');
+    potencialAdquisicion.classList.remove('flex');
+    potencialAdquisicion.classList.add('hidden');
+
+    tipo.textContent = '';
+    uso.textContent = '';
+    superficie.textContent = '';
+    ano_construccion.textContent = '';
+    categoria.textContent = '';
+    axios
+      .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
+        params: {
+          id: id,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        let databuscador = response.data;
+        localStorage.setItem('currentNoticiaState', databuscador.inmueble.noticiastate);
+        const noticiastate = localStorage.getItem('currentNoticiaState');
+        localStorage.setItem('currentEncargoState', databuscador.inmueble.encargoState);
+        const encargostate = localStorage.getItem('currentEncargoState');
+        const tipoPVAtexto = document.getElementById('tipoPVA-texto');
+        const valoraciontexto = document.getElementById('valoracion-texto');
+        const valoracionestablecidatexto = document.getElementById('valoracionestablecida-texto');
+        const noticiafechatexto = document.getElementById('noticia-fecha-texto');
+        const prioridadtexto = document.getElementById('prioridad-texto');
+        const comercialtexto = document.getElementById('comercial-texto');
+        const encargosContainer = document.getElementById('encargos-container');
+
+        tipoPVAtexto.textContent = '';
+        valoraciontexto.textContent = '';
+        valoracionestablecidatexto.textContent = '';
+        noticiafechatexto.textContent = '';
+        prioridadtexto.textContent = '';
+        comercialtexto.textContent = '';
+        if (noticiastate === '1') {
+          axios
+            .get('https://estudiolucmar.com/backend/noticias/noticiasfetch.php', {
+              params: {
+                id: id,
+              },
+            })
+            .then((response) => {
+              let data = response.data;
+              console.log('Fetched data:', data);
+              if (data.tipo_PV === 'PV') {
+                tipoPVAtexto.innerHTML = data.tipo_PV + '</br>Piso en Venta';
+              } else if (data.tipo_PV === 'PVA') {
+                tipoPVAtexto.innerHTML = data.tipo_PV + '</br>Piso en Venta con Anterioridad';
+              }
+              console.log('data.valoracion:', data.valoracion);
+              if (data.valoracion == '1') {
+                valoraciontexto.innerHTML = '¿Valorado?<br>SÍ';
+                valoracionestablecidatexto.classList.remove('hidden');
+                valoracionestablecidatexto.classList.add('flex');
+                valoracionestablecidatexto.innerHTML = 'Valoración establecida:<br>' + data.valoracion_establecida + '€';
+              } else if (data.valoracion == '0') {
+                valoraciontexto.innerHTML = '¿Valorado?<br>NO';
+                valoracionestablecidatexto.classList.remove('flex');
+                valoracionestablecidatexto.classList.add('hidden');
+              }
+              const fechaFormateada = formatDate(data.noticia_fecha);
+              noticiafechatexto.textContent = fechaFormateada;
+              prioridadtexto.innerHTML = 'Prioridad:<br>' + data.prioridad;
+              comercialtexto.innerHTML = 'Comercial:<br>' + data.comercial_noticia;
+            })
+            .catch((error) => {
+              console.error('Error fetching data:', error);
+            });
+          const noticiacontanier = document.getElementById('noticiacontainer');
+          const agregarnoticiacontainer = document.getElementById('agregar-noticia-container');
+          const agregarnoticiacontaineredit = document.getElementById('agregar-noticia-container-edit');
+          noticiacontanier.classList.remove('hidden');
+          noticiacontanier.classList.add('flex');
+          agregarnoticiacontaineredit.classList.remove('flex');
+          agregarnoticiacontaineredit.classList.add('hidden');
+
+          encargosContainer.classList.remove('hidden');
+          encargosContainer.classList.add('flex');
+        } else if (noticiastate === '0') {
+          const noticiacontanier = document.getElementById('noticiacontainer');
+          noticiacontanier.classList.remove('flex');
+          noticiacontanier.classList.add('hidden');
+          encargosContainer.classList.remove('flex');
+          encargosContainer.classList.add('hidden');
+        }
+
+        if (encargostate === '1') {
+          const encargofecha = document.getElementById('encargo-fecha-texto');
+          encargofecha.textContent = '';
+          const encargotipotexto = document.getElementById('encargo-tipo-texto');
+          encargotipotexto.textContent = '';
+          const encargocliente = document.getElementById('encargo-cliente-texto');
+          encargocliente.textContent = '';
+          const encargoprecio = document.getElementById('encargo-precio1-texto');
+          encargoprecio.textContent = '';
+          const encargoprecio2 = document.getElementById('encargo-precio2-texto');
+          encargoprecio2.textContent = '';
+          const encargocomision = document.getElementById('encargo-comision-texto');
+          encargocomision.textContent = '';
+          const encargocomercial = document.getElementById('encargo-comercial-texto');
+          encargocomercial.textContent = '';
+          const encargocontainer = document.getElementById('encargocontainer');
+          encargocontainer.classList.remove('hidden');
+          encargocontainer.classList.add('flex');
+          axios
+            .get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
+              params: {
+                id: id,
+              },
+            })
+            .then((response) => {
+              let data = response.data;
+              console.log(response.data);
+              const encargoFechaFormateada = formatDate(response.data.encargo_fecha);
+              encargofecha.innerHTML = 'Fecha: ' + '<br>' + encargoFechaFormateada;
+              encargotipotexto.innerHTML = 'Tipo de Encargo: ' + '<br>' + response.data.tipo_encargo;
+              const clienteID = response.data.cliente_id;
+              console.log('clienteID', clienteID);
+              axios
+                .get('https://estudiolucmar.com/backend/clientes/seleccionaClienteID.php', {
+                  params: {
+                    cliente_id: clienteID,
+                  },
+                })
+                .then((response) => {
+                  const cliente = response.data;
+                  cliente.forEach((cliente) => {
+                    console.log(cliente);
+                    encargocliente.innerHTML = 'Cliente: ' + '<br>' + cliente.nombrecompleto_cliente;
+                  });
+                })
+                .catch((error) => {
+                  console.error('Error fetching data:', error);
+                });
+
+              encargoprecio.innerHTML = 'Precio: ' + '<br>' + response.data.precio_1 + '€';
+
+              if (response.data.tipo_comision_encargo === 'PORCENTAJE') {
+                encargocomision.innerHTML = 'Comisión: ' + '<br>' + response.data.comision_encargo + '%';
+              } else if (response.data.tipo_comision_encargo === 'FIJO') {
+                encargocomision.innerHTML = 'Comisión: ' + '<br>' + response.data.comision_encargo + '€';
+              }
+
+              if (response.data.precio_2 === null) {
+                encargoprecio2.classList.add('hidden');
+                encargoprecio2.innerHTML = '';
+              } else {
+                encargoprecio2.classList.remove('hidden');
+                encargoprecio2.innerHTML = 'Inmueble Rebajado: ' + '<br>' + response.data.precio_2 + '€';
+              }
+
+              encargocomercial.innerHTML = 'Comercial: ' + '<br>' + response.data.comercial_encargo;
+            })
+            .catch(function (error) {
+              console.error('Error:', error);
+            });
+
+          const agregarencargocontainer = document.getElementById('agregar-encargo-container');
+          agregarencargocontainer.classList.remove('flex');
+          agregarencargocontainer.classList.add('hidden');
+        } else {
+          const encargodatabasecontainer = document.getElementById('encargo-database-container');
+          encargodatabasecontainer.classList.remove('flex');
+          encargodatabasecontainer.classList.add('hidden');
+          const encargocontainer = document.getElementById('encargocontainer');
+          encargocontainer.classList.remove('flex');
+          encargocontainer.classList.add('hidden');
+        }
+        const responsabletexto = document.getElementById('responsable-texto');
+        if (databuscador.inmueble.responsable === null) {
+          responsabletexto.innerHTML = 'No definido';
+        } else {
+          responsabletexto.textContent = databuscador.inmueble.responsable;
+        }
+
+        const tipoEdit = document.getElementById('tipo-edit');
+        const usoEdit = document.getElementById('uso-edit');
+        const superficieEdit = document.getElementById('superficie-edit');
+        const anoEdit = document.getElementById('ano-edit');
+        const categoriaEdit = document.getElementById('categoria-edit');
+        categoriaEdit.value = databuscador.inmueble.categoria;
+        categoriaEdit.placeholder = databuscador.inmueble.categoria;
+
+        // Potencial Adquisicion if statement
+        const potencialAdquisicion = document.getElementById('potencialAdquisicion');
+        const potencialAdquisicionEdit = document.getElementById('potencialAdquisicionEdit');
+
+        if (databuscador.inmueble.potencialAdquisicion === 0) {
+          console.log('Value is 0');
+          if (potencialAdquisicion && potencialAdquisicionEdit) {
+            potencialAdquisicion.classList.remove('flex');
+            potencialAdquisicion.classList.add('hidden');
+            potencialAdquisicionEdit.checked = false;
+          }
+        } else {
+          console.log('Value is not 0');
+          if (potencialAdquisicion && potencialAdquisicionEdit) {
+            potencialAdquisicion.classList.remove('hidden');
+            potencialAdquisicion.classList.add('flex');
+            potencialAdquisicionEdit.checked = true;
+          }
+        }
+
+        tipoEdit.value = databuscador.inmueble.tipo;
+        tipoEdit.placeholder = databuscador.inmueble.tipo;
+        usoEdit.value = databuscador.inmueble.uso;
+        usoEdit.placeholder = databuscador.inmueble.uso;
+        superficieEdit.value = databuscador.inmueble.superficie;
+        superficieEdit.placeholder = databuscador.inmueble.superficie;
+        anoEdit.value = databuscador.inmueble.ano_construccion;
+        anoEdit.placeholder = databuscador.inmueble.ano_construccion;
+
+        const tipo = document.getElementById('tipo');
+        const uso = document.getElementById('uso');
+        const superficie = document.getElementById('superficie');
+        const ano_construccion = document.getElementById('ano');
+        tipo.textContent = databuscador.inmueble.tipo;
+        uso.textContent = databuscador.inmueble.uso;
+        superficie.textContent = databuscador.inmueble.superficie;
+        ano_construccion.textContent = databuscador.inmueble.ano_construccion;
+
+        const categoria = document.getElementById('categoria');
+        const categoriaContainer = document.getElementById('categoriacontainer');
+        categoria.textContent = '';
+
+        const inquilinoPhoto = document.getElementById('inquilino-photo');
+        const propietarioPhoto = document.getElementById('propietario-photo');
+        const vacioPhoto = document.getElementById('vacio-photo');
+        if (databuscador.inmueble.categoria === 'Inquilino') {
+          categoriaContainer.classList.remove('hidden');
+          categoriaContainer.classList.add('flex');
+          categoria.classList.remove('hidden');
+          categoria.classList.add('flex');
+          inquilinoPhoto.classList.remove('hidden');
+          inquilinoPhoto.classList.add('block');
+          propietarioPhoto.classList.add('hidden');
+          vacioPhoto.classList.add('hidden');
+          categoria.innerHTML = 'Inquilino';
+        } else if (databuscador.inmueble.categoria === 'Propietario') {
+          categoriaContainer.classList.remove('hidden');
+          categoriaContainer.classList.add('flex');
+          categoria.classList.remove('hidden');
+          categoria.classList.add('flex');
+          inquilinoPhoto.classList.add('hidden');
+          propietarioPhoto.classList.remove('hidden');
+          propietarioPhoto.classList.add('block');
+          vacioPhoto.classList.add('hidden');
+          categoria.innerHTML = 'Propietario';
+        } else if (databuscador.inmueble.categoria === 'Vacio') {
+          categoriaContainer.classList.remove('hidden');
+          categoriaContainer.classList.add('flex');
+          categoria.classList.remove('hidden');
+          categoria.classList.add('flex');
+          inquilinoPhoto.classList.add('hidden');
+          propietarioPhoto.classList.add('hidden');
+          vacioPhoto.classList.remove('hidden');
+          vacioPhoto.classList.add('block');
+          categoria.innerHTML = 'Vacio';
+        } else if (databuscador.inmueble.categoria === null) {
+          categoriaContainer.classList.remove('flex');
+          categoriaContainer.classList.add('hidden');
+          categoria.classList.remove('flex');
+          categoria.classList.add('hidden');
+          inquilinoPhoto.classList.add('hidden');
+          propietarioPhoto.classList.add('hidden');
+          vacioPhoto.classList.add('hidden');
+        }
+
+        const agregarnoticiacontaneredit = document.getElementById('agregar-noticia-container-edit');
+        if (databuscador.inmueble.noticiastate === 1) {
+          agregarNoticiaButton();
+          agregarnoticiacontaneredit.classList.remove('flex');
+          agregarnoticiacontaneredit.classList.add('hidden');
+        }
+
+        const responsablenombre = databuscador.inmueble.responsable;
+        localStorage.setItem('currentResponsable', responsablenombre);
+
+        hideLoadingScreenMoreInfo();
+      });
+  }
+
+  function cerrrar() {
+    const moreInfoContainer = document.getElementById('more-info-container');
+    moreInfoContainer.classList.remove('flex');
+    moreInfoContainer.classList.add('hidden');
+    plegarNoticias();
+    plegar();
+    plegarEncargos();
+    showLoadingScreenMoreInfo();
+    isDesplegar = true;
+    isDesplegarNoticias = true;
+    isDesplegarEncargos = true;
+  }
+  const cerrarMoreInfo = document.getElementById('cerrar-more-info');
+  cerrarMoreInfo.addEventListener('click', function () {
+    cerrrar();
+  });
+
+  function toggleDesplegarFunction() {
+    if (isDesplegar) {
+      desplegar(); // Call desplegar() if it's currently active
+    } else {
+      plegar(); // Call plegar() if it's currently active
+    }
+    isDesplegar = !isDesplegar; // Toggle the variable for the next click
+  }
+  const toggleComentarios = document.getElementById('toggle-comentarios');
+  toggleComentarios.addEventListener('click', function () {
+    toggleDesplegarFunction();
+  });
+
+  function desplegar() {
+    const comentariosdatabasecontainer = document.getElementById('comentarios-database-container');
+    comentariosdatabasecontainer.classList.remove('hidden');
+    comentariosdatabasecontainer.classList.add('flex');
+
+    const formInsertarComentario = document.getElementById('form-insertar-comentario');
+    formInsertarComentario.classList.remove('hidden');
+    formInsertarComentario.classList.add('flex');
+
+    const arrowDown = document.getElementById('arrow-down');
+    arrowDown.classList.remove('block');
+    arrowDown.classList.add('hidden');
+
+    const arrowUp = document.getElementById('arrow-up');
+    arrowUp.classList.remove('hidden');
+    arrowUp.classList.add('block');
+  }
+
+  function plegar() {
+    const comentariosdatabasecontainer = document.getElementById('comentarios-database-container');
+    comentariosdatabasecontainer.classList.remove('flex');
+    comentariosdatabasecontainer.classList.add('hidden');
+
+    const formInsertarComentario = document.getElementById('form-insertar-comentario');
+    formInsertarComentario.classList.remove('flex');
+    formInsertarComentario.classList.add('hidden');
+
+    const arrowDown = document.getElementById('arrow-down');
+    arrowDown.classList.remove('hidden');
+    arrowDown.classList.add('block');
+
+    const arrowUp = document.getElementById('arrow-up');
+    arrowUp.classList.remove('block');
+    arrowUp.classList.add('hidden');
+  }
+
+  function toggleDesplegarNoticias() {
+    if (isDesplegarNoticias) {
+      desplegarNoticias(); // Call desplegar() if it's currently active
+    } else {
+      plegarNoticias(); // Call plegar() if it's currently active
+    }
+    isDesplegarNoticias = !isDesplegarNoticias; // Toggle the variable for the next click
+  }
+  const toggleNoticias = document.getElementById('toggle-noticias');
+  toggleNoticias.addEventListener('click', function () {
+    toggleDesplegarNoticias();
+  });
+
+  function desplegarNoticias() {
+    const arrowDown = document.getElementById('arrow-down-noticias');
+    arrowDown.classList.remove('block');
+    arrowDown.classList.add('hidden');
+
+    const arrowUp = document.getElementById('arrow-up-noticias');
+    arrowUp.classList.remove('hidden');
+    arrowUp.classList.add('block');
+
+    const noticiastate = localStorage.getItem('currentNoticiaState');
+
+    const agregarnoticiascontainer = document.getElementById('agregar-noticia-container');
+    const noticiadatabasecontainer = document.getElementById('noticia-database-container');
+    if (noticiastate === '1') {
+      agregarnoticiascontainer.classList.remove('flex');
+      agregarnoticiascontainer.classList.add('hidden');
+      noticiadatabasecontainer.classList.remove('hidden');
+      noticiadatabasecontainer.classList.add('flex');
+    } else if (noticiastate === '0') {
+      agregarnoticiascontainer.classList.remove('hidden');
+      agregarnoticiascontainer.classList.add('flex');
+    }
+  }
+
+  function plegarNoticias() {
+    const agregarnoticiascontainer = document.getElementById('agregar-noticia-container');
+    agregarnoticiascontainer.classList.remove('flex');
+    agregarnoticiascontainer.classList.add('hidden');
+
+    const agregarnoticiacontaineredit = document.getElementById('agregar-noticia-container-edit');
+    agregarnoticiacontaineredit.classList.remove('flex');
+    agregarnoticiacontaineredit.classList.add('hidden');
+
+    const noticiacontanier = document.getElementById('noticia-database-container');
+    noticiacontanier.classList.remove('flex');
+    noticiacontanier.classList.add('hidden');
+
+    const arrowDown = document.getElementById('arrow-down-noticias');
+    arrowDown.classList.remove('hidden');
+    arrowDown.classList.add('block');
+
+    const arrowUp = document.getElementById('arrow-up-noticias');
+    arrowUp.classList.remove('block');
+    arrowUp.classList.add('hidden');
+  }
+
+  // TOGGLE DESPLEGAR ENCARGOS
+  function toggleDesplegarEncargos() {
+    if (isDesplegarEncargos) {
+      desplegarEncargos(); // Call desplegar() if it's currently active
+    } else {
+      plegarEncargos(); // Call plegar() if it's currently active
+    }
+    isDesplegarEncargos = !isDesplegarEncargos; // Toggle the variable for the next click
+    console.log('Desplegar encargos:', isDesplegarEncargos);
+  }
+  const toggleEncargos = document.getElementById('toggle-encargos');
+  toggleEncargos.addEventListener('click', function () {
+    toggleDesplegarEncargos();
+  });
+
+  function desplegarEncargos() {
+    const arrowDown = document.getElementById('arrow-down-encargos');
+    arrowDown.classList.remove('block');
+    arrowDown.classList.add('hidden');
+
+    const arrowUp = document.getElementById('arrow-up-encargos');
+    arrowUp.classList.remove('hidden');
+    arrowUp.classList.add('block');
+
+    const encargostate = localStorage.getItem('currentEncargoState');
+    const agregarencargoscontainer = document.getElementById('agregar-encargo-container');
+    const encargodatabasecontainer = document.getElementById('encargo-database-container');
+
+    if (encargostate === '1') {
+      agregarencargoscontainer.classList.remove('flex');
+      agregarencargoscontainer.classList.add('hidden');
+      encargodatabasecontainer.classList.remove('hidden');
+      encargodatabasecontainer.classList.add('flex');
+    } else {
+      agregarencargoscontainer.classList.remove('hidden');
+      agregarencargoscontainer.classList.add('flex');
+      encargodatabasecontainer.classList.remove('flex');
+      encargodatabasecontainer.classList.add('hidden');
+    }
+  }
+
+  function plegarEncargos() {
+    const agregarencargoscontainer = document.getElementById('agregar-encargo-container');
+    agregarencargoscontainer.classList.remove('flex');
+    agregarencargoscontainer.classList.add('hidden');
+
+    const agregarencargocontaineredit = document.getElementById('agregar-encargo-container-edit');
+    agregarencargocontaineredit.classList.remove('flex');
+    agregarencargocontaineredit.classList.add('hidden');
+
+    const encargocontanier = document.getElementById('encargo-database-container');
+    encargocontanier.classList.remove('flex');
+    encargocontanier.classList.add('hidden');
+
+    const arrowDown = document.getElementById('arrow-down-encargos');
+    arrowDown.classList.remove('hidden');
+    arrowDown.classList.add('block');
+
+    const arrowUp = document.getElementById('arrow-up-encargos');
+    arrowUp.classList.remove('block');
+    arrowUp.classList.add('hidden');
+  }
+
+  function showEditOne() {
+    const extrainfocontainer = document.getElementById('extrainfocontainer-1');
+    extrainfocontainer.classList.remove('flex');
+    extrainfocontainer.classList.add('hidden');
+
+    const extrainfocontaineredit = document.getElementById('extrainfocontainer-1-edit');
+    extrainfocontaineredit.classList.remove('hidden');
+    extrainfocontaineredit.classList.add('flex');
+    const editMoreInfo = document.getElementById('edit-more-info');
+    console.log('Edit More Info Value:', editMoreInfo.value);
+  }
+  const ShowEditOne = document.getElementById('show-edit-one');
+  ShowEditOne.addEventListener('click', function () {
+    showEditOne();
+  });
+
+  function hideEditOne() {
+    const extrainfocontainer = document.getElementById('extrainfocontainer-1');
+    extrainfocontainer.classList.remove('hidden');
+    extrainfocontainer.classList.add('flex');
+
+    const extrainfocontaineredit = document.getElementById('extrainfocontainer-1-edit');
+    extrainfocontaineredit.classList.remove('flex');
+    extrainfocontaineredit.classList.add('hidden');
+  }
+  const HideEditOne = document.getElementById('hide-edit-one');
+  HideEditOne.addEventListener('click', function () {
+    hideEditOne();
+  });
+
+  function showEditTwo() {
+    fetchComercial();
+    const extrainfocontainer = document.getElementById('extrainfocontainer-2');
+    extrainfocontainer.classList.remove('flex');
+    extrainfocontainer.classList.add('hidden');
+
+    const extrainfocontaineredit = document.getElementById('extrainfocontainer-2-edit');
+    extrainfocontaineredit.classList.remove('hidden');
+    extrainfocontaineredit.classList.add('flex');
+    const editMoreInfo = document.getElementById('edit-more-info');
+  }
+  const idShowEditTwo = document.getElementById('show-edit-two');
+  idShowEditTwo.addEventListener('click', function () {
+    showEditTwo();
+  });
+
+  function hideEditTwo() {
+    const extrainfocontainer = document.getElementById('extrainfocontainer-2');
+    extrainfocontainer.classList.remove('hidden');
+    extrainfocontainer.classList.add('flex');
+
+    const extrainfocontaineredit = document.getElementById('extrainfocontainer-2-edit');
+    extrainfocontaineredit.classList.remove('flex');
+    extrainfocontaineredit.classList.add('hidden');
+  }
+  const HideEditTwo = document.getElementById('hide-edit-two');
+  HideEditTwo.addEventListener('click', function () {
+    hideEditTwo();
+  });
+
+  function updateEditOne() {
+    const tipoEdit = document.getElementById('tipo-edit');
+    const usoEdit = document.getElementById('uso-edit');
+    const superficieEdit = document.getElementById('superficie-edit');
+    const anoEdit = document.getElementById('ano-edit');
+    const editMoreInfo = document.getElementById('edit-more-info');
+    const tipo = tipoEdit.value;
+    const uso = usoEdit.value;
+    const superficie = superficieEdit.value;
+    const ano_construccion = anoEdit.value;
+    const id = editMoreInfo.value;
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+
+    axios
+      .get('https://estudiolucmar.com/backend/moreinfo/editMoreInfoOne.php', {
+        params: {
+          id: id,
+          tipo: tipo,
+          uso: uso,
+          superficie: superficie,
+          ano_construccion: ano_construccion,
+        },
+      })
+      .then((response) => {
+        Toastify({
+          text: 'Información actualizada',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+            backgroundColor: '#34D399',
+            backgroundColor: '#047857',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        fetchMoreInfo();
+        hideEditOne();
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+  const editButtonOne = document.getElementById('edit-button-one');
+  editButtonOne.addEventListener('click', function () {
+    updateEditOne();
+  });
+  function updateEditTwo() {
+    const editMoreInfo = document.getElementById('edit-more-info');
+    let id = editMoreInfo.value;
+
+    const categoriaEdit = document.getElementById('categoria-edit');
+    const categoria = categoriaEdit.value;
+
+    const potencialAdquisicionEdit = document.getElementById('potencialAdquisicionEdit');
+    const potencialAdquisicion = potencialAdquisicionEdit.checked ? 1 : 0;
+    console.log('Potencial Adquisicion Edit Value:', potencialAdquisicion);
+
+    const responsableEdit = document.getElementById('responsable-edit');
+    const responsable = responsableEdit.value;
+
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+
+    axios
+      .get('https://estudiolucmar.com/backend/moreinfo/editMoreInfoTwo.php', {
+        params: {
+          id: id,
+          categoria: categoria,
+          potencialAdquisicion: potencialAdquisicion,
+          responsable: responsable,
+        },
+      })
+      .then((response) => {
+        Toastify({
+          text: 'Información actualizada',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right top, #005d09, #0b6316, #146921, #1d6f2b, #247535, #267a39, #287e3d, #2a8341, #278740, #248b3f, #20903e, #1c943d)',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        hideEditTwo();
+        fetchMoreInfo();
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+  const editButtonTwo = document.getElementById('edit-button-two');
+  editButtonTwo.addEventListener('click', function () {
+    updateEditTwo();
+  });
+
+  function fetchComercial() {
+    axios
+      .get('https://estudiolucmar.com/backend/users/seleccionacomercial.php')
+      .then((response) => {
+        let data = response.data;
+        const comercialNoticia = document.getElementById('agregar-noticia-edit-comercial');
+        comercialNoticia.innerHTML = '';
+
+        for (let i = 0; i < data.length; i++) {
+          const option = document.createElement('option');
+          option.value = data[i].nombrecompleto;
+          option.text = data[i].nombrecompleto;
+          comercialNoticia.appendChild(option);
+        }
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+    axios
+      .get('https://estudiolucmar.com/backend/users/seleccionacomercial.php')
+      .then((response) => {
+        let data = response.data;
+        const responsableedit = document.getElementById('responsable-edit');
+        responsableedit.innerHTML = '';
+
+        for (let i = 0; i < data.length; i++) {
+          const option = document.createElement('option');
+          option.value = data[i].nombrecompleto;
+          option.text = data[i].nombrecompleto;
+          responsableedit.appendChild(option);
+        }
+        const responsableEdit = document.getElementById('responsable-edit');
+        responsableEdit.value = localStorage.getItem('currentResponsable');
+        responsableEdit.placeholder = localStorage.getItem('currentResponsable');
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+    axios
+      .get('https://estudiolucmar.com/backend/users/seleccionacomercial.php')
+      .then((response) => {
+        let data = response.data;
+        const comercialEncargo = document.getElementById('agregar-encargo-edit-comercial');
+        comercialEncargo.innerHTML = '';
+
+        for (let i = 0; i < data.length; i++) {
+          const option = document.createElement('option');
+          option.value = data[i].nombrecompleto;
+          option.text = data[i].nombrecompleto;
+          comercialEncargo.appendChild(option);
+        }
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+
+  function fetchCliente() {
+    axios
+      .get('https://estudiolucmar.com/backend/clientes/seleccionaCliente.php')
+      .then((response) => {
+        const cliente = response.data;
+        const clienteSelect = document.getElementById('agregar-encargo-edit-cliente');
+        clienteSelect.innerHTML = '';
+        console.log(cliente);
+        cliente.forEach((client) => {
+          const option = document.createElement('option');
+          option.value = client.id;
+          option.text = client.nombrecompleto_cliente;
+          clienteSelect.appendChild(option);
+        });
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+
+  function agregarNoticiaButton() {
+    fetchComercial();
+    const agregarnoticiacontainer = document.getElementById('agregar-noticia-container');
+    agregarnoticiacontainer.classList.remove('flex');
+    agregarnoticiacontainer.classList.add('hidden');
+
+    const agregarnoticiacontaineredit = document.getElementById('agregar-noticia-container-edit');
+    agregarnoticiacontaineredit.classList.remove('hidden');
+    agregarnoticiacontaineredit.classList.add('flex');
+
+    const editbuttonnoticiaedit = document.getElementById('edit-button-noticia-editar');
+    editbuttonnoticiaedit.classList.remove('flex');
+    editbuttonnoticiaedit.classList.add('hidden');
+
+    const editbuttonnoticiaeliminar = document.getElementById('edit-button-noticia-eliminar');
+    editbuttonnoticiaeliminar.classList.remove('flex');
+    editbuttonnoticiaeliminar.classList.add('hidden');
+
+    const editbuttonnoticia = document.getElementById('edit-button-noticia');
+    editbuttonnoticia.classList.remove('hidden');
+    editbuttonnoticia.classList.add('flex');
+
+    // Clear text inputs
+    document.getElementById('valoracion-text').value = '';
+    document.querySelector('input[name="fecha-text"]').value = '';
+    document.getElementById('agregar-noticia-edit-comercial').innerHTML = '';
+
+    // Uncheck radio inputs
+    const selectedPVA = document.querySelector('input[name="pv-pva"]:checked');
+    if (selectedPVA) {
+      selectedPVA.checked = false;
+    }
+
+    const selectedvaloracion = document.querySelector('input[name="valoracion"]:checked');
+    if (selectedvaloracion) {
+      selectedvaloracion.checked = false;
+    }
+
+    const selectedPrioridad = document.querySelector('input[name="prioridad"]:checked');
+    if (selectedPrioridad) {
+      selectedPrioridad.checked = false;
+    }
+
+    const hideNoticiaModoEdicion = document.getElementById('hideNoticiaModoEdicion');
+    hideNoticiaModoEdicion.classList.remove('absolute');
+    hideNoticiaModoEdicion.classList.add('hidden');
+  }
+  const agregarNoticiaContainer = document.getElementById('agregar-noticia-container');
+  agregarNoticiaContainer.addEventListener('click', function () {
+    agregarNoticiaButton();
+  });
+
+  // AGREGAR ENCARGOS BUTTON
+  function agregarEncargoButton() {
+    fetchComercial();
+    limitEncargoNoticia();
+    fetchCliente();
+    const agregarnoticiacontainer = document.getElementById('agregar-encargo-container');
+    agregarnoticiacontainer.classList.remove('flex');
+    agregarnoticiacontainer.classList.add('hidden');
+
+    const agregarnoticiacontaineredit = document.getElementById('agregar-encargo-container-edit');
+    agregarnoticiacontaineredit.classList.remove('hidden');
+    agregarnoticiacontaineredit.classList.add('flex');
+
+    const hideEncargoModoEdicion = document.getElementById('hideEncargoModoEdicion');
+    hideEncargoModoEdicion.classList.remove('absolute');
+    hideEncargoModoEdicion.classList.add('hidden');
+
+    const editbuttonnoticiaedit = document.getElementById('edit-button-encargo-editar');
+    editbuttonnoticiaedit.classList.remove('flex');
+    editbuttonnoticiaedit.classList.add('hidden');
+
+    const editbuttonnoticiaeliminar = document.getElementById('edit-button-encargo-eliminar');
+    editbuttonnoticiaeliminar.classList.remove('flex');
+    editbuttonnoticiaeliminar.classList.add('hidden');
+
+    const editbuttonnoticia = document.getElementById('edit-button-encargo');
+    editbuttonnoticia.classList.remove('hidden');
+    editbuttonnoticia.classList.add('flex');
+
+    // Clear text inputs
+    document.getElementById('comision-encargo').value = '';
+    document.querySelector('input[name="fecha-encargo"]').value = '';
+    document.getElementById('agregar-encargo-edit-comercial').value = '';
+    document.getElementById('agregar-encargo-edit-cliente').value = '';
+    document.getElementById('precio-encargo').value = '';
+
+    // Uncheck radio inputs
+    const selectedTipoEncargo = document.querySelector('input[name="tipo-encargo"]:checked');
+    if (selectedTipoEncargo) {
+      selectedTipoEncargo.checked = false;
+    }
+
+    const selectedTipoComision = document.querySelector('input[name="tipo-comision"]:checked');
+    if (selectedTipoComision) {
+      selectedTipoComision.checked = false;
+    }
+
+    const hideNoticiaModoEdicion = document.getElementById('hideNoticiaModoEdicion');
+    hideNoticiaModoEdicion.classList.remove('absolute');
+    hideNoticiaModoEdicion.classList.add('hidden');
+  }
+  const agregarEncargoContainer = document.getElementById('agregar-encargo-container');
+  agregarEncargoContainer.addEventListener('click', function () {
+    agregarEncargoButton();
+  });
+
+  function agregarNoticiaSQL() {
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+
+    const selectedPVA = document.querySelector('input[name="pv-pva"]:checked');
+    const selectedvaloracion = document.querySelector('input[name="valoracion"]:checked');
+    const valoracionText = document.getElementById('valoracion-text').value;
+    const fecha = document.querySelector('input[name="fecha-text"]').value;
+    const selectedPrioridad = document.querySelector('input[name="prioridad"]:checked');
+    const comercial = document.getElementById('agregar-noticia-edit-comercial').value;
+    const id = localStorage.getItem('currentInmueble');
+
+    if (!selectedPVA || !selectedvaloracion || !fecha || !selectedPrioridad || !comercial) {
+      Toastify({
+        text: 'No pueden haber campos vacíos',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          background: 'rgb(162,6,10)',
+          background: 'linear-gradient(153deg, rgba(162,6,10,1) 2%, rgba(85,3,3,1) 89%)',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+      hideLoadingScreenMoreInfo();
+      agregarNoticiaButton();
+      return false;
+    } else {
+      const tipoPVA = selectedPVA.value;
+      const valoracion = selectedvaloracion.value;
+      const prioridad = selectedPrioridad.value;
+
+      if (valoracion === '1' && valoracionText === '') {
+        Toastify({
+          text: 'Intrduce valoración',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            background: 'rgb(162,6,10)',
+            background: 'linear-gradient(153deg, rgba(162,6,10,1) 2%, rgba(85,3,3,1) 89%)',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        hideLoadingScreenMoreInfo();
+        agregarNoticiaButton();
+        return false;
+      } else {
+        axios
+          .get('https://estudiolucmar.com/backend/noticias/agregarnoticia.php', {
+            params: {
+              id: id,
+              tipoPVA: tipoPVA,
+              valoracion: valoracion,
+              valoraciontext: valoracionText,
+              fecha: fecha,
+              prioridad: prioridad,
+              comercial: comercial,
+            },
+          })
+          .then((response) => {
+            Toastify({
+              text: 'Noticia creada',
+              duration: 2500,
+              destination: 'https://github.com/apvarun/toastify-js',
+              newWindow: true,
+              close: false,
+              gravity: 'top', // `top` or `bottom`
+              position: 'center', // `left`, `center` or `right`
+              stopOnFocus: true, // Prevents dismissing of toast on hover
+              style: {
+                borderRadius: '10px',
+                backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+                backgroundColor: '#34D399',
+                backgroundColor: '#047857',
+              },
+              onClick: function () {}, // Callback after click
+            }).showToast();
+            fetchData('', 1);
+            fetchMoreInfo();
+            plegarNoticias();
+            console.log('Todo salio bien');
+          })
+          .catch((error) => console.error('Error fetching JSON data:', error));
+      }
+    }
+  }
+  const editButtonNoticia = document.getElementById('edit-button-noticia');
+  editButtonNoticia.addEventListener('click', function () {
+    agregarNoticiaSQL();
+  });
+  // AGREGAR ENCARGO SQL
+  function agregarEncargoSQL() {
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+
+    const selectedTipoEncargo = document.querySelector('input[name="tipo-encargo"]:checked');
+    const comercial = document.getElementById('agregar-encargo-edit-comercial').value;
+    const cliente = document.getElementById('agregar-encargo-edit-cliente').value;
+    const precio = document.querySelector('input[name="precio-encargo"]').value;
+    const tipoComisionSelected = document.querySelector('input[name="tipo-comision"]:checked');
+    const comision = document.querySelector('input[name="comision-encargo"]').value;
+    const fecha = document.querySelector('input[name="fecha-encargo"]').value;
+    const id = localStorage.getItem('currentInmueble');
+
+    if (!selectedTipoEncargo || !precio || !tipoComisionSelected || !comision || !fecha || !comercial || !cliente) {
+      Toastify({
+        text: 'No pueden haber campos vacíos',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          background: 'rgb(162,6,10)',
+          background: 'linear-gradient(153deg, rgba(162,6,10,1) 2%, rgba(85,3,3,1) 89%)',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+      hideLoadingScreenMoreInfo();
+      agregarNoticiaButton();
+      return false;
+    } else {
+      const tipoEncargo = selectedTipoEncargo.value;
+      const tipoComision = document.querySelector('input[name="tipo-comision"]:checked').value;
+
+      axios
+        .get('https://estudiolucmar.com/backend/encargos/agregarencargo.php', {
+          params: {
+            encargo_id: id,
+            tipoEncargo: tipoEncargo,
+            comercial: comercial,
+            cliente: cliente,
+            precio: precio,
+            tipoComision: tipoComision,
+            comision: comision,
+            fecha: fecha,
+          },
+        })
+        .then((response) => {
+          Toastify({
+            text: 'Encargo creado',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+              backgroundColor: '#34D399',
+              backgroundColor: '#047857',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
+          fetchData(direccion, currentPage);
+          toggleDesplegarEncargos();
+          hideLoadingScreenMoreInfo();
+          fetchMoreInfo();
+          console.log('El encargo se ha añadido correctamente');
+        })
+        .catch((error) => console.error('Error fetching JSON data:', error));
+    }
+  }
+  const editButtonEncargo = document.getElementById('edit-button-encargo');
+  editButtonEncargo.addEventListener('click', function () {
+    agregarEncargoSQL();
+  });
+
+  function showNoticiaModoEdicion() {
+    const editbuttonnoticia = document.getElementById('edit-button-noticia');
+    editbuttonnoticia.classList.remove('flex');
+    editbuttonnoticia.classList.add('hidden');
+    const editbuttonnoticiaeditar = document.getElementById('edit-button-noticia-editar');
+    editbuttonnoticiaeditar.classList.remove('hidden');
+    editbuttonnoticiaeditar.classList.add('flex');
+    const editbuttonnoticiadel = document.getElementById('edit-button-noticia-eliminar');
+    editbuttonnoticiadel.classList.remove('hidden');
+    editbuttonnoticiadel.classList.add('flex');
+
+    const hideNoticiaModoEdicion = document.getElementById('hideNoticiaModoEdicion');
+    hideNoticiaModoEdicion.classList.remove('hidden');
+    hideNoticiaModoEdicion.classList.add('absolute');
+
+    const h2agregarnoticia = document.getElementById('h2-agregar-noticia');
+    h2agregarnoticia.textContent = 'Editar noticia';
+
+    fetchComercial();
+
+    const agregarnoticiacontaineredit = document.getElementById('agregar-noticia-container-edit');
+    agregarnoticiacontaineredit.classList.remove('hidden');
+    agregarnoticiacontaineredit.classList.add('flex');
+    const noticiadatabasecontainer = document.getElementById('noticia-database-container');
+    noticiadatabasecontainer.classList.remove('flex');
+    noticiadatabasecontainer.classList.add('hidden');
+    const id = localStorage.getItem('currentInmueble');
+    const radioPV = document.getElementById('PV');
+    const radioPVA = document.getElementById('PVA');
+    const radioSi = document.getElementById('radiosi');
+    const radioNo = document.getElementById('radiono');
+    const valoraciontext = document.getElementById('valoracion-text');
+    const radioalta = document.getElementById('alta');
+    const radiomedia = document.getElementById('media');
+    const radiobaja = document.getElementById('baja');
+    const fechatext = document.getElementById('fecha-text');
+
+    const valoracionprecio = valoraciontext.value;
+    let checkedValue = null;
+
+    const prioridad = document.querySelectorAll('input[name="prioridad"]');
+    // Iterate over each radio button
+    prioridad.forEach((radio) => {
+      // Check if the radio button is checked
+      if (radio.checked) {
+        // Get the value of the checked radio button
+        checkedValue = radio.value;
+      }
+    });
+
+    // Select all radio buttons with name "valoracion"
+    const valoracion = document.querySelectorAll('input[name="valoracion"]');
+
+    let checkedValueValoracion = null;
+
+    // Iterate over each radio button
+    valoracion.forEach((radio) => {
+      // Check if the radio button is checked
+      if (radio.checked) {
+        // Get the value of the checked radio button
+        checkedValueValoracion = radio.value;
+      }
+    });
+
+    // Select all radio buttons with name "pv-pva"
+    const pvPva = document.querySelectorAll('input[name="pv-pva"]');
+    let checkedValuePvPva = null;
+
+    // Iterate over each radio button
+    pvPva.forEach((radio) => {
+      // Check if the radio button is checked
+      if (radio.checked) {
+        // Get the value of the checked radio button
+        checkedValuePvPva = radio.value;
+      }
+    });
+
+    axios
+      .get('https://estudiolucmar.com/backend/noticias/noticiasfetch.php', {
+        params: {
+          id: id,
+        },
+      })
+      .then((response) => {
+        let data = response.data;
+        console.log('Fetched data:', data);
+        const noticiacontanier = document.getElementById('noticiacontainer');
+        if (data.tipo_PV === 'PV') {
+          radioPV.checked = true;
+        } else if (data.tipo_PV === 'PVA') {
+          radioPVA.checked = true;
+        }
+
+        if (String(data.valoracion) === '1') {
+          radioSi.checked = true;
+        } else if (String(data.valoracion) === '0') {
+          radioNo.checked = true;
+        } else {
+          // Handle unexpected cases if necessary
+          radioSi.checked = false;
+          radioNo.checked = false;
+        }
+
+        fechatext.value = data.noticia_fecha;
+
+        valoraciontext.value = data.valoracion_establecida;
+
+        if (data.prioridad === 'Alta') {
+          radioalta.checked = true;
+        } else if (data.prioridad === 'Media') {
+          radiomedia.checked = true;
+        } else if (data.prioridad === 'Baja') {
+          radiobaja.checked = true;
+        }
+
+        const agregarnoticiaeditcomercial = document.getElementById('agregar-noticia-edit-comercial');
+        const nombreCompleto = data.comercial_noticia;
+        const options = agregarnoticiaeditcomercial.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].text === nombreCompleto) {
+            options[i].selected = true;
+            break;
+          }
+        }
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+  const ShowNoticiaModoEdicion = document.getElementById('show-noticia-modo-edicion');
+  ShowNoticiaModoEdicion.addEventListener('click', function () {
+    showNoticiaModoEdicion();
+  });
+
+  function showEncargoModoEdicion() {
+    const editbuttonencargo = document.getElementById('edit-button-encargo');
+    editbuttonencargo.classList.remove('flex');
+    editbuttonencargo.classList.add('hidden');
+
+    const editbuttonencargoeditar = document.getElementById('edit-button-encargo-editar');
+    editbuttonencargoeditar.classList.remove('hidden');
+    editbuttonencargoeditar.classList.add('flex');
+    const editbuttonencargodel = document.getElementById('edit-button-encargo-eliminar');
+    editbuttonencargodel.classList.remove('hidden');
+    editbuttonencargodel.classList.add('flex');
+    const hideEncargoModoEdicion = document.getElementById('hideEncargoModoEdicion');
+    hideEncargoModoEdicion.classList.remove('hidden');
+    hideEncargoModoEdicion.classList.add('absolute');
+    const h2agregarencargo = document.getElementById('h2-agregar-encargo');
+    h2agregarencargo.textContent = 'Editar encargo';
+
+    fetchComercial();
+    fetchCliente();
+
+    const agregarencargocontaineredit = document.getElementById('agregar-encargo-container-edit');
+    agregarencargocontaineredit.classList.remove('hidden');
+    agregarencargocontaineredit.classList.add('flex');
+    const encargodatabasecontainer = document.getElementById('encargo-database-container');
+    encargodatabasecontainer.classList.remove('flex');
+    encargodatabasecontainer.classList.add('hidden');
+    const id = localStorage.getItem('currentInmueble');
+
+    const radioVenta = document.getElementById('VENTA-encargo');
+    const radioAlquiler = document.getElementById('ALQUILER-encargo');
+    const clienteEncargo = document.getElementById('agregar-encargo-edit-cliente');
+    const precio1Encargo = document.getElementById('precio-encargo');
+    const radioComisionFijo = document.getElementById('FIJO-encargo');
+    const radioComisionPorcentaje = document.getElementById('PORCENTAJE-encargo');
+    const comisionEncargo = document.getElementById('comision-encargo');
+    const fechaEncargo = document.getElementById('fecha-encargo');
+    const comercialEncargo = document.getElementById('agregar-encargo-edit-comercial');
+
+    axios
+      .get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
+        params: {
+          id: id,
+        },
+      })
+      .then((response) => {
+        fechaEncargo.value = response.data.encargo_fecha;
+
+        axios
+          .get('https://estudiolucmar.com/backend/clientes/seleccionaClienteID.php', {
+            params: {
+              cliente_id: response.data.cliente_id,
+            },
+          })
+          .then((response) => {
+            const nombreCompleto = response.data[0].nombrecompleto_cliente;
+            const options = clienteEncargo.options;
+            for (let i = 0; i < options.length; i++) {
+              if (options[i].text === nombreCompleto) {
+                options[i].selected = true;
+                break;
+              }
+            }
+          })
+          .catch(function (error) {
+            console.error('Error:', error);
+          });
+
+        const nombreCompletoComercial = response.data.comercial_encargo;
+        const options = comercialEncargo.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].text === nombreCompletoComercial) {
+            options[i].selected = true;
+            break;
+          }
+        }
+
+        precio1Encargo.value = response.data.precio_1;
+        if (response.data.tipo_comision_encargo === 'PORCENTAJE') {
+          radioComisionPorcentaje.checked = true;
+          comisionEncargo.value = response.data.comision_encargo;
+        } else if (response.data.tipo_comision_encargo === 'FIJO') {
+          radioComisionFijo.checked = true;
+          comisionEncargo.value = response.data.comision_encargo;
+        }
+
+        if (response.data.tipo_encargo === 'VENTA') {
+          radioVenta.checked = true;
+        } else if (response.data.tipo_encargo === 'ALQUILER') {
+          radioAlquiler.checked = true;
+        }
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+  }
+  const ShowEncargoModoEdicion = document.getElementById('show-encargo-modo-edicion');
+  ShowEncargoModoEdicion.addEventListener('click', function () {
+    showEncargoModoEdicion();
+  });
+
+  function updateNoticia() {
+    plegarNoticias();
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+    const selectedPVA = document.querySelector('input[name="pv-pva"]:checked');
+    const tipoPV = selectedPVA.value;
+    const selectedvaloracion = document.querySelector('input[name="valoracion"]:checked');
+    const valoracion = selectedvaloracion.value;
+    const valoracionText = document.getElementById('valoracion-text');
+    const valoracion_establecida = valoracionText.value;
+    const fecha = document.querySelector('input[name="fecha-text"]');
+    const noticia_fecha = fecha.value;
+    const prioridadradio = document.querySelector('input[name="prioridad"]:checked');
+    const prioridad = prioridadradio.value;
+    console.log('prioridad:', prioridad);
+    const comercialtext = document.getElementById('agregar-noticia-edit-comercial');
+    const comercial = comercialtext.value;
+    const id = localStorage.getItem('currentInmueble');
+    console.log(id);
+    axios
+      .get('https://estudiolucmar.com/backend/noticias/updatenoticia.php', {
+        params: {
+          id: id,
+          noticia_fecha: noticia_fecha,
+          prioridad: prioridad,
+          tipo_PV: tipoPV,
+          valoracion: valoracion,
+          valoracion_establecida: valoracion_establecida,
+          comercial: comercial,
+        },
+      })
+      .then((response) => {
+        Toastify({
+          text: 'Noticia editada correctamente',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+            backgroundColor: '#34D399',
+            backgroundColor: '#047857',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        console.log('updateo correcto');
+        fetchMoreInfo();
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+  const editButtonNoticiaEditar = document.getElementById('edit-button-noticia-editar');
+  editButtonNoticiaEditar.addEventListener('click', function () {
+    updateNoticia();
+  });
+
+  function updateEncargo() {
+    plegarEncargos();
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+    const selectedTipoEncargo = document.querySelector('input[name="tipo-encargo"]:checked');
+    const tipoEncargo = selectedTipoEncargo.value;
+    const comercial = document.getElementById('agregar-encargo-edit-comercial').value;
+    const cliente = document.getElementById('agregar-encargo-edit-cliente').value;
+    const precio1 = document.querySelector('input[name="precio-encargo"]').value;
+    const tipoComisionSelected = document.querySelector('input[name="tipo-comision"]:checked');
+    const comision = document.querySelector('input[name="comision-encargo"]').value;
+    const fecha = document.querySelector('input[name="fecha-encargo"]').value;
+
+    const id = localStorage.getItem('currentInmueble');
+
+    axios
+      .get('https://estudiolucmar.com/backend/encargos/updateEncargo.php', {
+        params: {
+          id: id,
+          encargo_fecha: fecha,
+          comercial_encargo: comercial,
+          tipo_encargo: tipoEncargo,
+          comision_encargo: comision,
+          cliente_id: cliente,
+          precio_1: precio1,
+          tipo_comision_encargo: tipoComisionSelected.value,
+        },
+      })
+      .then((response) => {
+        Toastify({
+          text: 'Encargo editado correctamente',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+            backgroundColor: '#34D399',
+            backgroundColor: '#047857',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        console.log('Encargo editado correctamente');
+        fetchMoreInfo();
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+  }
+  const editButtonEncargoEditar = document.getElementById('edit-button-encargo-editar');
+  editButtonEncargoEditar.addEventListener('click', function () {
+    updateEncargo();
+  });
+
+  function deleteNoticia() {
+    plegarNoticias();
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+    const id = localStorage.getItem('currentInmueble');
+    axios
+      .get('https://estudiolucmar.com/backend/noticias/deletenoticia.php', {
+        params: {
+          id: id,
+        },
+      })
+      .then((response) => {
+        Toastify({
+          text: 'Noticia eliminada',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+            backgroundColor: '#34D399',
+            backgroundColor: '#047857',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        fetchData(direccion, currentPage);
+        plegarNoticias();
+        fetchMoreInfo();
+      })
+      .catch((error) => console.error('Error fetching JSON data:', error));
+  }
+  const editbuttonnoticiaeliminar = document.getElementById('edit-button-noticia-eliminar');
+  editbuttonnoticiaeliminar.addEventListener('click', function () {
+    deleteNoticia();
+  });
+
+  function deleteEncargo() {
+    plegarEncargos();
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+    const id = localStorage.getItem('currentInmueble');
+
+    axios
+      .get('https://estudiolucmar.com/backend/encargos/deleteEncargo.php', {
+        params: {
+          id: id,
+        },
+      })
+      .then((response) => {
+        Toastify({
+          text: 'Encargo eliminado correctamente',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))',
+            backgroundColor: '#34D399',
+            backgroundColor: '#047857',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        fetchData(direccion, currentPage);
+        fetchMoreInfo();
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+  }
+  const editbuttonencargoeliminar = document.getElementById('edit-button-encargo-eliminar');
+  editbuttonencargoeliminar.addEventListener('click', function () {
+    deleteEncargo();
+  });
+
+  function hideNoticiaModoEdicion() {
+    const agregarnoticiacontaineredit = document.getElementById('agregar-noticia-container-edit');
+    agregarnoticiacontaineredit.classList.remove('flex');
+    agregarnoticiacontaineredit.classList.add('hidden');
+    const noticiadatabasecontainer = document.getElementById('noticia-database-container');
+    noticiadatabasecontainer.classList.remove('hidden');
+    noticiadatabasecontainer.classList.add('flex');
+  }
+  const HideNoticiaModoEdicion = document.getElementById('hideNoticiaModoEdicion');
+  HideNoticiaModoEdicion.addEventListener('click', function () {
+    hideNoticiaModoEdicion();
+  });
+
+  function hideEncargoModoEdicion() {
+    const agregarencargocontaineredit = document.getElementById('agregar-encargo-container-edit');
+    agregarencargocontaineredit.classList.remove('flex');
+    agregarencargocontaineredit.classList.add('hidden');
+    const encargodatabasecontainer = document.getElementById('encargo-database-container');
+    encargodatabasecontainer.classList.remove('flex');
+    encargodatabasecontainer.classList.add('hidden');
+  }
+  const HideEncargoModoEdicion = document.getElementById('hideEncargoModoEdicion');
+  HideEncargoModoEdicion.addEventListener('click', function () {
+    hideEncargoModoEdicion();
+  });
+
+  function hideLoadingScreenMoreInfo() {
+    console.log('Hiding loading screen...');
+    const loadingScreen = document.getElementById('loading-screen-moreinfo');
+    loadingScreen.classList.remove('flex');
+    loadingScreen.classList.add('hidden');
+  }
+
+  function limitEncargoNoticia() {
+    const fechaNoticiaElement = document.getElementById('noticia-fecha-texto');
+    const fechaEncargoInput = document.getElementById('fecha-encargo');
+
+    if (fechaNoticiaElement && fechaEncargoInput) {
+      const fechaNoticia = fechaNoticiaElement.textContent.trim();
+      const parts = fechaNoticia.split('-');
+
+      if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // Months in JavaScript are 0-indexed
+        const year = parseInt(parts[2], 10);
+
+        // Create a Date object for noticia-fecha-texto
+        const noticiaDate = new Date(year, month, day);
+
+        // Add one day to noticiaDate
+        noticiaDate.setDate(noticiaDate.getDate() + 1);
+
+        // Format noticiaDate to 'YYYY-MM-DD' for input type="date"
+        const formattedNoticiaDate = noticiaDate.toISOString().split('T')[0];
+
+        // Set min attribute of fecha-encargo input
+        fechaEncargoInput.setAttribute('min', formattedNoticiaDate);
+      } else {
+        console.error('Invalid date format in fechaNoticia:', fechaNoticia);
+      }
+    } else {
+      console.error('Element with id "noticia-fecha-texto" or "fecha-encargo" not found.');
+    }
+  }
+</script> -->
