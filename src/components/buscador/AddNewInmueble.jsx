@@ -23,7 +23,7 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: currentYear - 1850 + 1 }, (_, index) => ({ value: 1850 + index, label: (1850 + index).toString() }));
 const meters = Array.from({ length: 2501 }, (_, index) => ({ value: index, label: index.toString() + ' m²' }));
 
-const AddInmueblePopup = ({ showAddNewInmueble, setShowAddNewInmueble, fetchData, currentPage, searchTerm, fetchParentsAndChilds }) => {
+const AddInmueblePopup = ({ showAddNewInmueble, setShowAddNewInmueble, fetchData, currentPage, searchTerm, fetchParentsAndChilds, handleIconAddInmueble }) => {
   const [direccion, setDireccion] = useState('');
   const [tipo, setTipo] = useState('Selecciona un tipo');
   const [uso, setUso] = useState('Selecciona un uso');
@@ -153,7 +153,7 @@ const AddInmueblePopup = ({ showAddNewInmueble, setShowAddNewInmueble, fetchData
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddInmueble}>
               Añadir
             </button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setShowAddNewInmueble(false)}>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleIconAddInmueble()}>
               Cerrar
             </button>
           </div>

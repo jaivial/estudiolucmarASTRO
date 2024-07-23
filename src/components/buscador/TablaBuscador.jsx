@@ -3,6 +3,8 @@ import axios from 'axios';
 import ItemDetails from './ItemDetails';
 import LoadingScreen from '../loadingScreen';
 import AddNewInmueble from './AddNewInmueble';
+import Select from 'react-select';
+import Toastify from 'toastify-js';
 
 const Table = () => {
   const [loading, setLoading] = useState(true);
@@ -160,15 +162,34 @@ const Table = () => {
 
   const handleIconAddInmueble = () => {
     setShowAddInmuebleButtons(!showAddInmuebleButtons);
-    setShowAddNewInmueble(true);
+    setShowAddNewInmueble(!showAddNewInmueble);
     if (showExtraButtons) setShowExtraButtons(false);
     if (showUngroupButtons) setShowUngroupButtons(false);
     if (showDeleteInmuebleButtons) setShowDeleteInmuebleButtons(false);
-    setSelectedItems(new Set());
-    setSelectedItemsUngroup(new Set());
+    console.log('showAddNewInmueble', showAddNewInmueble);
+    console.log('showAddInmuebleButtons', showAddInmuebleButtons);
   };
 
   const handlePopupToggle = () => {
+    if (selectedItems.size === 0) {
+      Toastify({
+        text: 'Selecciona un inmueble',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+          textAlign: 'center',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+      return;
+    }
     setShowPopup(!showPopup);
     setShowFormType(null); // Reset form type when closing popup
   };
@@ -182,12 +203,49 @@ const Table = () => {
   }, [showFormType]);
 
   const handlePopupToggleUngroup = () => {
+    if (selectedItemsUngroup.size === 0) {
+      Toastify({
+        text: 'Selecciona un inmueble',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+          textAlign: 'center',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+      return;
+    }
     setShowPopupUngroup(!showPopupUngroup);
   };
 
   const handlePopupToggleDeleteInmueble = () => {
     // Example: Send DELETE request to backend
-    console.log('Chcking children:', selectedItems);
+    if (selectedItems.size === 0) {
+      Toastify({
+        text: 'Selecciona un inmueble',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+          textAlign: 'center',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+      return;
+    }
 
     axios
       .get('http://localhost:8000/backend/inmuebles/checkChildrenDelete.php', {
@@ -225,44 +283,178 @@ const Table = () => {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     let url = '';
-    let payload = '';
-    if (showFormType === 'new' && formData.tipo === 'Edificio') {
-      url = 'http://localhost:8000/backend/inmuebles/agruparNuevoEdificio.php';
-      payload = {
-        type: formData.tipo,
-        name: formData.nombre,
-        inmuebles: Array.from(selectedItems),
-      };
-    } else if (showFormType === 'new' && formData.tipo === 'Escalera') {
-      url = 'http://localhost:8000/backend/inmuebles/agruparNuevaEscalera.php'; // URL for creating a new escalar
-      payload = {
-        // Payload for the POST request
-        type: formData.tipo, // Type of building (Edificio or Escalera)
-        name: formData.nombre, // Name of the building
-        inmuebles: Array.from(selectedItems), // Array of selected items
-        grupo: formData.grupo, // ID of the group to assign the building to
-      }; // Payload for the POST request
-    } else if (showFormType === 'existing' && formData.tipo === 'Edificio') {
-      url = 'http://localhost:8000/backend/inmuebles/agruparExistenteEdificio.php'; // URL for creating a new escalar
-      payload = {
-        // Payload for the POST request
-        type: formData.tipo, // Type of building (Edificio or Escalera)
-        inmuebles: Array.from(selectedItems), // Array of selected items
-        existingGroup: formData.existingGroup, // ID of the group to assign the building to
-      }; // Payload for the POST request
-    } else if (showFormType === 'existing' && formData.tipo === 'Escalera') {
-      url = 'http://localhost:8000/backend/inmuebles/agruparExistenteEscalera.php'; // URL for creating a new escalar
-      payload = {
-        // Payload for the POST request
-        type: formData.tipo, // Type of building (Edificio or Escalera)
-        inmuebles: Array.from(selectedItems), // Array of selected items
-        existingGroup: formData.existingGroup, // ID of the group to assign the building to
-      }; // Payload for the POST request
+    let payload = {};
+
+    if (showFormType === 'new') {
+      if (formData.tipo === '') {
+        Toastify({
+          text: 'Debes rellenar los campos',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+            textAlign: 'center',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        return;
+      }
+
+      if (formData.tipo === 'Edificio') {
+        if (formData.nombre === '') {
+          Toastify({
+            text: 'Debes introducir una dirección',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+              textAlign: 'center',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
+          return;
+        } else {
+          url = 'http://localhost:8000/backend/inmuebles/agruparNuevoEdificio.php';
+          payload = {
+            type: formData.tipo,
+            name: formData.nombre,
+            inmuebles: Array.from(selectedItems),
+          };
+        }
+      } else if (formData.tipo === 'Escalera') {
+        if (formData.nombre === '' || formData.grupo === '') {
+          Toastify({
+            text: 'Debes rellenar los campos',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+              textAlign: 'center',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
+          return;
+        }
+        url = 'http://localhost:8000/backend/inmuebles/agruparNuevaEscalera.php';
+        payload = {
+          type: formData.tipo,
+          name: formData.nombre,
+          inmuebles: Array.from(selectedItems),
+          grupo: formData.grupo,
+        };
+      }
+    } else if (showFormType === 'existing') {
+      if (formData.tipo === '') {
+        Toastify({
+          text: 'Debes rellenar los campos',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+            textAlign: 'center',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        return;
+      }
+
+      if (formData.tipo === 'Edificio') {
+        if (formData.existingGroup === '') {
+          Toastify({
+            text: 'Debes rellenar los campos',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+              textAlign: 'center',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
+          return;
+        }
+        url = 'http://localhost:8000/backend/inmuebles/agruparExistenteEdificio.php';
+        payload = {
+          type: formData.tipo,
+          inmuebles: Array.from(selectedItems),
+          existingGroup: formData.existingGroup,
+        };
+      } else if (formData.tipo === 'Escalera') {
+        if (formData.existingGroup === '') {
+          Toastify({
+            text: 'Debes rellenar los campos',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+              textAlign: 'center',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
+          return;
+        }
+        url = 'http://localhost:8000/backend/inmuebles/agruparExistenteEscalera.php';
+        payload = {
+          type: formData.tipo,
+          inmuebles: Array.from(selectedItems),
+          existingGroup: formData.existingGroup,
+        };
+      }
     }
 
     try {
       await axios.post(url, payload);
-      alert('Operation successful!');
+      Toastify({
+        text: 'Inmueble agrupado.',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+          textAlign: 'center',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
       setShowPopup(false);
       setSelectedItems(new Set());
       setFormData({ tipo: '', nombre: '', existingGroup: '', grupo: '' });
@@ -288,8 +480,23 @@ const Table = () => {
         setShowAskForDeleteOrphan(true);
         setOrphanInfo(response.data.data);
       }
+      Toastify({
+        text: 'Inmueble desagrupado',
+        duration: 2500,
+        destination: 'https://github.com/apvarun/toastify-js',
+        newWindow: true,
+        close: false,
+        gravity: 'top', // `top` or `bottom`
+        position: 'center', // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          borderRadius: '10px',
+          backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+          textAlign: 'center',
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
 
-      alert('Operation successful!');
       setShowPopupUngroup(false);
       setSelectedItemsUngroup(new Set());
       fetchData(currentPage, searchTerm);
@@ -307,8 +514,6 @@ const Table = () => {
       return;
     }
 
-    console.log('Deleting orphan:', orphanInfo[0]);
-
     axios
       .get('http://localhost:8000/backend/inmuebles/deleteOrphan.php', {
         params: {
@@ -318,6 +523,22 @@ const Table = () => {
       .then((response) => {
         console.log(response.data);
         if (response.data.status === 'success') {
+          Toastify({
+            text: 'Grupo eliminado',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+              textAlign: 'center',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
           setShowAskForDeleteOrphan(false);
           fetchData(currentPage, searchTerm);
           fetchParentsAndChilds();
@@ -356,6 +577,23 @@ const Table = () => {
       .then((response) => {
         console.log(response.data);
         if (response.data.status === 'success') {
+          Toastify({
+            text: 'Inmueble eliminado',
+            duration: 2500,
+            destination: 'https://github.com/apvarun/toastify-js',
+            newWindow: true,
+            close: false,
+            gravity: 'top', // `top` or `bottom`
+            position: 'center', // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              borderRadius: '10px',
+              backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+              textAlign: 'center',
+            },
+            onClick: function () {}, // Callback after click
+          }).showToast();
+          setShowDeleteInmuebleButtons(false);
           setShowPopupDeleteInmueble(false);
           fetchData(currentPage, searchTerm);
           fetchParentsAndChilds();
@@ -378,9 +616,6 @@ const Table = () => {
   };
 
   const handleDeleteKeepChildren = () => {
-    console.log('handleDeleteKeepChildren', Array.from(keepChildren));
-    console.log('selectedItems', selectedItems);
-    console.log('parentData', Array.from(parentData));
     axios
       .get('http://localhost:8000/backend/inmuebles/deleteKeepChildren.php', {
         params: {
@@ -389,8 +624,23 @@ const Table = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
-
+        Toastify({
+          text: 'Grupo eliminado',
+          duration: 2500,
+          destination: 'https://github.com/apvarun/toastify-js',
+          newWindow: true,
+          close: false,
+          gravity: 'top', // `top` or `bottom`
+          position: 'center', // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+            textAlign: 'center',
+          },
+          onClick: function () {}, // Callback after click
+        }).showToast();
+        setShowDeleteInmuebleButtons(false);
         setShowPopupDeleteInmueble(false);
         fetchData(currentPage, searchTerm);
         fetchParentsAndChilds();
@@ -434,6 +684,11 @@ const Table = () => {
     fetchOrphans();
   }, [parentsEdificio, childsEdificio, parentsEscalera, childsEscalera]);
 
+  const options = parentsEdificio.map((parent) => ({
+    value: parent.AgrupacionID_Edificio,
+    label: `${parent.direccion}`,
+  }));
+
   const getChildDetailsEscalera = (itemId) => {
     const matchingChilds = childsEscalera.filter((child) => child.AgrupacionID_Escalera == itemId);
     console.log('matchingChilds', matchingChilds);
@@ -448,9 +703,9 @@ const Table = () => {
               key={child.id}
               className={`relative border py-4 mb-6 rounded-xl shadow-xl flex items-center justify-center flex-row w-full ${child.dataUpdateTime === 'red' ? 'bg-red-100' : child.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'}`}
             >
-              {showUngroupButtons && <input type="checkbox" checked={selectedItemsUngroup.has(child.id)} onChange={() => handleCheckboxChangeUngroup(child.id)} className="mr-4" />}
-              {showExtraButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
-              {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
+              {showUngroupButtons && <input type="checkbox" checked={selectedItemsUngroup.has(child.id)} onChange={() => handleCheckboxChangeUngroup(child.id)} className="mr-4 ml-4" />}
+              {showExtraButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4 ml-4" />}
+              {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4 ml-4" />}
               <div className="flex flex-row justify-start items-center gap-1 w-[70%] py-2">
                 <p className="w-[55%] text-center">
                   <strong>Dirección:</strong> <br /> {child.direccion}
@@ -498,9 +753,9 @@ const Table = () => {
       matchingChilds.map((child) =>
         child.ChildEdificio == '1' && child.ParentEscalera == null ? (
           <div key={child.id} className={`relative border py-4 mb-6 rounded-xl shadow-xl flex items-center justify-center flex-row w-full ${child.dataUpdateTime === 'red' ? 'bg-red-100' : child.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'}`}>
-            {showUngroupButtons && <input type="checkbox" checked={selectedItemsUngroup.has(child.id)} onChange={() => handleCheckboxChangeUngroup(child.id)} className="mr-4" />}
-            {showExtraButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
-            {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
+            {showUngroupButtons && <input type="checkbox" checked={selectedItemsUngroup.has(child.id)} onChange={() => handleCheckboxChangeUngroup(child.id)} className="mr-4 ml-4" />}
+            {showExtraButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4 ml-4" />}
+            {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4 ml-4" />}
             <div className="flex flex-row justify-start items-center gap-1 w-[70%] py-2">
               <p className="w-[55%] text-center">
                 <strong>Dirección:</strong> <br /> {child.direccion}
@@ -540,8 +795,8 @@ const Table = () => {
               key={child.id}
               className={`relative border py-4 mb-6 rounded-xl shadow-xl flex items-center flex-col w-full ${child.ParentEscalera == '1' ? 'bg-slate-100' : child.dataUpdateTime === 'red' ? 'bg-red-100' : child.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'}`}
             >
-              {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4" />}
               <div className="flex flex-row justify-start items-center gap-2 w-full mb-4 cursor-pointer" onClick={() => handleToggle(child.id)}>
+                {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(child.id)} onChange={() => handleCheckboxChange(child.id)} className="mr-4 ml-4" />}
                 <div className="flex flex-row justify-start items-center gap-2 w-[70%] py-2">
                   <p className="w-[60%] text-center">
                     <strong>Dirección:</strong> <br /> {child.direccion}
@@ -577,14 +832,24 @@ const Table = () => {
       ) : (
         <div className="container mx-auto p-4 pb-24 pt-8">
           <h1 className="text-3xl font-bold text-center font-sans w-full">Buscador de inmuebles</h1>
-          <form onSubmit={handleSearch} className="mb-4 flex flex-col gap-4 mt-8 w-full justify-center items-center">
-            <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Buscar dirección..." className="border border-gray-300 p-2 rounded w-[70%]" />
-            <div className="flex gap-4 justify-center items-center">
-              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[100px]">
-                Buscar
+          <form onSubmit={handleSearch} className="mb-4 flex flex-row gap-4 mt-8 w-full justify-center items-center">
+            <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Buscar una dirección..." className="border border-gray-300 py-2 px-3 w-[80%] rounded-2xl" />
+            <div className="flex gap-2 justify-center items-center flex-row">
+              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 rounded-3xl flex-row justify-center items-center text-center ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 1664 1664">
+                  <path
+                    fill="currentColor"
+                    d="M1152 704q0-185-131.5-316.5T704 256T387.5 387.5T256 704t131.5 316.5T704 1152t316.5-131.5T1152 704m512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124q-143 0-273.5-55.5t-225-150t-150-225T0 704t55.5-273.5t150-225t225-150T704 0t273.5 55.5t225 150t150 225T1408 704q0 220-124 399l343 343q37 37 37 90"
+                  />
+                </svg>
               </button>
-              <button type="button" onClick={handleClearSearch} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-[100px]">
-                Limpiar
+              <button type="button" onClick={handleClearSearch} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-3xl flex-row justify-center items-center text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59L9.41 8L8 9.41L10.59 12L8 14.59L9.41 16L12 13.41L14.59 16L16 14.59L13.41 12L16 9.41z"
+                  />
+                </svg>
               </button>
             </div>
           </form>
@@ -664,16 +929,6 @@ const Table = () => {
               </button>
             </div>
           )}
-          {showAddInmuebleButtons && (
-            <div className="flex gap-4 mt-4 pb-4 w-full justify-center">
-              <button type="button" onClick={handlePopupToggleUngroup} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Añadir
-              </button>
-              <button type="button" onClick={() => setShowAddInmuebleButtons(false)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Cerrar
-              </button>
-            </div>
-          )}
           <div className="flex flex-col gap-4">
             {Array.isArray(data) && data.length > 0 ? (
               data.map((item) =>
@@ -730,10 +985,9 @@ const Table = () => {
                         item.ParentEdificio == '1' ? 'bg-slate-100' : item.dataUpdateTime === 'red' ? 'bg-red-100' : item.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'
                       }`}
                     >
-                      {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
-
                       <div className="w-full flex flex-col justify-center items-center">
                         <div className="flex flex-row justify-start items-center gap-2 w-full mb-4 cursor-pointer" onClick={() => handleToggle(item.id)}>
+                          {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
                           <div className="flex flex-row justify-start items-center gap-2 w-[70%] py-2">
                             <p className="w-[60%] text-center">
                               <strong>Dirección:</strong> <br /> {item.direccion}
@@ -766,7 +1020,7 @@ const Table = () => {
             <div className="flex flex-row justify-center items-center gap-3">
               {/* Previous Button */}
               <button type="button" onClick={handlePrevious} disabled={currentPage === 1} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[100px]">
-                Previous
+                Anterior
               </button>
 
               {/* Page Count Display */}
@@ -776,44 +1030,53 @@ const Table = () => {
 
               {/* Next Button */}
               <button type="button" onClick={handleNext} disabled={currentPage === totalPages} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[100px]">
-                Next
+                Siguiente
               </button>
             </div>
           </div>
 
           {showPopup && (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-              <div className="bg-white p-6 rounded shadow-lg">
+            <div className="popup-container fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+              <div className="popup-content bg-white p-4 shadow-lg flex flex-col justify-center items-center gap-4 rounded-lg w-4/6">
                 {!showFormType && (
                   <>
-                    <button onClick={() => setShowFormType('new')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-                      Crear nuevo grupo
-                    </button>
-                    <button onClick={() => setShowFormType('existing')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-                      Asignar a grupo existente
-                    </button>
-                    <button type="button" onClick={handlePopupToggle} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                      Cerrar
-                    </button>
+                    <h2 className="text-lg font-bold w-[80%] text-center flex justify-center">Agrupar Inmueble</h2>
+                    <div className="flex flex-col gap-4 w-full justify-center items-center text-center mt-4">
+                      <button onClick={() => setShowFormType('new')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+                        Crear nuevo grupo
+                      </button>
+                      <button onClick={() => setShowFormType('existing')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+                        Asignar a grupo existente
+                      </button>
+                      <button type="button" onClick={handlePopupToggle} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Cerrar
+                      </button>
+                    </div>
                   </>
                 )}
                 {showFormType === 'new' && (
-                  <div className="relative pt-0 flex flex-col justify-center items-center">
-                    <div className="absolute top-0 -left-2 p-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded" onClick={() => setShowFormType('')}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M8.707 7.707L13.414 3l-4.707-4.707L7.293 3H3v4.293" />
+                  <div className="relative pt-0 flex flex-col justify-center items-center w-[80%]">
+                    <div
+                      className="absolute top-0 -left-7 text-gray-700"
+                      onClick={() => {
+                        setShowFormType('');
+                        setFormData({ tipo: '', nombre: '', existingGroup: '' });
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="2.3em" height="2.3em" viewBox="0 0 20 20">
+                        <path fill="currentColor" fill-rule="evenodd" d="M9.707 16.707a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 1.414L5.414 9H17a1 1 0 1 1 0 2H5.414l4.293 4.293a1 1 0 0 1 0 1.414" clip-rule="evenodd" />
                       </svg>
                     </div>
-                    <h2 className="text-lg font-bold mb-4 w-[60%] text-center flex justify-center">Crear nuevo grupo</h2>
-                    <form onSubmit={handleSubmitForm} className="flex flex-col gap-4">
-                      <div>
-                        <label className="block mb-2">Tipo:</label>
+                    <h2 className="text-lg font-bold w-[80%] text-center flex justify-center">Crear nuevo grupo</h2>
+                    <form onSubmit={handleSubmitForm} className="flex flex-col gap-4 mt-4">
+                      <div className="flex flex-col gap-3 justify-center items-center mb-2">
+                        <label className="block">Tipo:</label>
                         <div className="flex gap-4">
-                          <label>
+                          <label className="flex flex-row gap-2">
                             <input type="radio" name="tipo" value="Edificio" checked={formData.tipo === 'Edificio'} onChange={handleFormChange} />
                             Edificio
                           </label>
-                          <label>
+                          <label className="flex flex-row gap-2">
                             <input type="radio" name="tipo" value="Escalera" checked={formData.tipo === 'Escalera'} onChange={handleFormChange} />
                             Escalera
                           </label>
@@ -823,58 +1086,61 @@ const Table = () => {
                         <div>
                           <div>
                             <label className="block mb-2">Nombre:</label>
-                            <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
+                            <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border p-2 rounded w-full" placeholder="Dirección del edificio" />
                           </div>
                         </div>
                       ) : formData.tipo === 'Escalera' ? (
-                        <div>
+                        <div className="flex flex-col gap-3 w-full">
                           <div>
-                            <label className="block mb-2">Nombre:</label>
-                            <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
+                            <label className="block">Nombre:</label>
+                            <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border p-2 rounded w-full" placeholder="Dirección de la escalera" />{' '}
                           </div>
-                          <p>Debes seleccionar un grupo de pisos para crear una escalera</p>
-                          <label className="block mb-2">Grupo:</label>
+                          <label className="block">Grupo:</label>
                           <select name="grupo" value={formData.grupo} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full">
                             <option value="">Seleccione un grupo</option>
                             {parentsEdificio.map((parent) => (
                               <option key={parent.id} value={parent.AgrupacionID_Edificio}>
-                                {parent.direccion} {parent.AgrupacionID_Edificio}
+                                {parent.direccion}
                               </option>
                             ))}
                           </select>
                         </div>
                       ) : (
                         <div>
-                          <div>
-                            <label className="block mb-2">Nombre:</label>
-                            <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border border-gray-300 p-2 rounded w-full" />
-                          </div>
+                          <label className="block mb-2">Nombre:</label>
+                          <input type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} className="border p-2 rounded w-full" placeholder="Dirección del edificio" />
                         </div>
                       )}
-                      <div className="flex gap-4 mt-4">
-                        <button type="button" onClick={handlePopupToggle} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                          Cerrar
-                        </button>
+                      <div className="flex gap-4 mt-4 flex-row justify-center items-center">
                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                           Crear
+                        </button>
+                        <button type="button" onClick={handlePopupToggle} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                          Cerrar
                         </button>
                       </div>
                     </form>
                   </div>
                 )}
                 {showFormType === 'existing' && (
-                  <div className="relative pt-0 flex flex-col justify-center items-center">
-                    <div className="absolute top-0 -left-2 p-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded" onClick={() => setShowFormType('')}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M8.707 7.707L13.414 3l-4.707-4.707L7.293 3H3v4.293" />
+                  <div className="relative pt-0 flex flex-col justify-center items-center w-[80%]">
+                    <div
+                      className="absolute top-0 -left-7 text-gray-700"
+                      onClick={() => {
+                        setShowFormType('');
+                        setFormData({ tipo: '', nombre: '', existingGroup: '' });
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="2.3em" height="2.3em" viewBox="0 0 20 20">
+                        <path fill="currentColor" fill-rule="evenodd" d="M9.707 16.707a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 1.414L5.414 9H17a1 1 0 1 1 0 2H5.414l4.293 4.293a1 1 0 0 1 0 1.414" clip-rule="evenodd" />
                       </svg>
                     </div>
-                    <h2 className="text-lg font-bold mb-4 w-[60%] text-center flex justify-center">Asignar a grupo existente</h2>
+                    <h2 className="text-lg font-bold mb-4 w-[70%] text-center flex justify-center">Asignar a grupo existente</h2>
                     <form onSubmit={handleSubmitForm} className="flex flex-col gap-4">
-                      <div>
-                        <label className="block mb-2">Tipo:</label>
+                      <div className="flex flex-col gap-3 justify-center items-center mb-2">
+                        <label className="block">Tipo:</label>
                         <div className="flex gap-4">
-                          <label>
+                          <label className="flex flex-row gap-2">
                             <input
                               type="radio"
                               name="tipo"
@@ -887,7 +1153,7 @@ const Table = () => {
                             />
                             Edificio
                           </label>
-                          <label>
+                          <label className="flex flex-row gap-2">
                             <input
                               type="radio"
                               name="tipo"
@@ -919,7 +1185,7 @@ const Table = () => {
                               ))}
                         </select>
                       </div>
-                      <div className="flex gap-4 mt-4">
+                      <div className="flex gap-4 mt-4 flex-row justify-center items-center">
                         <button type="button" onClick={handlePopupToggle} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                           Cerrar
                         </button>
@@ -935,25 +1201,25 @@ const Table = () => {
           )}
 
           {showPopupUngroup && (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-              <div className="bg-white p-6 rounded shadow-lg">
+            <div className="popup-container fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+              <div className="popup-content bg-white p-4 shadow-lg flex flex-col justify-center items-center gap-4 rounded-lg w-4/6">
                 <div className="relative pt-0 flex flex-col justify-center items-center">
-                  <div className="absolute top-0 -left-2 p-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded" onClick={handlePopupToggleUngroup}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M8.707 7.707L13.414 3l-4.707-4.707L7.293 3H3v4.293" />
+                  <div className="absolute top-0 -left-1 text-gray-700" onClick={handlePopupToggleUngroup}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2.3em" height="2.3em" viewBox="0 0 20 20">
+                      <path fill="currentColor" fill-rule="evenodd" d="M9.707 16.707a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 1.414L5.414 9H17a1 1 0 1 1 0 2H5.414l4.293 4.293a1 1 0 0 1 0 1.414" clip-rule="evenodd" />
                     </svg>
                   </div>
                   <h2 className="text-lg font-bold mb-4 w-[60%] text-center flex justify-center">Desagrupar</h2>
                   <form onSubmit={handleSubmitFormUngroup} className="flex flex-col justify-center items-center gap-4">
-                    <div className="flex flex-col justify-center items-center gap-4 w-[70%]">
+                    <div className="flex flex-col justify-center items-center gap-4 w-[75%]">
                       <h2 className="text-center">Se van a desagrupar los elementos seleccionados.</h2>
                       <h2>¿Está seguro?</h2>
                       <div className="flex flex-row justify-center items-center gap-4">
-                        <button type="button" onClick={handlePopupToggleUngroup} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                          Cancelar
-                        </button>
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center w-[120px]">
                           Desagrupar
+                        </button>
+                        <button type="button" onClick={handlePopupToggleUngroup} className="bg-red-500 hover:bg-red-700 text-white font-bold text-center py-2 px-4 rounded w-[120px]">
+                          Cancelar
                         </button>
                       </div>
                     </div>
@@ -971,11 +1237,11 @@ const Table = () => {
             <p>{`${orphanInfo[0].direccion}`}</p>
             <p>¿Desea eliminarlo?</p>
             <div className="flex justify-center gap-4">
-              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeleteOrphan}>
-                Eliminar
-              </button>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleKeepOrphan}>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[120px]" onClick={handleKeepOrphan}>
                 Mantener
+              </button>
+              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-[120px]" onClick={handleDeleteOrphan}>
+                Eliminar
               </button>
             </div>
           </div>
@@ -1017,7 +1283,17 @@ const Table = () => {
           </div>
         </div>
       )}
-      {showAddNewInmueble && <AddNewInmueble showAddNewInmueble={showAddNewInmueble} setShowAddNewInmueble={setShowAddNewInmueble} fetchData={fetchData} currentPage={currentPage} searchTerm={searchTerm} fetchParentsAndChilds={fetchParentsAndChilds} />}
+      {showAddNewInmueble && (
+        <AddNewInmueble
+          showAddNewInmueble={showAddNewInmueble}
+          setShowAddNewInmueble={setShowAddNewInmueble}
+          fetchData={fetchData}
+          currentPage={currentPage}
+          searchTerm={searchTerm}
+          fetchParentsAndChilds={fetchParentsAndChilds}
+          handleIconAddInmueble={handleIconAddInmueble}
+        />
+      )}
     </div>
   );
 };
