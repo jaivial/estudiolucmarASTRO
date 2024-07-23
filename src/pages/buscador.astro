@@ -2,10 +2,11 @@
 import LayoutMenu from '../layouts/LayoutMenu.astro';
 import TablaBuscador from '../components/buscador/TablaBuscador.jsx';
 import '@capacitor-community/safe-area';
+import '../../ModalConfig.js';
 ---
 
 <LayoutMenu title="Buscador">
-  <div style="padding-top: var(--safe-area-inset-top);">
+  <div style="padding-top: var(--safe-area-inset-top);" id="root">
     <TablaBuscador client:only="react" />
   </div>
 </LayoutMenu>
