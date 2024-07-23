@@ -8,6 +8,6 @@ cd .
 # Change to the 'dist' directory
 echo "Changing to 'dist' directory"
 cd dist
+git add . -f
+git status
 
-# Work in the nested 'dist' repository
-echo "Working in the 'dist' repository"
