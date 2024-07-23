@@ -1,0 +1,14 @@
+{
+	"appId": "com.estudiolucmar.app",
+	"appName": "LucmarCloud",
+	"webDir": "dist",
+	"server": {
+		"url": "https://estudiolucmar.com",
+		"cleartext": false,
+		"allowNavigation": [
+			"estudiolucmar.com",
+			"*.estudiolucmar.com"
+		]
+	},
+	"packageClassList": []
+}
