@@ -26,7 +26,7 @@ function isPointInPolygon($point, $polygon)
     return $inside;
 }
 
-// Function to check if bounding box is within any zone
+// Function to check if bounding box or single point is within any zone
 function checkBoundingBoxInZones()
 {
     global $conn;
@@ -49,37 +49,59 @@ function checkBoundingBoxInZones()
         }
 
         $inmueblesInZones = array();
-        $inmueblesIdsInZones = array(); // To keep track of inmueble IDs that are in zones
 
         while ($rowInmueble = $resultInmuebles->fetch_assoc()) {
             $coordinates = json_decode($rowInmueble['coordinates'], true);
-            $boundingBox = array(
-                array('lat' => $coordinates[0], 'lng' => $coordinates[2]), // top-left
-                array('lat' => $coordinates[0], 'lng' => $coordinates[3]), // top-right
-                array('lat' => $coordinates[1], 'lng' => $coordinates[2]), // bottom-left
-                array('lat' => $coordinates[1], 'lng' => $coordinates[3])  // bottom-right
-            );
 
-            foreach ($zones as $zone) {
-                $latlngs = $zone['latlngs'][0]; // Get the first polygon from latlngs
-                $inside = false;
-                foreach ($boundingBox as $point) {
+            if (count($coordinates) == 2) {
+                // Handle single point case
+                $point = array('lat' => $coordinates[0], 'lng' => $coordinates[1]);
+
+                foreach ($zones as $zone) {
+                    $latlngs = $zone['latlngs'][0]; // Get the first polygon from latlngs
                     if (isPointInPolygon($point, $latlngs)) {
-                        $inside = true;
-                        break;
+                        $inmueblesInZones[] = array(
+                            'inmueble_id' => $rowInmueble['id'],
+                            'zone_id' => $zone['code_id'],
+                            'zone_name' => $zone['zone_name'],
+                            'zone_responsable' => $zone['zone_responsable'],
+                            'noticiastate' => $rowInmueble['noticiastate'],
+                            'encargoState' => $rowInmueble['encargoState'],
+                            'categoria' => $rowInmueble['categoria']
+                        );
+                        break; // No need to check other zones if already inside one
                     }
                 }
-                if ($inside) {
-                    $inmueblesInZones[] = array(
-                        'inmueble_id' => $rowInmueble['id'],
-                        'zone_id' => $zone['code_id'],
-                        'zone_name' => $zone['zone_name'],
-                        'zone_responsable' => $zone['zone_responsable'],
-                        'noticiastate' => $rowInmueble['noticiastate'],
-                        'encargoState' => $rowInmueble['encargoState'],
-                        'categoria' => $rowInmueble['categoria']
-                    );
-                    $inmueblesIdsInZones[] = $rowInmueble['id']; // Add to the list of IDs in zones
+            } else {
+                // Handle bounding box case
+                $boundingBox = array(
+                    array('lat' => $coordinates[0], 'lng' => $coordinates[2]), // top-left
+                    array('lat' => $coordinates[0], 'lng' => $coordinates[3]), // top-right
+                    array('lat' => $coordinates[1], 'lng' => $coordinates[2]), // bottom-left
+                    array('lat' => $coordinates[1], 'lng' => $coordinates[3])  // bottom-right
+                );
+
+                foreach ($zones as $zone) {
+                    $latlngs = $zone['latlngs'][0]; // Get the first polygon from latlngs
+                    $inside = false;
+                    foreach ($boundingBox as $point) {
+                        if (isPointInPolygon($point, $latlngs)) {
+                            $inside = true;
+                            break;
+                        }
+                    }
+                    if ($inside) {
+                        $inmueblesInZones[] = array(
+                            'inmueble_id' => $rowInmueble['id'],
+                            'zone_id' => $zone['code_id'],
+                            'zone_name' => $zone['zone_name'],
+                            'zone_responsable' => $zone['zone_responsable'],
+                            'noticiastate' => $rowInmueble['noticiastate'],
+                            'encargoState' => $rowInmueble['encargoState'],
+                            'categoria' => $rowInmueble['categoria']
+                        );
+                        break; // No need to check other zones if already inside one
+                    }
                 }
             }
         }

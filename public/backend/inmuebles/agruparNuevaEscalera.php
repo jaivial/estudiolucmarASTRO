@@ -25,23 +25,35 @@ if (isset($data['type'], $data['name'], $data['inmuebles'], $data['grupo'])) {
     if ($conn->query($insertInmueblesSql) === TRUE) {
         $agrupacionId = $conn->insert_id;
 
-        $updateInsertedSql = "UPDATE inmuebles SET AgrupacionID_Escalera = $agrupacionId WHERE id = $agrupacionId";
-        if ($conn->query($updateInsertedSql) === TRUE) {
-            // Update the existing records in the inmuebles table
-            $updateSql = "UPDATE inmuebles SET ChildEdificio = NULL, ChildEscalera = 1, AgrupacionID_Edificio = NULL, AgrupacionID_Escalera = $agrupacionId, TipoAgrupacion = '$type' WHERE id IN ($inmueblesIds)";
-            if ($conn->query($updateSql) === TRUE) {
-                echo json_encode(['status' => 'success']);
+        // Get the coordinates of the first inmueble ID
+        $firstInmuebleId = $inmuebles[0];
+        $selectCoordinatesSql = "SELECT coordinates FROM inmuebles WHERE id = $firstInmuebleId";
+        $result = $conn->query($selectCoordinatesSql);
+
+        if ($result && $result->num_rows > 0) {
+            $coordinatesRow = $result->fetch_assoc();
+            $coordinates = $coordinatesRow['coordinates'];
+
+            $updateInsertedSql = "UPDATE inmuebles SET AgrupacionID_Escalera = $agrupacionId, coordinates = '$coordinates' WHERE id = $agrupacionId";
+            if ($conn->query($updateInsertedSql) === TRUE) {
+                // Update the existing records in the inmuebles table
+                $updateSql = "UPDATE inmuebles SET ChildEdificio = NULL, ChildEscalera = 1, AgrupacionID_Edificio = NULL, AgrupacionID_Escalera = $agrupacionId, TipoAgrupacion = '$type' WHERE id IN ($inmueblesIds)";
+                if ($conn->query($updateSql) === TRUE) {
+                    echo json_encode(['status' => 'success']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => $conn->error]);
+                }
             } else {
                 echo json_encode(['status' => 'error', 'message' => $conn->error]);
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => $conn->error]);
+            echo json_encode(['status' => 'error', 'message' => 'No coordinates found for the first inmueble ID']);
         }
     } else {
         echo json_encode(['status' => 'error', 'message' => $conn->error]);
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid input']);
+    echo json_encode(['status' => 'error', 'message' => 'Invalid input data']);
 }
 
 // Close the database connection

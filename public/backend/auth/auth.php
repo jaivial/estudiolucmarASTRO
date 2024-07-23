@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['email']) && isset($_GET
         //Set row 'apellido' as a cookie with an expiration time of 2 hours
         setcookie("apellido", $row['apellido'], time() + 7200, path: '/');
 
+
         $response = array('success' => true, 'message' => 'user found', 'data' => $data);
         echo json_encode($response);
     } else {

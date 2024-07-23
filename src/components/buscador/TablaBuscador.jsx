@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ItemDetails from './ItemDetails';
 import LoadingScreen from '../loadingScreen';
+import AddNewInmueble from './AddNewInmueble';
 
 const Table = () => {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,7 @@ const Table = () => {
   const [thereAreChildrenDelete, setThereAreChildrenDelete] = useState(false);
   const [keepChildren, setKeepChildren] = useState([]);
   const [parentData, setParentData] = useState([]);
+  const [showAddNewInmueble, setShowAddNewInmueble] = useState(false);
 
   useEffect(() => {
     fetchData(currentPage, searchTerm);
@@ -158,6 +160,7 @@ const Table = () => {
 
   const handleIconAddInmueble = () => {
     setShowAddInmuebleButtons(!showAddInmuebleButtons);
+    setShowAddNewInmueble(true);
     if (showExtraButtons) setShowExtraButtons(false);
     if (showUngroupButtons) setShowUngroupButtons(false);
     if (showDeleteInmuebleButtons) setShowDeleteInmuebleButtons(false);
@@ -542,9 +545,6 @@ const Table = () => {
                 <div className="flex flex-row justify-start items-center gap-2 w-[70%] py-2">
                   <p className="w-[60%] text-center">
                     <strong>Dirección:</strong> <br /> {child.direccion}
-                  </p>
-                  <p className="text-center w-[40%]">
-                    <strong>Zona:</strong> <br /> {child.zona ? child.zona : 'N/A'}
                   </p>
                   <p className="text-center w-[40%]">
                     <strong>Tipo:</strong> <br /> {child.TipoAgrupacion}
@@ -1017,6 +1017,7 @@ const Table = () => {
           </div>
         </div>
       )}
+      {showAddNewInmueble && <AddNewInmueble showAddNewInmueble={showAddNewInmueble} setShowAddNewInmueble={setShowAddNewInmueble} fetchData={fetchData} currentPage={currentPage} searchTerm={searchTerm} fetchParentsAndChilds={fetchParentsAndChilds} />}
     </div>
   );
 };
