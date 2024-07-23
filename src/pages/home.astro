@@ -1,0 +1,31 @@
+---
+import LayoutMenu from '../layouts/LayoutMenu.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import LoadingScreenThree from '../components/LoadingScreenThree.astro';
+---
+
+<script>
+  import axios from 'axios';
+  import Toastify from 'toastify-js';
+  function showLoadingScreenThree() {
+    const loadingScreen = document.getElementById('loading-screen-Three');
+    loadingScreen.classList.remove('hidden');
+    loadingScreen.classList.add('flex');
+  }
+  function hideLoadingScreenThree() {
+    const loadingScreen = document.getElementById('loading-screen-Three');
+    loadingScreen.classList.remove('flex');
+    loadingScreen.classList.add('hidden');
+  }
+
+  showLoadingScreenThree();
+
+  hideLoadingScreenThree();
+</script>
+<LayoutMenu title="Lucmar Cloud">
+  <div style="margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);">
+    <HeroSection />
+    <LoadingScreenThree />
+  </div>
+</LayoutMenu>
