@@ -5,6 +5,8 @@ import LoadingScreen from '../loadingScreen';
 import AddNewInmueble from './AddNewInmueble';
 import Select from 'react-select';
 import Toastify from 'toastify-js';
+import './stylesBuscador.css';
+import FilterMenu from './FilterMenu.jsx';
 
 const Table = () => {
   const [loading, setLoading] = useState(true);
@@ -42,6 +44,8 @@ const Table = () => {
   const [keepChildren, setKeepChildren] = useState([]);
   const [parentData, setParentData] = useState([]);
   const [showAddNewInmueble, setShowAddNewInmueble] = useState(false);
+  const [showEditTable, setShowEditTable] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(showEditTable);
 
   useEffect(() => {
     fetchData(currentPage, searchTerm);
@@ -684,6 +688,13 @@ const Table = () => {
     fetchOrphans();
   }, [parentsEdificio, childsEdificio, parentsEscalera, childsEscalera]);
 
+  // Handle toggling the edit table
+  const handleEditTable = () => {
+    setShowEditTable(!showEditTable); // Toggle the state
+  };
+
+  // Synchronize `shouldRender` with `showEditTable`
+
   const options = parentsEdificio.map((parent) => ({
     value: parent.AgrupacionID_Edificio,
     label: `${parent.direccion}`,
@@ -832,28 +843,54 @@ const Table = () => {
       ) : (
         <div className="container mx-auto p-4 pb-24 pt-8">
           <h1 className="text-3xl font-bold text-center font-sans w-full">Buscador de inmuebles</h1>
-          <form onSubmit={handleSearch} className="mb-4 flex flex-row gap-4 mt-8 w-full justify-center items-center">
-            <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Buscar una dirección..." className="border border-gray-300 py-2 px-3 w-[80%] rounded-2xl" />
-            <div className="flex gap-2 justify-center items-center flex-row">
-              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 rounded-3xl flex-row justify-center items-center text-center ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 1664 1664">
-                  <path
-                    fill="currentColor"
-                    d="M1152 704q0-185-131.5-316.5T704 256T387.5 387.5T256 704t131.5 316.5T704 1152t316.5-131.5T1152 704m512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124q-143 0-273.5-55.5t-225-150t-150-225T0 704t55.5-273.5t150-225t225-150T704 0t273.5 55.5t225 150t150 225T1408 704q0 220-124 399l343 343q37 37 37 90"
-                  />
-                </svg>
-              </button>
-              <button type="button" onClick={handleClearSearch} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-3xl flex-row justify-center items-center text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59L9.41 8L8 9.41L10.59 12L8 14.59L9.41 16L12 13.41L14.59 16L16 14.59L13.41 12L16 9.41z"
-                  />
-                </svg>
-              </button>
+          <form onSubmit={handleSearch} className="mb-4 flex flex-row gap-2 mt-8 w-full justify-center items-center">
+            <div className="relative w-[80%]">
+              <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Buscar una dirección..." className="border border-gray-300 px-3 py-2 w-[100%] rounded-3xl" />
+              <div className="flex gap-2 justify-center items-center flex-row">
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 rounded-3xl flex-row justify-center items-center text-center z-[100] absolute top-0 right-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1664 1664" className>
+                    <path
+                      fill="currentColor"
+                      d="M1152 704q0-185-131.5-316.5T704 256T387.5 387.5T256 704t131.5 316.5T704 1152t316.5-131.5T1152 704m512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124q-143 0-273.5-55.5t-225-150t-150-225T0 704t55.5-273.5t150-225t225-150T704 0t273.5 55.5t225 150t150 225T1408 704q0 220-124 399l343 343q37 37 37 90"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
+            <button type="button" onClick={handleClearSearch} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1.5 px-1.5 rounded-3xl flex-row justify-center items-center text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59L9.41 8L8 9.41L10.59 12L8 14.59L9.41 16L12 13.41L14.59 16L16 14.59L13.41 12L16 9.41z"
+                />
+              </svg>
+            </button>
           </form>
-          <div className="flex flex-row gap-4 pt-2 pb-2 w-full justify-between">
+          <div className="tablesettingscontainer flex flex-row gap-4 pt-2 pb-2 w-full justify-end items-center">
+            <div className="filtercontainer flex flex-row gap-4 pt-2 pb-2 w-fit justify-between">
+              <div className="flex flex-row gap-4 justify-end items-end w-full">
+                <button type="button" onClick={handleEditTable} className={`flex items-center justify-center p-2 rounded-lg shadow-xl hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512">
+                    <path fill="currentColor" d="M472 168H40a24 24 0 0 1 0-48h432a24 24 0 0 1 0 48m-80 112H120a24 24 0 0 1 0-48h272a24 24 0 0 1 0 48m-96 112h-80a24 24 0 0 1 0-48h80a24 24 0 0 1 0 48" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className={`flex flex-row gap-4 pt-2 pb-2 w-fit justify-between ${showEditTable ? 'edittablecontainertrue' : 'edittablecontainerfalse'}`}>
+              <div className="flex flex-row gap-4 justify-end items-end w-full">
+                <button type="button" onClick={handleEditTable} className={`flex items-center justify-center p-2 rounded-lg shadow-xl hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M12.49 19.818c.118-.472.362-.903.707-1.248l5.901-5.901a2.27 2.27 0 0 1 1.392-.659a2.286 2.286 0 0 1 1.841 3.89l-5.902 5.903a2.7 2.7 0 0 1-1.248.706l-1.83.458a1.087 1.087 0 0 1-1.318-1.319zm-2.99 1.18h1.664l.356-1.423c.162-.648.497-1.24.97-1.712L14.353 16H9.499zM15.998 9.5v4.855l2.392-2.392a3.28 3.28 0 0 1 2.607-.95V9.499zm5-1.5V6.25A3.25 3.25 0 0 0 17.748 3h-1.75v5zm-6.5-5h-5v5h5zm-6.5 0H6.25A3.25 3.25 0 0 0 3 6.25V8h5zM3 9.5v4.999h5v-5zm0 6.499v1.75a3.25 3.25 0 0 0 3.25 3.25H8v-5zm11.499-6.5v5h-5v-5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className={`flex flex-row gap-4 pt-2 pb-2 w-full justify-between ${showEditTable ? 'iconscontainertrue' : 'iconscontainerfalse'}`}>
             <div className="flex flex-row gap-4">
               <button type="button" onClick={handleIconClick} className={`flex items-center justify-center p-2 rounded shadow-lg hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
@@ -899,6 +936,7 @@ const Table = () => {
               </button>
             </div>
           </div>
+
           {showExtraButtons && (
             <div className="flex gap-4 mt-4 pb-4 w-full justify-center">
               <button type="button" onClick={handlePopupToggle} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -929,28 +967,41 @@ const Table = () => {
               </button>
             </div>
           )}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <div className="tableheader relative px-2 py-1 mt-2 rounded-xl shadow-xl flex items-center flex-row w-full bg-blue-950">
+              <div className="true flex flex-row justify-between w-full">
+                <div className="flex flex-row justify-start items-center gap-1 w-[80%] py-2 text-white">
+                  <p className="w-[50%] text-center">
+                    <strong>Dirección</strong>
+                  </p>
+                  <p className="text-center w-[23%]">
+                    <strong>Zona</strong>
+                  </p>
+                  <p className="text-center w-[27%]">
+                    <strong>Actividad</strong>
+                  </p>
+                </div>
+                <div className="flex flex-row justify-end items-center gap-3 w-[20%]"></div>
+              </div>
+            </div>
+
             {Array.isArray(data) && data.length > 0 ? (
               data.map((item) =>
                 item.ParentEdificio === null && item.ParentEscalera === null ? (
                   <div
                     key={item.id}
                     className={`relative border px-2 py-4 mb-4 rounded-xl shadow-xl flex items-center flex-row w-full ${
-                      item.AgrupacionParent === '1' ? 'bg-slate-100' : item.dataUpdateTime === 'red' ? 'bg-red-100' : item.dataUpdateTime === 'yellow' ? 'bg-yellow-100' : 'bg-green-100'
+                      item.AgrupacionParent === '1' ? 'bg-slate-100' : item.dataUpdateTime === 'red' ? 'bg-red-100' : item.dataUpdateTime === 'yellow' ? 'bg-yellow-200' : 'bg-green-100'
                     }`}
                   >
                     <div className="flex flex-row justify-between w-full">
                       {showExtraButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
                       {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
-                      <div className="flex flex-row justify-start items-center gap-1 w-[70%] py-2">
-                        <p className="w-[55%] text-center">
-                          <strong>Dirección:</strong> <br /> {item.direccion}
-                        </p>
-                        <p className="text-center w-[32%]">
-                          <strong>Zona:</strong> <br /> {item.zona ? item.zona : 'N/A'}
-                        </p>
+                      <div className="flex flex-row justify-start items-center gap-1 w-[80%] py-2">
+                        <p className="w-[50%] text-center">{item.direccion}</p>
+                        <p className="text-center w-[20%]">{item.zona ? item.zona : 'N/A'}</p>
                       </div>
-                      <div className="flex flex-row justify-end items-center gap-3 w-[30%]">
+                      <div className="flex flex-row justify-end items-center gap-3 w-[20%]">
                         <div className="flex flex-row gap-2 mr-4">
                           {item.noticiastate === '1' && (
                             <svg xmlns="http://www.w3.org/2000/svg" width="2.1em" height="2.1em" viewBox="0 0 24 24">
@@ -988,7 +1039,7 @@ const Table = () => {
                       <div className="w-full flex flex-col justify-center items-center">
                         <div className="flex flex-row justify-start items-center gap-2 w-full mb-4 cursor-pointer" onClick={() => handleToggle(item.id)}>
                           {showDeleteInmuebleButtons && <input type="checkbox" checked={selectedItems.has(item.id)} onChange={() => handleCheckboxChange(item.id)} className="mr-4" />}
-                          <div className="flex flex-row justify-start items-center gap-2 w-[70%] py-2">
+                          <div className="flex flex-row justify-start items-center gap-2 w-[80%] py-2">
                             <p className="w-[60%] text-center">
                               <strong>Dirección:</strong> <br /> {item.direccion}
                             </p>

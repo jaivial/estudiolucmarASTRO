@@ -1,0 +1,31 @@
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(-200px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .iconscontainertrue {
+    animation: fadeIn 1s ease forwards;
+  }
+  
+@keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+    display: none;
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+  
+  .iconscontainerfalse {
+    animation: fadeOut 0.8s ease forwards;
+  }
+  
