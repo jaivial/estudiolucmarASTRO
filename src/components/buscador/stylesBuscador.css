@@ -10,6 +10,7 @@
   }
   
   .iconscontainertrue {
+    opacity: 0;
     animation: fadeIn 1s ease forwards;
   }
   
@@ -25,7 +26,5 @@
     }
   }
   
-  .iconscontainerfalse {
-    animation: fadeOut 0.8s ease forwards;
-  }
+
   

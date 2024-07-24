@@ -57,10 +57,13 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
     },
   ];
 
-  const filterOptions = [
-    { value: 'any', label: 'Any' },
-    { value: '1', label: 'Yes' },
-    { value: '0', label: 'No' },
+  const filterOptionsNoticia = [
+    { value: '1', label: 'Con noticias' },
+    { value: '0', label: 'Sin noticias' },
+  ];
+  const filterOptionsEncargo = [
+    { value: '1', label: 'Con encargos' },
+    { value: '0', label: 'Sin encargos' },
   ];
 
   const zoneOptions = zones.map((zone) => ({ value: zone, label: zone }));
@@ -123,12 +126,12 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
   return (
     <div className="flex flex-col gap-4 p-4">
       {/* Alphabetical Order Select */}
-      <div className="flex flex-row gap-2 w-full items-center justify-center">
+      <div className="flex flex-row gap-2 w-full items-center justify-center orderbyanimation z-[990]">
         <Select
           options={alphabeticalOrderOptions}
           onChange={(option) => setAlphabeticalOrder(option?.value || null)}
           value={alphabeticalOrderOptions.find((option) => option.value === alphabeticalOrder) || null}
-          className="w-1/2"
+          className="w-1/2 z-[999]"
           placeholder={
             <span className="flex items-center gap-2 text-black">
               <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em" viewBox="0 0 24 24">
@@ -143,7 +146,7 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
         />
       </div>
 
-      <div className="flex flex-row gap-2 w-full items-center justify-center">
+      <div className="flex flex-row gap-2 w-full items-center justify-center z-[980]">
         {/* Zone Select */}
         <Select
           options={zoneOptions}
@@ -161,7 +164,7 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
               Zona
             </span>
           }
-          className="leftanimation1 w-full"
+          className="leftanimation1 w-full z-[900]"
         />
 
         {/* Responsable Select */}
@@ -188,12 +191,12 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
         />
       </div>
 
-      <div className="flex flex-row gap-2 w-full items-center justify-center">
+      <div className="flex flex-row gap-2 w-full items-center justify-center z-[970]">
         {/* Filter Noticia Select */}
         <Select
-          options={filterOptions}
+          options={filterOptionsNoticia}
           onChange={handleFilterNoticiaChange}
-          value={filterOptions.find((option) => option.value === filterNoticia) || null}
+          value={filterOptionsNoticia.find((option) => option.value === filterNoticia) || null}
           placeholder={
             <span className="flex flex-row justify-center items-center gap-3 text-black">
               <svg xmlns="http://www.w3.org/2000/svg" width="1.75em" height="1.75em" viewBox="0 0 24 24">
@@ -210,9 +213,9 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
 
         {/* Filter Encargo Select */}
         <Select
-          options={filterOptions}
+          options={filterOptionsEncargo}
           onChange={handleFilterEncargoChange}
-          value={filterOptions.find((option) => option.value === filterEncargo) || null}
+          value={filterOptionsEncargo.find((option) => option.value === filterEncargo) || null}
           placeholder={
             <span className="flex flex-row justify-center items-center gap-3 text-black">
               <svg xmlns="http://www.w3.org/2000/svg" width="1.75em" height="1.75em" viewBox="0 0 20 20">
