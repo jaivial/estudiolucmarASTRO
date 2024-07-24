@@ -12,7 +12,7 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
   const [filterNoticia, setFilterNoticia] = useState(null);
   const [filterEncargo, setFilterEncargo] = useState(null);
   const [superficieRange, setSuperficieRange] = useState([0, 1000]);
-  const [yearRange, setYearRange] = useState([1900, new Date().getFullYear()]);
+  const [yearRange, setYearRange] = useState([1850, new Date().getFullYear()]);
   const [zones, setZones] = useState([]);
   const [responsables, setResponsables] = useState([]);
 

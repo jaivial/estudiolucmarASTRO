@@ -116,7 +116,7 @@ const AddInmueblePopup = ({ showAddNewInmueble, setShowAddNewInmueble, fetchData
   };
 
   return (
-    <div className={`popup-container fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 ${showAddNewInmueble ? '' : 'hidden'}`}>
+    <div className={`popup-container fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 ${showAddNewInmueble ? '' : 'hidden'} z-50`}>
       <div className="popup-content bg-white p-4 shadow-lg flex flex-col justify-center items-center gap-4 rounded-lg w-4/6">
         <h2 className="text-lg font-bold w-[80%] text-center flex justify-center">Añadir Inmueble</h2>
         <div className="flex flex-col gap-4 w-full justify-center items-center text-center">
