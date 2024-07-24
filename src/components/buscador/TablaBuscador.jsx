@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ItemDetails from './ItemDetails';
+import ItemDetails from './itemDetails/ItemDetails.jsx';
 import LoadingScreen from '../loadingScreen';
 import AddNewInmueble from './AddNewInmueble';
 import Select from 'react-select';
