@@ -46,10 +46,23 @@ const Table = () => {
   const [showAddNewInmueble, setShowAddNewInmueble] = useState(false);
   const [showEditTable, setShowEditTable] = useState(false);
   const [showAnimation, setShowAnimation] = useState(showEditTable);
+  const [filters, setFilters] = useState({
+    alphabeticalOrder: 'none',
+    selectedZone: '',
+    selectedResponsable: '',
+    filterNoticia: '',
+    filterEncargo: '',
+    superficieMin: 0,
+    superficieMax: 1000,
+    yearMin: 1900,
+    yearMax: new Date().getFullYear(),
+  });
+  const [showFilters, setShowFilters] = useState(false);
+  const [resetFiltersKey, setResetFiltersKey] = useState(0);
 
   useEffect(() => {
     fetchData(currentPage, searchTerm);
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, filters]);
 
   useEffect(() => {
     fetchParentsAndChilds();
@@ -59,6 +72,15 @@ const Table = () => {
     try {
       const response = await axios.get('http://localhost:8000/backend/inmuebles/tabla.php', {
         params: {
+          alphabeticalOrder: filters.alphabeticalOrder,
+          zone: filters.selectedZone,
+          selectedResponsable: filters.selectedResponsable,
+          filterNoticia: filters.filterNoticia,
+          filterEncargo: filters.filterEncargo,
+          superficieMin: filters.superficieMin,
+          superficieMax: filters.superficieMax,
+          yearMin: filters.yearMin,
+          yearMax: filters.yearMax,
           itemsPerPage,
           page,
           direccion: term,
@@ -691,6 +713,37 @@ const Table = () => {
   // Handle toggling the edit table
   const handleEditTable = () => {
     setShowEditTable(!showEditTable); // Toggle the state
+    if (showFilters) setShowFilters(false);
+  };
+  // Handle toggling the filters
+  const handleShowFilters = () => {
+    setShowFilters(!showFilters); // Toggle the <state></state>
+    if (showEditTable) setShowEditTable(false);
+    setFilters({
+      alphabeticalOrder: 'none',
+      selectedZone: '',
+      selectedResponsable: '',
+      filterNoticia: '',
+      filterEncargo: '',
+      superficieMin: 0,
+      superficieMax: 1000,
+      yearMin: 1900,
+      yearMax: new Date().getFullYear(),
+    });
+  };
+  const handleResetFilters = () => {
+    setResetFiltersKey(resetFiltersKey + 1);
+    setFilters({
+      alphabeticalOrder: 'none',
+      selectedZone: '',
+      selectedResponsable: '',
+      filterNoticia: '',
+      filterEncargo: '',
+      superficieMin: 0,
+      superficieMax: 1000,
+      yearMin: 1900,
+      yearMax: new Date().getFullYear(),
+    });
   };
 
   // Synchronize `shouldRender` with `showEditTable`
@@ -867,9 +920,23 @@ const Table = () => {
             </button>
           </form>
           <div className="tablesettingscontainer flex flex-row gap-4 pt-2 pb-2 w-full justify-end items-center">
+            {showFilters && (
+              <div className="filtercontainer flex flex-row gap-4 pt-2 pb-2 w-fit justify-between">
+                <div className="flex flex-row gap-4 justify-end items-end w-full">
+                  <button type="button" onClick={handleResetFilters} className={`flex items-center justify-center p-1 rounded-lg shadow-xl hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24">
+                      <path
+                        fill="currentColor"
+                        d="M12 7.5a5.5 5.5 0 1 0 11 0a5.5 5.5 0 0 0-11 0M20.5 4a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h1a2.5 2.5 0 0 0-2-1c-.833 0-1.572.407-2.027 1.036a.5.5 0 0 1-.81-.586A3.5 3.5 0 0 1 17.5 4c.98 0 1.865.403 2.5 1.05V4.5a.5.5 0 0 1 .5-.5M15 9.95v.55a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-1c.456.608 1.183 1 2 1c.766 0 1.452-.344 1.911-.888a.5.5 0 1 1 .764.645A3.5 3.5 0 0 1 17.5 11A3.5 3.5 0 0 1 15 9.95M8 13h6.034a6.5 6.5 0 0 1-2.012-2H8l-.117.007A1 1 0 0 0 8 13M5 6h6.174a6.5 6.5 0 0 0-.155 2H5a1 1 0 0 1-.117-1.993zm4.883 10.007L10 16h4a1 1 0 0 1 .117 1.993L14 18h-4a1 1 0 0 1-.117-1.993"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="filtercontainer flex flex-row gap-4 pt-2 pb-2 w-fit justify-between">
               <div className="flex flex-row gap-4 justify-end items-end w-full">
-                <button type="button" onClick={handleEditTable} className={`flex items-center justify-center p-2 rounded-lg shadow-xl hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
+                <button type="button" onClick={handleShowFilters} className={`flex items-center justify-center p-2 rounded-lg shadow-xl hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512">
                     <path fill="currentColor" d="M472 168H40a24 24 0 0 1 0-48h432a24 24 0 0 1 0 48m-80 112H120a24 24 0 0 1 0-48h272a24 24 0 0 1 0 48m-96 112h-80a24 24 0 0 1 0-48h80a24 24 0 0 1 0 48" />
                   </svg>
@@ -889,7 +956,7 @@ const Table = () => {
               </div>
             </div>
           </div>
-
+          {showFilters && <FilterMenu setFilters={setFilters} currentPage={currentPage} filters={filters} data={data} setData={setData} setCurrentPage={setCurrentPage} setTotalPages={setTotalPages} setLoading={setLoading} resetFiltersKey={resetFiltersKey} />}
           <div className={`flex flex-row gap-4 pt-2 pb-2 w-full justify-between ${showEditTable ? 'iconscontainertrue' : 'iconscontainerfalse'}`}>
             <div className="flex flex-row gap-4">
               <button type="button" onClick={handleIconClick} className={`flex items-center justify-center p-2 rounded shadow-lg hover:bg-blue-950 hover:text-white w-fit ${showExtraButtons ? 'bg-blue-950 text-white' : 'bg-blue-300 text-black'}`}>
