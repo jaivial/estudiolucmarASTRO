@@ -27,14 +27,16 @@ if (isset($data['type'], $data['name'], $data['inmuebles'], $data['grupo'])) {
 
         // Get the coordinates of the first inmueble ID
         $firstInmuebleId = $inmuebles[0];
-        $selectCoordinatesSql = "SELECT coordinates FROM inmuebles WHERE id = $firstInmuebleId";
+        $selectCoordinatesSql = "SELECT coordinates, superficie, ano_construccion FROM inmuebles WHERE id = $firstInmuebleId";
         $result = $conn->query($selectCoordinatesSql);
 
         if ($result && $result->num_rows > 0) {
             $coordinatesRow = $result->fetch_assoc();
             $coordinates = $coordinatesRow['coordinates'];
+            $superficie = $coordinatesRow['superficie'];
+            $ano_construccion = $coordinatesRow['ano_construccion'];
 
-            $updateInsertedSql = "UPDATE inmuebles SET AgrupacionID_Escalera = $agrupacionId, coordinates = '$coordinates' WHERE id = $agrupacionId";
+            $updateInsertedSql = "UPDATE inmuebles SET AgrupacionID_Escalera = $agrupacionId, coordinates = '$coordinates', superficie = '$superficie', ano_construccion = '$ano_construccion' WHERE id = $agrupacionId";
             if ($conn->query($updateInsertedSql) === TRUE) {
                 // Update the existing records in the inmuebles table
                 $updateSql = "UPDATE inmuebles SET ChildEdificio = NULL, ChildEscalera = 1, AgrupacionID_Edificio = NULL, AgrupacionID_Escalera = $agrupacionId, TipoAgrupacion = '$type' WHERE id IN ($inmueblesIds)";
