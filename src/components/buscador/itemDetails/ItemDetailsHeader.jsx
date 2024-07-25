@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { AiOutlineCamera, AiOutlinePlus, AiOutlineLoading } from 'react-icons/ai';
+import { AiOutlineCamera, AiOutlinePlus, AiOutlineLoading, AiOutlineDelete } from 'react-icons/ai';
 import Toastify from 'toastify-js';
 import './ItemDetailsHeader.css';
 
-const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages }) => {
+const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages, setIsSliderLoading }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,19 +21,24 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages }) => {
   const [getImageRefreshKey, setGetImageRefreshKey] = useState(1);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/backend/itemDetails/getImages.php', {
-        params: { inmueble_id: inmuebleId },
-      })
-      .then((response) => {
+    const loadImages = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/backend/itemDetails/getImages.php', {
+          params: { inmueble_id: inmuebleId },
+        });
         const images = response.data.images || [];
-        console.log(response.data);
         setUploadedImages(images);
         setImages(images); // Pass the images to the parent component
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching images:', error);
-      });
+      } finally {
+        setIsSliderLoading(false); // Set to false after fetching is done
+      }
+    };
+
+    setIsSliderLoading(true); // Set loading true when starting
+    loadImages();
+    console.log('uploadedImages', uploadedImages);
   }, [inmuebleId, getImageRefreshKey]);
 
   const handleFileChange = async (event) => {
@@ -201,6 +206,69 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages }) => {
     }
   };
 
+  const handleDeleteImage = async (index) => {
+    try {
+      // Prepare data for deletion
+      const formData = new FormData();
+      formData.append('inmueble_id', inmuebleId);
+      formData.append('image_id', uploadedImages[index].id); // Use the actual image ID
+
+      // Send delete request
+      const response = await axios.post('http://localhost:8000/backend/itemDetails/deleteImage.php', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data.status === 'success') {
+        Toastify({
+          text: 'Image deleted successfully',
+          duration: 2500,
+          gravity: 'top',
+          position: 'center',
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)',
+            textAlign: 'center',
+          },
+        }).showToast();
+
+        // Update state to remove the deleted image
+        setUploadedImages((prevImages) => {
+          const newImages = [...prevImages];
+          newImages.splice(index, 1); // Remove the image at the specified index
+          return newImages;
+        });
+        setGetImageRefreshKey(getImageRefreshKey + 1);
+      } else {
+        Toastify({
+          text: 'Error deleting image',
+          duration: 2500,
+          gravity: 'top',
+          position: 'center',
+          style: {
+            borderRadius: '10px',
+            backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+            textAlign: 'center',
+          },
+        }).showToast();
+      }
+    } catch (error) {
+      Toastify({
+        text: 'Error deleting image',
+        duration: 2500,
+        gravity: 'top',
+        position: 'center',
+        style: {
+          borderRadius: '10px',
+          backgroundImage: 'linear-gradient(to right top, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)',
+          textAlign: 'center',
+        },
+      }).showToast();
+      console.error('Error deleting image:', error);
+    }
+  };
+
   const openModal = (slot) => {
     setSelectedSlot(slot);
     setIsModalOpen(true);
@@ -213,26 +281,31 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages }) => {
 
   const renderSlots = () => {
     const slots = [];
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 12; i++) {
       const image = uploadedImages[i];
       const isEmpty = !image || !image.data;
+      const isImageSlot = !isEmpty; // Whether the slot contains an image
 
       slots.push(
         <div
           key={i}
-          className={`relative w-24 h-24 flex items-center justify-center ${isEmpty ? 'cursor-pointer hover:bg-gray-100 border border-gray-300' : ''} ${hoveredSlot === i ? 'bg-gray-100 rounded-lg' : ''}`}
-          onMouseEnter={() => isEmpty && setHoveredSlot(i)}
-          onMouseLeave={() => isEmpty && setHoveredSlot(null)}
-          onClick={() => isEmpty && openModal(i)}
+          className={`relative w-24 h-24 flex items-center justify-center rounded-lg ${isImageSlot ? 'border border-gray-300' : 'cursor-pointer'} ${hoveredSlot === i ? (isImageSlot ? 'bg-blue-300 opacity-100' : 'bg-gray-100 opacity-50') : ''}`}
+          onMouseEnter={() => setHoveredSlot(i)} // Show hover effect
+          onMouseLeave={() => setHoveredSlot(null)} // Hide hover effect
+          onClick={() => (isImageSlot ? handleDeleteImage(i) : openModal(i))} // Handle click action
           ref={(el) => (slotRefs.current[i] = el)}
         >
-          {isEmpty ? (
-            <>
-              {hoveredSlot === i && <AiOutlinePlus className="absolute text-gray-500 text-2xl" />}
-              <AiOutlineCamera className={`text-gray-500 text-2xl ${isEmpty ? '' : 'hidden'}`} />
-            </>
-          ) : (
-            <img src={`data:${image.type};base64,${image.data}`} alt={`Slot ${i}`} className="w-full h-full object-cover rounded-lg" />
+          {isImageSlot ? <img src={`data:${image.type};base64,${image.data}`} alt={`Slot ${i}`} className="w-full h-full object-cover rounded-lg" /> : <AiOutlineCamera className={`text-gray-500 text-2xl ${hoveredSlot === i ? 'hidden' : ''}`} />}
+
+          {isImageSlot && hoveredSlot === i && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-lg cursor-pointer bg-red-500 opacity-100">
+              <AiOutlineDelete className="text-white text-3xl" />
+            </div>
+          )}
+          {!isImageSlot && hoveredSlot === i && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-gray-200 opacity-100 cursor-pointer">
+              <AiOutlinePlus className="text-gray-500 text-2xl" />
+            </div>
           )}
         </div>,
       );
@@ -243,21 +316,29 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages }) => {
   return (
     <div>
       <div className="p-4 border-b border-gray-300 flex justify-between items-center">
-        <button onClick={onClose} className="text-black text-lg">
-          &larr; Volver
+        <button onClick={onClose} className="text-black text-3xl">
+          &larr;
         </button>
-        <h1 className="text-xl font-semibold mt-2">{address}</h1>
         <button onClick={() => openModal(null)} className="p-2 rounded-full border border-gray-300 hover:bg-gray-100">
           <AiOutlineCamera className="text-gray-500 text-2xl" />
         </button>
       </div>
       {isModalOpen && (
-        <div className="popupcontainer fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-[50]">
-          <div ref={modalRef} className="bg-white p-6 rounded shadow-lg max-w-lg w-full flex flex-col items-center justify-center gap-4">
-            <h2 className="text-xl font-semibold mb-4">Upload Images</h2>
-            <div ref={containerRef} className="grid grid-cols-3 gap-6 mb-4">
-              {renderSlots()}
-            </div>
+        <div className={`popupcontainer fixed inset-0 h-full overflow-y-auto bg-gray-800 bg-opacity-50 flex items-center justify-center z-[50] ${window.innerWidth < 400 ? 'pt-32 pb-20' : ''}`}>
+          <div ref={modalRef} className={`bg-white p-6 rounded shadow-lg max-w-lg w-full flex flex-col items-center justify-center gap-4 ${window.innerWidth < 400 ? 'mt-32 mb-10' : ''}`}>
+            <h2 className="text-xl font-semibold mb-4">Subir Imágenes</h2>
+
+            {isUploading ? (
+              <div className="flex w-full flex-row items-center justify-center h-80">
+                <AiOutlineLoading className="text-blue-500 text-5xl animate-spin" />
+                <span className="ml-3 text-gray-800 font-sans text-lg font-semibold">Subiendo imágenes...</span>
+              </div>
+            ) : (
+              <div ref={containerRef} className="grid grid-cols-3 gap-6 mb-4">
+                {renderSlots()}
+              </div>
+            )}
+
             {selectedSlot !== null && (
               <>
                 <div className="flex mb-4 flex-col justify-center items-center w-full gap-4">

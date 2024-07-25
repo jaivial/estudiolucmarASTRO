@@ -11,21 +11,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $inmueble_id = $_GET['inmueble_id'];
 
         // Prepare the SQL query
-        $sql = "SELECT image_data, image_type FROM inmueble_images WHERE inmueble_id = ?";
+        $sql = "SELECT image_data, image_type, id, inmueble_id FROM inmueble_images WHERE inmueble_id = ?";
         if ($stmt = $conn->prepare($sql)) {
             $stmt->bind_param("i", $inmueble_id);
             $stmt->execute();
             $result = $stmt->get_result();
 
             $images = [];
+            $imageData = [];
             while ($row = $result->fetch_assoc()) {
                 // Check if image_data and image_type are present
                 if (!empty($row['image_data']) && !empty($row['image_type'])) {
                     $imageData = base64_encode($row['image_data']);
                     $imageType = $row['image_type'];
+                    $imageId = $row['id'];
+                    $inmueble_id = $row['inmueble_id'];
                     $images[] = [
                         'data' => $imageData,
-                        'type' => $imageType
+                        'type' => $imageType,
+                        'id' => $imageId,
+                        'inmueble_id' => $inmueble_id
                     ];
                 } else {
                     // Handle missing image data

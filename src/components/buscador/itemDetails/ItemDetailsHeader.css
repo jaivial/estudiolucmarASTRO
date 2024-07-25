@@ -21,18 +21,20 @@
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
-    @apply fill-blue-200;
+    @apply fill-blue-100;
     cursor: pointer;
 
   }
   
   .arrow--left {
     left: -3px;
+    filter: drop-shadow(0 0 0.07rem rgba(0, 0, 0, 1));
   }
   
   .arrow--right {
     left: auto;
     right: -3px;
+    filter: drop-shadow(0 0 0.07rem rgba(0, 0, 0, 1));
   }
   
   /* .arrow--disabled {
