@@ -38,7 +38,7 @@ const showToast = (message, backgroundColor) => {
 
 const commentTypes = {
   'Contacto Directo': 'bg-blue-500',
-  Llamada: 'bg-green-500',
+  Llamada: 'bg-green-600',
   Cita: 'bg-yellow-500',
 };
 
@@ -135,8 +135,6 @@ const ComentariosDetails = ({ data }) => {
         },
       });
 
-      console.log('response', response.data);
-
       if (response.data.success) {
         await fetchComments();
         setNewComment('');
@@ -186,52 +184,58 @@ const ComentariosDetails = ({ data }) => {
           {isOpen ? <AiOutlineUp className="text-2xl" /> : <AiOutlineDown className="text-2xl" />}
         </div>
         {isOpen && (
-          <div className="p-4">
+          <div className="py-4 px-2">
             {comentarios.length > 0 && (
               <div>
                 {comentarios.map((comentario) => (
-                  <div key={comentario.id} className="py-2 relative flex items-start">
-                    <div className={`absolute top-2 right-2 px-2 py-1 text-white text-xs rounded-md ${commentTypes[comentario.TipoComentario]}`}>{comentario.TipoComentario}</div>
-                    {comentario.TipoComentario === 'Llamada' && comentario.telefono && <div className="absolute top-2 right-20 px-2 py-1 rounded-full bg-gray-300 text-black">{comentario.telefono}</div>}
-                    {isAdmin && <AiOutlineDelete className="absolute top-4 right-2 text-xl text-red-500 cursor-pointer" onClick={() => handleDeleteComment(comentario.id)} />}
-                    <div className="ml-12">
-                      <p className="text-sm text-gray-500">{formatDateTime(comentario.date_time)}</p>
-                      <p>{comentario.texto}</p>
+                  <div key={comentario.id} className="comentariocontainer py-2 my-3 relative flex items-start justify-between bg-blue-100 rounded-md">
+                    <div className="pl-2 pb-2">
+                      <p className="text-sm text-gray-600 pb-2 -mt-1">{formatDateTime(comentario.date_time)}</p>
+                      <p className="text-base text-gray-950 py-1">{comentario.texto}</p>
                     </div>
+                    <div className="absolute top-0 right-0 flex flex-row items-center space-x-2">
+                      <div className={`px-2 py-1 text-white text-xs rounded-md ${commentTypes[comentario.TipoComentario]}`}>{comentario.TipoComentario}</div>
+                      {comentario.TipoComentario === 'Cita' && comentario.date_time && <div className="px-2 py-1 text-white text-xs rounded-md bg-yellow-600">{formatDateTime(comentario.date_time)}</div>}
+                      {comentario.TipoComentario === 'Llamada' && comentario.telefono && <div className="px-2 py-1 text-white text-xs rounded-md bg-green-600">{comentario.telefono}</div>}
+                    </div>
+                    {isAdmin && <AiOutlineDelete className="absolute bottom-1 right-0.5 text-xl text-red-500 cursor-pointer" onClick={() => handleDeleteComment(comentario.id)} />}
                   </div>
                 ))}
               </div>
             )}
 
             <div className="mt-4 flex flex-col justify-center items-center gap-2">
-              <div className="w-full flex items-center gap-2">
-                <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} rows="3" className="w-full border border-gray-300 p-2 rounded" placeholder="Escribe tu comentario aquí..." />
-                <select
-                  value={commentType}
-                  onChange={(e) => {
-                    setCommentType(e.target.value);
-                    if (e.target.value !== 'Llamada') {
-                      setPhoneNumber('');
-                    }
-                    if (e.target.value !== 'Cita') {
-                      setSelectedDate('');
-                      setSelectedTime('');
-                    }
-                  }}
-                  className="border border-gray-300 p-2 rounded bg-white"
-                >
-                  <option value="Contacto Directo">Contacto Directo</option>
-                  <option value="Llamada">Llamada</option>
-                  <option value="Cita">Cita</option>
-                </select>
-              </div>
-              {commentType === 'Llamada' && <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full border border-gray-300 p-2 rounded mt-2" placeholder="Número de teléfono del cliente..." />}
-              {commentType === 'Cita' && (
-                <div className="w-full flex flex-col gap-2 mt-2">
-                  <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="w-full border border-gray-300 p-2 rounded" />
-                  <input type="time" value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} className="w-full border border-gray-300 p-2 rounded" />
+              <div className="w-full flex flex-row items-start gap-2">
+                <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} rows="6" className="w-1/2 border border-gray-300 p-2 rounded-md" placeholder="Escribe tu comentario aquí..." />
+                <div className="w-1/2">
+                  <select
+                    value={commentType}
+                    onChange={(e) => {
+                      setCommentType(e.target.value);
+                      if (e.target.value !== 'Llamada') {
+                        setPhoneNumber('');
+                      }
+                      if (e.target.value !== 'Cita') {
+                        setSelectedDate('');
+                        setSelectedTime('');
+                      }
+                    }}
+                    className="border border-gray-300 p-2 rounded bg-white w-full"
+                  >
+                    <option value="Contacto Directo">Contacto Directo</option>
+                    <option value="Llamada">Llamada</option>
+                    <option value="Cita">Cita</option>
+                  </select>
+
+                  {commentType === 'Llamada' && <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full border border-gray-300 p-2 rounded mt-2" placeholder="Número de teléfono..." />}
+                  {commentType === 'Cita' && (
+                    <div className="w-full flex flex-col gap-2 mt-2">
+                      <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="w-full border border-gray-300 p-2 rounded" />
+                      <input type="time" value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} className="w-full border border-gray-300 p-2 rounded" />
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
               <button onClick={handleAddComment} className="bg-blue-500 text-white p-2 rounded mt-2">
                 Añadir Comentario
               </button>
