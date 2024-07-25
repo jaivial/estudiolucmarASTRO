@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+// Helper function to format time
+const formatTime = (time) => {
+  if (!time) return '';
+  const [hours, minutes] = time.split(':');
+  return `${hours}:${minutes}`;
+};
+
 const TaskList = ({ day, tasks, refreshTasks }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [taskInput, setTaskInput] = useState('');
+  const [taskTimeInput, setTaskTimeInput] = useState(''); // New state for task time input
 
   function getCookies() {
     let cookies = {};
@@ -54,6 +62,10 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
     setTaskInput(event.target.value);
   };
 
+  const handleTaskTimeInputChange = (event) => {
+    setTaskTimeInput(event.target.value);
+  };
+
   const handleTaskSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -64,9 +76,11 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
           date: formattedDate,
           task: taskInput,
           userId, // Add userId here
+          taskTime: taskTimeInput, // Include task time
         }),
       );
       setTaskInput('');
+      setTaskTimeInput(''); // Clear task time input
       setIsAdding(false);
       refreshTasks(day);
     } catch (error) {
@@ -78,6 +92,15 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+  });
+
+  // Sort tasks by time, with tasks without time last
+  const sortedTasks = [...tasks].sort((a, b) => {
+    if (!a.task_time && !b.task_time) return 0;
+    if (!a.task_time) return 1;
+    if (!b.task_time) return -1;
+
+    return a.task_time.localeCompare(b.task_time);
   });
 
   return (
@@ -92,13 +115,16 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
         <p>+</p>
       </button>
 
-      {Array.isArray(tasks) ? (
-        tasks.length > 0 ? (
+      {Array.isArray(sortedTasks) ? (
+        sortedTasks.length > 0 ? (
           <ul className="flex flex-col gap-2 ml-4">
-            {tasks.map((task) => (
+            {sortedTasks.map((task) => (
               <li key={task.id} className="flex items-center gap-2">
                 <input type="checkbox" checked={task.completed} onChange={() => handleTaskCompletion(task.id)} className="form-checkbox h-5 w-5 text-green-600" />
-                <span className={task.completed ? 'line-through text-gray-500' : ''}>{task.task}</span>
+                <div className="flex items-center gap-2">
+                  {task.task_time && <span className="font-bold text-gray-700">{formatTime(task.task_time)}</span>}
+                  <span className={task.completed ? 'line-through text-gray-500' : ''}>{task.task}</span>
+                </div>
               </li>
             ))}
           </ul>
@@ -111,6 +137,7 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
       {isAdding && (
         <form onSubmit={handleTaskSubmit} className="transition-transform transform rounded-md mt-2 flex flex-row items-center justify-center gap-2 w-full">
           <input type="text" value={taskInput} onChange={handleTaskInputChange} placeholder="Añade una tarea" className="border rounded-md p-2 w-full" required />
+          <input type="time" value={taskTimeInput} onChange={handleTaskTimeInputChange} className="border rounded-md p-2" />
           <button type="submit" className="bg-green-500 text-white rounded-md py-2 px-3">
             +
           </button>

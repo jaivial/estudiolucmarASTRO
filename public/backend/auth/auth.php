@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['email']) && isset($_GET
         setcookie("nombre", $row['nombre'], time() + 7200, path: '/');
         //Set row 'apellido' as a cookie with an expiration time of 2 hours
         setcookie("apellido", $row['apellido'], time() + 7200, path: '/');
+        setcookie("admin", $row['admin'], time() + 7200, path: '/');
 
 
         $response = array('success' => true, 'message' => 'user found', 'data' => $data);

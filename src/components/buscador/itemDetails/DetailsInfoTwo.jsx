@@ -1,6 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Toastify from 'toastify-js';
 import { AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai';
+import 'toastify-js/src/toastify.css'; // Import Toastify CSS
+
+// Function to show a Toastify notification
+const showToast = (message, backgroundColor) => {
+  Toastify({
+    text: message,
+    duration: 2500,
+    gravity: 'top', // `top` or `bottom`
+    position: 'center', // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      borderRadius: '10px',
+      backgroundImage: backgroundColor,
+      textAlign: 'center',
+    },
+    onClick: function () {}, // Callback after click
+  }).showToast();
+};
 
 const DetailsInfoTwo = ({ data }) => {
   const [descripcion, setDescripcion] = useState('');
@@ -16,11 +35,15 @@ const DetailsInfoTwo = ({ data }) => {
             id: data.inmueble.id,
           },
         });
-        console.log('response', response.data);
-        setDescripcion(response.data.descripcion || '');
-        setNewDescripcion(response.data.descripcion || '');
+        if (response.data.status === 'success') {
+          setDescripcion(response.data.descripcion || '');
+          setNewDescripcion(response.data.descripcion || '');
+        } else {
+          showToast(response.data.message, 'linear-gradient(to right bottom, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)');
+        }
       } catch (error) {
         console.error('Error fetching description:', error);
+        showToast('Error fetching description', 'linear-gradient(to right bottom, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)');
       }
     };
 
@@ -38,25 +61,23 @@ const DetailsInfoTwo = ({ data }) => {
 
   const handleSaveClick = async () => {
     try {
-      await axios
-        .get('http://localhost:8000/backend/itemDetails/updateDescripcion.php', {
-          params: {
-            id: data.inmueble.id,
-            descripcion: newDescripcion,
-          },
-        })
-        .then((response) => {
-          console.log('response', response.data);
-          if (response.data.status === 'success') {
-            setDescripcion(newDescripcion); // Update descripcion state with newDescripcion
-            setIsEditing(false);
-          }
-        })
-        .catch((error) => {
-          console.error('Error updating description:', error);
-        });
+      const response = await axios.get('http://localhost:8000/backend/itemDetails/updateDescripcion.php', {
+        params: {
+          id: data.inmueble.id,
+          descripcion: newDescripcion,
+        },
+      });
+
+      if (response.data.status === 'success') {
+        setDescripcion(newDescripcion); // Update descripcion state with newDescripcion
+        setIsEditing(false);
+        showToast('Descripción actualizada', 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)');
+      } else {
+        showToast(response.data.message, 'linear-gradient(to right bottom, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)');
+      }
     } catch (error) {
       console.error('Error updating description:', error);
+      showToast('Error updating description', 'linear-gradient(to right bottom, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)');
     }
   };
 
@@ -87,7 +108,7 @@ const DetailsInfoTwo = ({ data }) => {
               <textarea value={newDescripcion} onChange={handleInputChange} maxLength="900" className="w-full p-2 border border-gray-300 rounded-md" rows="8" />
               <div className="flex justify-center gap-2 mt-2">
                 <button onClick={handleSaveClick} className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                  <AiOutlineCheck className="inline mr-1" /> Editar
+                  <AiOutlineCheck className="inline mr-1" /> Guardar
                 </button>
                 <button onClick={handleCancelEdit} className="bg-gray-500 text-white px-4 py-2 rounded-md">
                   Cancelar

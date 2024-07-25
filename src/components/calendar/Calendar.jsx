@@ -10,6 +10,7 @@ const CalendarApp = () => {
   const [tasks, setTasks] = useState([]);
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [taskDates, setTaskDates] = useState(new Set());
+  const [completedTasksDates, setCompletedTasksDates] = useState(new Set());
 
   function getCookies() {
     let cookies = {};
@@ -97,12 +98,18 @@ const CalendarApp = () => {
           .filter((task) => task.completed === 0) // Filter tasks that are not completed
           .map((task) => new Date(task.task_date).toISOString().split('T')[0]), // Extract and format the date
       );
+      const datesWithCompletedTasks = new Set(
+        allTasks
+          .filter((task) => task.completed === 1) // Filter tasks that are not completed
+          .map((task) => new Date(task.task_date).toISOString().split('T')[0]), // Extract and format the date
+      );
 
       // Output the set of dates with incomplete tasks
       console.log('gato lucas', datesWithIncompleteTasks);
 
       const datesWithTasks = new Set(allTasks.map((task) => new Date(task.task_date).toISOString().split('T')[0]));
       setTaskDates(datesWithIncompleteTasks);
+      setCompletedTasksDates(datesWithCompletedTasks);
     } catch (error) {
       console.error('Error fetching all tasks:', error);
     }
@@ -124,9 +131,16 @@ const CalendarApp = () => {
       if (taskDates.has(dateString)) {
         return 'has-tasks';
       }
+      if (completedTasksDates.has(dateString)) {
+        return 'completed-tasks';
+      }
     }
     return null;
   };
+
+  useEffect(() => {
+    console.log('tasks', tasks);
+  }, []);
 
   return (
     <div className="pb-28 flex flex-col items-center justify-center gap-4 px-6 py-8 rounded-lg shadow-md">

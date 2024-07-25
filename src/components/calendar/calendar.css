@@ -21,7 +21,22 @@
     border-radius: 50%;
     @apply bg-red-400;
   }
-
+  .react-calendar__tile.completed-tasks::after {
+    content: '\f00c \f00c'; /* FontAwesome double checkmark icon (Unicode) */
+    font-family: 'Font Awesome 5 Free'; /* FontAwesome font family */
+    font-weight: 900; /* FontAwesome solid style */
+    color: green; /* Adjust color as needed */
+    position: absolute;
+    bottom: 5px; /* Adjust position as needed */
+    left: 45%;
+    transform: translateX(-50%);
+    font-size: 1rem; /* Adjust size as needed */
+    line-height: 1;
+    word-spacing: 1px;
+    letter-spacing: -0.55em;
+    margin-right: 5px;
+  }
+  
   .react-calendar__month-view__weekdays__weekday {
     @apply text-slate-800 font-sans font-bold uppercase text-sm no-underline;
   }
@@ -49,3 +64,5 @@
   .react-calendar__tile--now {
     @apply bg-blue-400 rounded-xl text-black;   
   }
+
+  /* calendar.css */

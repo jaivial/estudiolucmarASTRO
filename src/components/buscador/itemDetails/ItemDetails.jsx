@@ -7,6 +7,8 @@ import './ItemDetailsHeader.css';
 import { AiOutlineCamera, AiOutlinePlus, AiOutlineLoading } from 'react-icons/ai';
 import DetailsInfoOne from './DetailsInfoOne';
 import DetailsInfoTwo from './DetailsInfoTwo';
+import DetailsInfoThree from './DetailsInfoThree';
+import ComentariosDetails from './ComentariosDetails';
 
 const ItemDetails = ({ id, onClose }) => {
   const [data, setData] = useState(null);
@@ -125,6 +127,8 @@ const ItemDetails = ({ id, onClose }) => {
       <h1 className="text-xl font-semibold text-start w-full leading-6 px-6">{data.inmueble.direccion}</h1>
       <DetailsInfoOne data={data} encargoData={encargoData} />
       <DetailsInfoTwo data={data} />
+      <DetailsInfoThree data={data} />
+      <ComentariosDetails data={data} />
     </div>
   );
 };
