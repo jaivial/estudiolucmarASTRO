@@ -6,25 +6,27 @@ handleCorsHeaders();
 
 require_once '../db_Connection/db_Connection.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && 
-    isset($_GET['id']) && 
-    isset($_GET['encargo_fecha']) && 
-    isset($_GET['comercial_encargo']) && 
-    isset($_GET['tipo_encargo']) && 
-    isset($_GET['comision_encargo']) &&
-    isset($_GET['cliente_id']) && 
-    isset($_GET['precio_1']) &&
-    isset($_GET['tipo_comision_encargo'])) {
+if (
+    $_SERVER["REQUEST_METHOD"] == "GET" &&
+    isset($_GET['encargo_id']) &&
+    isset($_GET['fecha']) &&
+    isset($_GET['comercial']) &&
+    isset($_GET['tipoEncargo']) &&
+    isset($_GET['comision']) &&
+    isset($_GET['cliente']) &&
+    isset($_GET['precio']) &&
+    isset($_GET['tipoComision'])
+) {
 
     // Get the form data
-    $id = $_GET['id']; 
-    $encargo_fecha = $_GET['encargo_fecha'];
-    $comercial_encargo = $_GET['comercial_encargo'];
-    $tipo_encargo = $_GET['tipo_encargo'];
-    $comision_encargo = $_GET['comision_encargo'];
-    $cliente_id = $_GET['cliente_id'];
-    $precio_1 = $_GET['precio_1'];
-    $tipo_comision_encargo = $_GET['tipo_comision_encargo'];
+    $id = $_GET['encargo_id'];
+    $encargo_fecha = $_GET['fecha'];
+    $comercial_encargo = $_GET['comercial'];
+    $tipo_encargo = $_GET['tipoEncargo'];
+    $comision_encargo = $_GET['comision'];
+    $cliente_id = $_GET['cliente'];
+    $precio_1 = $_GET['precio'];
+    $tipo_comision_encargo = $_GET['tipoComision'];
 
     // Validate ID
     if (!is_numeric($id)) {
@@ -59,4 +61,3 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" &&
 }
 
 $conn->close();
-?>

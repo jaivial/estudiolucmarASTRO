@@ -1,5 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FaTrash } from 'react-icons/fa';
+import Toastify from 'toastify-js';
+
+const showToast = (message, backgroundColor) => {
+  Toastify({
+    text: message,
+    duration: 2500,
+    gravity: 'top', // `top` or `bottom`
+    position: 'center', // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      borderRadius: '10px',
+      backgroundImage: backgroundColor,
+      textAlign: 'center',
+    },
+    onClick: function () {}, // Callback after click
+  }).showToast();
+};
 
 // Helper function to format time
 const formatTime = (time) => {
@@ -48,9 +66,26 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
           userId,
         }),
       );
+      showToast('Tarea completada', 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)');
       refreshTasks(day);
     } catch (error) {
       console.error('Error marking task as completed:', error);
+    }
+  };
+
+  // Handle task deletion
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await axios.get('http://localhost:8000/backend/calendar/deleteTasks.php', {
+        params: {
+          taskId: taskId,
+          userId: userId,
+        },
+      });
+      showToast('Tarea eliminada', 'linear-gradient(to right bottom, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)');
+      refreshTasks(day);
+    } catch (error) {
+      console.error('Error deleting task:', error);
     }
   };
 
@@ -79,6 +114,7 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
           taskTime: taskTimeInput, // Include task time
         }),
       );
+      showToast('Tarea añadida', 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)');
       setTaskInput('');
       setTaskTimeInput(''); // Clear task time input
       setIsAdding(false);
@@ -117,14 +153,17 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
 
       {Array.isArray(sortedTasks) ? (
         sortedTasks.length > 0 ? (
-          <ul className="flex flex-col gap-2 ml-4">
+          <ul className="flex flex-col gap-2 w-full">
             {sortedTasks.map((task) => (
-              <li key={task.id} className="flex items-center gap-2">
+              <li key={task.id} className="flex items-center gap-2 flex-row justify-between w-full px-3">
                 <input type="checkbox" checked={task.completed} onChange={() => handleTaskCompletion(task.id)} className="form-checkbox h-5 w-5 text-green-600" />
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-grow">
                   {task.task_time && <span className="font-bold text-gray-700">{formatTime(task.task_time)}</span>}
                   <span className={task.completed ? 'line-through text-gray-500' : ''}>{task.task}</span>
                 </div>
+                <button onClick={() => handleDeleteTask(task.id)} className="text-red-600 hover:text-red-800">
+                  <FaTrash />
+                </button>
               </li>
             ))}
           </ul>
