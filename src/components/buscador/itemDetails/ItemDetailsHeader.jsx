@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AiOutlineCamera, AiOutlinePlus, AiOutlineLoading, AiOutlineDelete } from 'react-icons/ai';
 import Toastify from 'toastify-js';
 import './ItemDetailsHeader.css';
+import EditButton from './EditButton';
 
 const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages, setIsSliderLoading }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -322,6 +323,7 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages, setIsSlide
         <button onClick={() => openModal(null)} className="p-2 rounded-full border border-gray-300 hover:bg-gray-100">
           <AiOutlineCamera className="text-gray-500 text-2xl" />
         </button>
+        <EditButton />
       </div>
       {isModalOpen && (
         <div className={`popupcontainer fixed inset-0 h-full overflow-y-auto bg-gray-800 bg-opacity-50 flex items-center justify-center z-[50] ${window.innerWidth < 400 ? 'pt-32 pb-20' : ''}`}>
