@@ -9,6 +9,7 @@ import DetailsInfoOne from './DetailsInfoOne';
 import DetailsInfoTwo from './DetailsInfoTwo';
 import DetailsInfoThree from './DetailsInfoThree';
 import ComentariosDetails from './ComentariosDetails';
+import NoticiasDetails from './NoticiasDetails';
 
 const ItemDetails = ({ id, onClose }) => {
   const [data, setData] = useState(null);
@@ -18,6 +19,7 @@ const ItemDetails = ({ id, onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isSliderLoading, setIsSliderLoading] = useState(true);
   const [encargoData, setEncargoData] = useState([]);
+  const [onAddNoticiaRefreshKey, setOnAddNoticiaRefreshKey] = useState(1);
 
   const [sliderRef, slider] = useKeenSlider({
     loop: true,
@@ -54,7 +56,7 @@ const ItemDetails = ({ id, onClose }) => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id]);
+  }, [id, onAddNoticiaRefreshKey]);
 
   useEffect(() => {
     const fetchEncargoData = async () => {
@@ -129,6 +131,7 @@ const ItemDetails = ({ id, onClose }) => {
       <DetailsInfoTwo data={data} />
       <DetailsInfoThree data={data} />
       <ComentariosDetails data={data} />
+      <NoticiasDetails data={data} setOnAddNoticiaRefreshKey={setOnAddNoticiaRefreshKey} onAddNoticiaRefreshKey={onAddNoticiaRefreshKey} />
     </div>
   );
 };

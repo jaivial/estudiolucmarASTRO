@@ -203,25 +203,30 @@ const MapComponent = () => {
       setZones((prevZones) => prevZones.filter((zone) => zone.code_id !== zoneCodeId));
 
       console.log('Zone deleted:', response.data);
+      handleCheckInmuebleInZone();
+      fetchZoneStatistics();
     } catch (error) {
       console.error('Error deleting zone:', error);
     }
   };
 
-  useEffect(() => {
+  const handleCheckInmuebleInZone = async () => {
     axios.get('http://localhost:8000/backend/zonas/checkInmuebleInZone.php').then((response) => {
-      console.log('Inmueble data fetched:', response.data);
+      console.log('check inmueble in zone');
     });
+  };
+  const fetchZoneStatistics = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/backend/zonas/calculateZoneStatistics.php');
+      console.log('Zone statistics fetched:', response.data);
+      setZoneStatistics(response.data);
+    } catch (error) {
+      console.error('Error fetching zone statistics:', error);
+    }
+  };
 
-    const fetchZoneStatistics = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/backend/zonas/calculateZoneStatistics.php');
-        console.log('Zone statistics fetched:', response.data);
-        setZoneStatistics(response.data);
-      } catch (error) {
-        console.error('Error fetching zone statistics:', error);
-      }
-    };
+  useEffect(() => {
+    handleCheckInmuebleInZone();
 
     // Call the function to fetch zone statistics when component mounts
     fetchZoneStatistics();
@@ -229,7 +234,7 @@ const MapComponent = () => {
 
   const handleSave = async () => {
     const code_id = uuidv4();
-    const newZone = { code_id: code_id, zone_name: zone_name, color, zone_responsable, latlngs: zoneData.latlngs };
+    const newZone = { code_id: code_id, zone_name: zone_name, color, zone_responsable: zone_responsable, latlngs: zoneData.latlngs };
     try {
       const response = await axios.post('http://localhost:8000/backend/zonas/createNewZone.php', newZone);
       console.log('Zone saved:', response.data);
@@ -251,6 +256,7 @@ const MapComponent = () => {
       setColor(colors[0]);
       setResponsable('');
       setIsPopupOpen(false);
+      handleCheckInmuebleInZone();
       window.location.reload();
     } catch (error) {
       console.error('Error saving zone:', error);
@@ -400,33 +406,36 @@ const MapComponent = () => {
         </FeatureGroup>
       </MapContainer>
       {isPopupOpen && (
-        <div className="bg-slate-100 rounded-lg shadow-lg p-4 w-[60%] flex flex-col items-center gap-4 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-30">
-          <h2 class="font-sans text-center text-slate-800 font-bold text-lg">Editar zona</h2>
-          <label class="flex flex-col items-center gap-1 w-[60%]">
-            Nombre:
-            <input class="font-sans text-base text-center border-2 border-slate-300 rounded-lg p-1 w-full bg-white" type="text" value={zone_name} onChange={(e) => setZoneName(e.target.value)} />
-          </label>
-          <label class="flex flex-col items-center gap-1 w-[60%]">
-            Color:
-            <select class="font-sans text-base  text-center border-2 border-slate-300 rounded-lg p-1 w-full bg-white" value={color} onChange={(e) => setColor(e.target.value)}>
-              {colors.map((c) => (
-                <option class="text-center" key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label class="flex flex-col items-center gap-1 w-[60%]">
-            Responsable:
-            <select class="font-sans text-base  text-center border-2 border-slate-300 rounded-lg p-1 w-full bg-white" value={nombres} onChange={(e) => setResponsable(e.target.value)}>
-              {nombres.map((nombre, index) => (
-                <option key={index}>{nombre}</option>
-              ))}
-            </select>
-          </label>
-          <button class="font-sans font-bld text-white py-2 px-4 text-center bg-emerald-700 rounded-lg" onClick={handleSave}>
-            Guardar
-          </button>
+        <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+          <div className="bg-slate-100 rounded-lg shadow-lg p-4 w-[80%] flex flex-col items-center gap-4 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-30">
+            <h2 class="font-sans text-center text-slate-800 font-bold text-lg">Editar zona</h2>
+            <label class="flex flex-col items-center gap-1 w-[60%]">
+              Nombre:
+              <input class="font-sans text-base text-center border-2 border-slate-300 rounded-lg p-1 w-full bg-white" type="text" value={zone_name} onChange={(e) => setZoneName(e.target.value)} required />
+            </label>
+            <label class="flex flex-col items-center gap-1 w-[60%]">
+              Color:
+              <select class="font-sans text-base  text-center border-2 border-slate-300 rounded-lg p-1 w-full bg-white" value={color} onChange={(e) => setColor(e.target.value)} required>
+                {colors.map((c) => (
+                  <option class="text-center" key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label class="flex flex-col items-center gap-1 w-[60%]">
+              Responsable:
+              <select class="font-sans text-base  text-center border-2 border-slate-300 rounded-lg p-1 w-full bg-white" value={nombres} onChange={(e) => setResponsable(e.target.value)} required>
+                <option value="">Selecciona un responsable</option>
+                {nombres.map((nombre, index) => (
+                  <option key={index}>{nombre}</option>
+                ))}
+              </select>
+            </label>
+            <button class="font-sans font-bld text-white py-2 px-4 text-center bg-emerald-700 rounded-lg" onClick={handleSave}>
+              Guardar
+            </button>
+          </div>
         </div>
       )}
     </div>

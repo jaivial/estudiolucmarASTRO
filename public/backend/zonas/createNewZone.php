@@ -18,6 +18,7 @@ function createZone($zone_name, $color, $zone_responsable, $latlngs, $code_id)
     }
 }
 
+
 // Handle POST request to create a new zone
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Assuming JSON payload is sent from React frontend

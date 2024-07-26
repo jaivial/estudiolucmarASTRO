@@ -3,6 +3,8 @@ import { FaPersonShelter } from 'react-icons/fa6';
 import { LiaKeySolid } from 'react-icons/lia'; // Import LiaKeySolid icon
 import { PiEmptyBold } from 'react-icons/pi'; // Import PiEmptyBold icon
 import { TbTargetArrow } from 'react-icons/tb'; // Import TbTargetArrow icon
+import { FaUserTie } from 'react-icons/fa';
+import { PiMapPinSimpleAreaBold } from 'react-icons/pi';
 
 const DetailsInfoThree = ({ data }) => {
   const { tipo, uso, superficie, ano_construccion, habitaciones, garaje, ascensor, baños, trastero, jardin, terraza, aireAcondicionado, categoria, potencialAdquisicion, noticiastate, encargoState, responsable, zona } = data.inmueble;
@@ -86,6 +88,44 @@ const DetailsInfoThree = ({ data }) => {
     }
     return null;
   };
+  const renderAsesorState = (Value) => {
+    if (Value) {
+      return (
+        <li className="py-1 flex items-center">
+          <FaUserTie className="text-gray-900 text-3xl" />
+
+          <span className="ml-2">{Value}</span>
+        </li>
+      );
+    } else {
+      return (
+        <li className="py-1 flex items-center">
+          <FaUserTie className="text-gray-900 text-3xl" />
+
+          <span className="ml-2">Asesor no asignado</span>
+        </li>
+      );
+    }
+    return null;
+  };
+  const renderZoneState = (Value) => {
+    if (Value) {
+      return (
+        <li className="py-1 flex items-center">
+          <PiMapPinSimpleAreaBold className="text-gray-900 text-3xl" />
+          <span className="ml-2">{Value}</span>
+        </li>
+      );
+    } else {
+      return (
+        <li className="py-1 flex items-center">
+          <PiMapPinSimpleAreaBold className="text-gray-900 text-3xl" />
+          <span className="ml-2">Zona no asignada</span>
+        </li>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="p-4">
@@ -122,13 +162,13 @@ const DetailsInfoThree = ({ data }) => {
             {/* Bottom Column: Commercial Information */}
             <div>
               <h2 className="font-bold text-xl pb-2">Información Comercial</h2>
-              <ul className="list-none pl-2">
+              <ul className="list-none pl-2 py-1">
                 {renderCategoria(categoria)}
                 {renderPotencialAdquisicion(potencialAdquisicion)}
                 {renderNoticiaState(noticiastate)}
                 {renderEncargoState(encargoState)}
-                {renderListItem(responsable || 'Asesor no asignado')}
-                {renderListItem(zona || 'Zona no asignada')}
+                {renderAsesorState(responsable)}
+                {renderZoneState(zona)}
               </ul>
             </div>
           </div>
