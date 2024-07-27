@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "preinstall": "npm install --legacy-peer-deps",
     "build": "./build.sh && astro build && ./dev.sh",
     "preview": "astro preview",
     "astro": "astro"
