@@ -51,3 +51,4 @@ fi
 # Update the database connection details
 update_db_connection
 
+npm install --legacy-peer-deps
