@@ -3,7 +3,7 @@
   command = "npm install --legacy-peer-deps && npm run build"
 
 [context.production.environment]
-  NODE_VERSION = "16"  # Replace with the Node.js version compatible with your project
+  NODE_VERSION = "22.3.0"  # Or use any higher version compatible with Astro
 
 [context.deploy-preview]
-  command = "npm install --legacy-peer-deps && npm run build"
+  NODE_VERSION = "22.3.0"  # Or use any higher version compatible with Astro
