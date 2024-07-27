@@ -50,3 +50,4 @@ fi
 
 # Update the database connection details
 update_db_connection
+
