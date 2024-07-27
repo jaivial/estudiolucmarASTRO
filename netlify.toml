@@ -1,4 +1,6 @@
 [build]
   publish = "dist"
-  command = "npm install --force && npm run build"
+  command = "npm install --legacy-peer-deps && npm run build"
 
+[context.deploy-preview]
+  command = "npm install --legacy-peer-deps && npm run build"
