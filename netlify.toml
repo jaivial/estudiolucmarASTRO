@@ -2,5 +2,8 @@
   publish = "dist"
   command = "npm install --legacy-peer-deps && npm run build"
 
+[context.production.environment]
+  NODE_VERSION = "16"  # Replace with the Node.js version compatible with your project
+
 [context.deploy-preview]
   command = "npm install --legacy-peer-deps && npm run build"
