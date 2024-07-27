@@ -60,7 +60,7 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
   const handleTaskCompletion = async (taskId) => {
     try {
       await axios.post(
-        'http://localhost:8000/backend/calendar/tasks.php',
+        'https://estudiolucmar.com/backend/calendar/tasks.php',
         new URLSearchParams({
           taskId,
           userId,
@@ -76,7 +76,7 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
   // Handle task deletion
   const handleDeleteTask = async (taskId) => {
     try {
-      await axios.get('http://localhost:8000/backend/calendar/deleteTasks.php', {
+      await axios.get('https://estudiolucmar.com/backend/calendar/deleteTasks.php', {
         params: {
           taskId: taskId,
           userId: userId,
@@ -106,7 +106,7 @@ const TaskList = ({ day, tasks, refreshTasks }) => {
     try {
       const formattedDate = startOfDayUTC(day).toISOString().split('T')[0];
       await axios.post(
-        'http://localhost:8000/backend/calendar/tasks.php',
+        'https://estudiolucmar.com/backend/calendar/tasks.php',
         new URLSearchParams({
           date: formattedDate,
           task: taskInput,

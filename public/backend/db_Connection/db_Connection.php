@@ -7,10 +7,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // Define global database connection variables
-$host = "127.0.0.1";
-$port = "3308";
-$user = "root";
-$password = "";
+$host = "localhost";
+$port = "3306";
+$user = "u212050690_estudiolucmar";
+$password = "estudioLucmar_4321";
 $database = "u212050690_estudiolucmar";
 
 

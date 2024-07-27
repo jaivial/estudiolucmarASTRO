@@ -48,7 +48,7 @@ const ItemDetails = ({ id, onClose }) => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8000/backend/inmuebles/inmueblemoreinfo.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
         params: { id: id },
       })
       .then((response) => {
@@ -63,7 +63,7 @@ const ItemDetails = ({ id, onClose }) => {
   useEffect(() => {
     const fetchEncargoData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/backend/encargos/encargosfetch.php', {
+        const response = await axios.get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
           params: {
             id: id,
           },

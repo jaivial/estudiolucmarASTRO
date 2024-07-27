@@ -113,7 +113,7 @@ const MapComponent = () => {
   useEffect(() => {
     const fetchResponsables = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/backend/users/fetchNombreApellido.php');
+        const response = await axios.get('https://estudiolucmar.com/backend/users/fetchNombreApellido.php');
         console.log('Responsables fetched:', response.data);
         setNombres(response.data);
       } catch (error) {
@@ -130,7 +130,7 @@ const MapComponent = () => {
 
   const fetchZones = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/zonas/fetchAllZones.php');
+      const response = await axios.get('https://estudiolucmar.com/backend/zonas/fetchAllZones.php');
       console.log('Zones fetched:', response.data);
       setZones(response.data);
     } catch (error) {
@@ -188,7 +188,7 @@ const MapComponent = () => {
 
   const updateZone = async (codeID, latlngs) => {
     try {
-      const response = await axios.post('http://localhost:8000/backend/zonas/updateZone.php', { code_id: codeID, latlngs });
+      const response = await axios.post('https://estudiolucmar.com/backend/zonas/updateZone.php', { code_id: codeID, latlngs });
       console.log('Zone updated in backend:', response.data);
       window.location.reload();
     } catch (error) {
@@ -199,7 +199,7 @@ const MapComponent = () => {
 
   const handleDelete = async (zoneCodeId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/backend/zonas/deleteZone.php?zoneCodeId=${zoneCodeId}`);
+      const response = await axios.get(`https://estudiolucmar.com/backend/zonas/deleteZone.php?zoneCodeId=${zoneCodeId}`);
       setZones((prevZones) => prevZones.filter((zone) => zone.code_id !== zoneCodeId));
 
       console.log('Zone deleted:', response.data);
@@ -211,13 +211,13 @@ const MapComponent = () => {
   };
 
   const handleCheckInmuebleInZone = async () => {
-    axios.get('http://localhost:8000/backend/zonas/checkInmuebleInZone.php').then((response) => {
+    axios.get('https://estudiolucmar.com/backend/zonas/checkInmuebleInZone.php').then((response) => {
       console.log('check inmueble in zone');
     });
   };
   const fetchZoneStatistics = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/zonas/calculateZoneStatistics.php');
+      const response = await axios.get('https://estudiolucmar.com/backend/zonas/calculateZoneStatistics.php');
       console.log('Zone statistics fetched:', response.data);
       setZoneStatistics(response.data);
     } catch (error) {
@@ -236,7 +236,7 @@ const MapComponent = () => {
     const code_id = uuidv4();
     const newZone = { code_id: code_id, zone_name: zone_name, color, zone_responsable: zone_responsable, latlngs: zoneData.latlngs };
     try {
-      const response = await axios.post('http://localhost:8000/backend/zonas/createNewZone.php', newZone);
+      const response = await axios.post('https://estudiolucmar.com/backend/zonas/createNewZone.php', newZone);
       console.log('Zone saved:', response.data);
       // setZones([...zones, newZone]);
       const layer = featureGroupRef.current.getLayers().find((l) => l._leaflet_id === zoneData.id);

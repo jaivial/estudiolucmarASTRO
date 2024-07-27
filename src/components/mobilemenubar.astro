@@ -160,7 +160,7 @@
     // Handle logout event
     document.getElementById('mobile-itemLogOut').addEventListener('click', function () {
       axios
-        .get('http://localhost:8000/backend/auth/logout.php', {
+        .get('https://estudiolucmar.com/backend/auth/logout.php', {
           withCredentials: true,
         })
         .then((response) => {

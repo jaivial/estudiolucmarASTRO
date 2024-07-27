@@ -78,7 +78,7 @@ const EncargosDetails = ({ data, setOnAddEncargoRefreshKey, onAddEncargoRefreshK
       return;
     } else {
       try {
-        const response = await axios.get('http://localhost:8000/backend/encargos/encargosfetch.php', {
+        const response = await axios.get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
           params: { id: data.inmueble.id },
         });
         console.log('Encargos fetched:', response.data);
@@ -102,7 +102,7 @@ const EncargosDetails = ({ data, setOnAddEncargoRefreshKey, onAddEncargoRefreshK
 
   const fetchAsesores = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/users/fetchusersdatabase.php');
+      const response = await axios.get('https://estudiolucmar.com/backend/users/fetchusersdatabase.php');
       if (Array.isArray(response.data)) {
         setAsesorOptions(
           response.data.map((user) => ({
@@ -120,7 +120,7 @@ const EncargosDetails = ({ data, setOnAddEncargoRefreshKey, onAddEncargoRefreshK
 
   const fetchClientes = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/clientes/seleccionaCliente.php');
+      const response = await axios.get('https://estudiolucmar.com/backend/clientes/seleccionaCliente.php');
       if (Array.isArray(response.data)) {
         setClienteOptions(
           response.data.map((cliente) => ({
@@ -202,7 +202,7 @@ const EncargosDetails = ({ data, setOnAddEncargoRefreshKey, onAddEncargoRefreshK
     try {
       console.log('Sending params:', params);
 
-      const endpoint = isEditing ? 'http://localhost:8000/backend/encargos/updateEncargo.php' : 'http://localhost:8000/backend/encargos/agregarEncargo.php';
+      const endpoint = isEditing ? 'https://estudiolucmar.com/backend/encargos/updateEncargo.php' : 'https://estudiolucmar.com/backend/encargos/agregarEncargo.php';
 
       const response = await axios.get(endpoint, { params });
       console.log('response updated', response.data);
@@ -247,7 +247,7 @@ const EncargosDetails = ({ data, setOnAddEncargoRefreshKey, onAddEncargoRefreshK
     }
 
     try {
-      const response = await axios.get('http://localhost:8000/backend/encargos/deleteEncargo.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/encargos/deleteEncargo.php', {
         params: {
           id: encargos[0].encargo_id,
         },

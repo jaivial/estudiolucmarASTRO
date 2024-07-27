@@ -24,7 +24,7 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages, setIsSlide
   useEffect(() => {
     const loadImages = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/backend/itemDetails/getImages.php', {
+        const response = await axios.get('https://estudiolucmar.com/backend/itemDetails/getImages.php', {
           params: { inmueble_id: inmuebleId },
         });
         const images = response.data.images || [];
@@ -161,7 +161,7 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages, setIsSlide
         formData.append('images[]', file);
       }
 
-      const response = await axios.post('http://localhost:8000/backend/itemDetails/uploadImages.php', formData, {
+      const response = await axios.post('https://estudiolucmar.com/backend/itemDetails/uploadImages.php', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -215,7 +215,7 @@ const ItemDetailsHeader = ({ inmuebleId, onClose, address, setImages, setIsSlide
       formData.append('image_id', uploadedImages[index].id); // Use the actual image ID
 
       // Send delete request
-      const response = await axios.post('http://localhost:8000/backend/itemDetails/deleteImage.php', formData, {
+      const response = await axios.post('https://estudiolucmar.com/backend/itemDetails/deleteImage.php', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

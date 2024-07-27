@@ -70,7 +70,7 @@ const Table = () => {
 
   const fetchData = async (page, term) => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/inmuebles/tabla.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/inmuebles/tabla.php', {
         params: {
           alphabeticalOrder: filters.alphabeticalOrder,
           zone: filters.selectedZone,
@@ -100,7 +100,7 @@ const Table = () => {
 
   const fetchParentsAndChilds = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/inmuebles/fetchAllInmuebles.php');
+      const response = await axios.get('https://estudiolucmar.com/backend/inmuebles/fetchAllInmuebles.php');
       const result = response.data;
 
       setChildsEscalera(result.childsescalera || []);
@@ -275,7 +275,7 @@ const Table = () => {
     }
 
     axios
-      .get('http://localhost:8000/backend/inmuebles/checkChildrenDelete.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/checkChildrenDelete.php', {
         params: {
           inmuebles: Array.from(selectedItems),
         },
@@ -353,7 +353,7 @@ const Table = () => {
           }).showToast();
           return;
         } else {
-          url = 'http://localhost:8000/backend/inmuebles/agruparNuevoEdificio.php';
+          url = 'https://estudiolucmar.com/backend/inmuebles/agruparNuevoEdificio.php';
           payload = {
             type: formData.tipo,
             name: formData.nombre,
@@ -380,7 +380,7 @@ const Table = () => {
           }).showToast();
           return;
         }
-        url = 'http://localhost:8000/backend/inmuebles/agruparNuevaEscalera.php';
+        url = 'https://estudiolucmar.com/backend/inmuebles/agruparNuevaEscalera.php';
         payload = {
           type: formData.tipo,
           name: formData.nombre,
@@ -429,7 +429,7 @@ const Table = () => {
           }).showToast();
           return;
         }
-        url = 'http://localhost:8000/backend/inmuebles/agruparExistenteEdificio.php';
+        url = 'https://estudiolucmar.com/backend/inmuebles/agruparExistenteEdificio.php';
         payload = {
           type: formData.tipo,
           inmuebles: Array.from(selectedItems),
@@ -455,7 +455,7 @@ const Table = () => {
           }).showToast();
           return;
         }
-        url = 'http://localhost:8000/backend/inmuebles/agruparExistenteEscalera.php';
+        url = 'https://estudiolucmar.com/backend/inmuebles/agruparExistenteEscalera.php';
         payload = {
           type: formData.tipo,
           inmuebles: Array.from(selectedItems),
@@ -497,7 +497,7 @@ const Table = () => {
 
   const handleSubmitFormUngroup = async (e) => {
     e.preventDefault();
-    const url = 'http://localhost:8000/backend/inmuebles/desagrupar.php';
+    const url = 'https://estudiolucmar.com/backend/inmuebles/desagrupar.php';
     const payload = { inmuebles: Array.from(selectedItemsUngroup) };
 
     try {
@@ -542,7 +542,7 @@ const Table = () => {
     }
 
     axios
-      .get('http://localhost:8000/backend/inmuebles/deleteOrphan.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/deleteOrphan.php', {
         params: {
           id: orphanInfo[0].id,
         },
@@ -596,7 +596,7 @@ const Table = () => {
   const handleDeleteInmueble = () => {
     console.log('handleDeleteInmueble', Array.from(selectedItems));
     axios
-      .get('http://localhost:8000/backend/inmuebles/deleteInmueble.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/deleteInmueble.php', {
         params: {
           inmuebles: Array.from(selectedItems),
         },
@@ -644,7 +644,7 @@ const Table = () => {
 
   const handleDeleteKeepChildren = () => {
     axios
-      .get('http://localhost:8000/backend/inmuebles/deleteKeepChildren.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/deleteKeepChildren.php', {
         params: {
           inmuebles: Array.from(keepChildren),
           parentdata: parentData,

@@ -55,7 +55,7 @@ const AddInmueblePopup = ({ showAddNewInmueble, setShowAddNewInmueble, fetchData
 
     const coordinatesArray = markerPosition ? [markerPosition.lat.toString(), markerPosition.lng.toString()] : [];
     axios
-      .get('http://localhost:8000/backend/inmuebles/addNewInmueble.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/addNewInmueble.php', {
         params: {
           direccion,
           tipo,
@@ -70,7 +70,7 @@ const AddInmueblePopup = ({ showAddNewInmueble, setShowAddNewInmueble, fetchData
         console.log(response.data);
         if (response.data.status === 'success') {
           axios
-            .get('http://localhost:8000/backend/zonas/checkInmuebleInZone.php')
+            .get('https://estudiolucmar.com/backend/zonas/checkInmuebleInZone.php')
             .then((response) => {
               console.log(response.data);
               if (response.data) {

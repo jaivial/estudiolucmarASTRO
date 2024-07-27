@@ -539,7 +539,7 @@ import '@capacitor-community/safe-area';
     const tablaallusers = document.getElementById('tablaallusers');
     tablaallusers.innerHTML = '';
 
-    axios.get('http://localhost:8000/backend/users/fetchusersdatabase.php').then((response) => {
+    axios.get('https://estudiolucmar.com/backend/users/fetchusersdatabase.php').then((response) => {
       const users = response.data;
 
       // Handle the data here
@@ -584,7 +584,7 @@ import '@capacitor-community/safe-area';
     });
 
     axios
-      .get('http://localhost:8000/backend/users/fetchusers.php', {
+      .get('https://estudiolucmar.com/backend/users/fetchusers.php', {
         withCredentials: true,
       })
       .then((response) => {
@@ -627,7 +627,7 @@ import '@capacitor-community/safe-area';
         tablaencargosasignadosUsuarioIniciado.innerHTML = '';
 
         axios
-          .get('http://localhost:8000/backend/users/fetchinmueblesusuarios.php', {
+          .get('https://estudiolucmar.com/backend/users/fetchinmueblesusuarios.php', {
             params: {
               responsable: responsable,
             },
@@ -932,7 +932,7 @@ import '@capacitor-community/safe-area';
     console.log('nombreCompletoNuevo', nombreCompletoNuevo);
 
     axios
-      .get('http://localhost:8000/backend/users/updateuserinformation.php', {
+      .get('https://estudiolucmar.com/backend/users/updateuserinformation.php', {
         params: {
           nombre: nombre,
           apellido: apellido,
@@ -947,7 +947,7 @@ import '@capacitor-community/safe-area';
         if (response.data.success) {
           // Handle success case
           axios
-            .get('http://localhost:8000/backend/users/updateNombreResponsable.php', {
+            .get('https://estudiolucmar.com/backend/users/updateNombreResponsable.php', {
               params: {
                 nombreCompletoAntiguo: nombreSinPrefijo,
                 nombreCompletoNuevo: nombreCompletoNuevo,
@@ -968,7 +968,7 @@ import '@capacitor-community/safe-area';
             });
           hideToastReload();
           axios
-            .get('http://localhost:8000/backend/auth/logout.php', {
+            .get('https://estudiolucmar.com/backend/auth/logout.php', {
               withCredentials: true,
             })
             .then((response) => {
@@ -1056,7 +1056,7 @@ import '@capacitor-community/safe-area';
               formData.append('sample_image', blob, 'image.webp');
 
               axios
-                .post('http://localhost:8000/backend/users/updateprofilephoto.php', formData, {
+                .post('https://estudiolucmar.com/backend/users/updateprofilephoto.php', formData, {
                   withCredentials: true,
                 })
                 .then((response) => {
@@ -1142,7 +1142,7 @@ import '@capacitor-community/safe-area';
               formData.append('id', id);
 
               axios
-                .post('http://localhost:8000/backend/users/updateprofilephotoIndividual.php', formData)
+                .post('https://estudiolucmar.com/backend/users/updateprofilephotoIndividual.php', formData)
                 .then((response) => {
                   imgprofilephoto.src = '';
                   imgprofilephotoedit.src = '';
@@ -1204,7 +1204,7 @@ import '@capacitor-community/safe-area';
     console.log('nombreCompletoNuevo', nombreCompletoNuevo);
 
     axios
-      .get('http://localhost:8000/backend/users/checkDeleteUser.php', {
+      .get('https://estudiolucmar.com/backend/users/checkDeleteUser.php', {
         params: {
           id: id,
         },
@@ -1213,7 +1213,7 @@ import '@capacitor-community/safe-area';
       .then((response) => {
         if (response.data.success) {
           axios
-            .get('http://localhost:8000/backend/users/updateuserinformationindividual.php', {
+            .get('https://estudiolucmar.com/backend/users/updateuserinformationindividual.php', {
               params: {
                 nombre: nombre,
                 apellido: apellido,
@@ -1226,7 +1226,7 @@ import '@capacitor-community/safe-area';
             .then((response) => {
               if (response.data.success) {
                 axios
-                  .get('http://localhost:8000/backend/users/updateNombreResponsable.php', {
+                  .get('https://estudiolucmar.com/backend/users/updateNombreResponsable.php', {
                     params: {
                       nombreCompletoAntiguo: nombreSinPrefijo,
                       nombreCompletoNuevo: nombreCompletoNuevo,
@@ -1293,7 +1293,7 @@ import '@capacitor-community/safe-area';
         } else {
           hideLoadingScreenInformacionUsuarioIndividual();
           axios
-            .get('http://localhost:8000/backend/users/updateuserinformationindividual.php', {
+            .get('https://estudiolucmar.com/backend/users/updateuserinformationindividual.php', {
               params: {
                 nombre: nombre,
                 apellido: apellido,
@@ -1306,7 +1306,7 @@ import '@capacitor-community/safe-area';
             .then((response) => {
               if (response.data.success) {
                 axios
-                  .get('http://localhost:8000/backend/users/updateNombreResponsable.php', {
+                  .get('https://estudiolucmar.com/backend/users/updateNombreResponsable.php', {
                     params: {
                       nombreCompletoAntiguo: nombreSinPrefijo,
                       nombreCompletoNuevo: nombreCompletoNuevo,
@@ -1369,7 +1369,7 @@ import '@capacitor-community/safe-area';
     console.log('nombreSinPrefijo', nombreSinPrefijo);
 
     axios
-      .get('http://localhost:8000/backend/users/checkDeleteUser.php', {
+      .get('https://estudiolucmar.com/backend/users/checkDeleteUser.php', {
         params: {
           id: id,
         },
@@ -1379,7 +1379,7 @@ import '@capacitor-community/safe-area';
           // Handle success case
           console.log('User response.data deleted successfully:', response.data);
           axios
-            .get('http://localhost:8000/backend/users/deleteUser.php', {
+            .get('https://estudiolucmar.com/backend/users/deleteUser.php', {
               params: {
                 id: id,
                 nombreCompletoAntiguo: nombreSinPrefijo,
@@ -1525,7 +1525,7 @@ import '@capacitor-community/safe-area';
     const admin = rolusuarioagregar.value;
 
     axios
-      .get('http://localhost:8000/backend/users/insertuserinformation.php', {
+      .get('https://estudiolucmar.com/backend/users/insertuserinformation.php', {
         params: {
           nombre: nombre,
           apellido: apellido,
@@ -1595,7 +1595,7 @@ import '@capacitor-community/safe-area';
 
     // Check if email already exists
     return axios
-      .get('http://localhost:8000/backend/users/fetchusersdatabase.php')
+      .get('https://estudiolucmar.com/backend/users/fetchusersdatabase.php')
       .then((response) => {
         let emails = response.data.map((user) => user.email);
 
@@ -1671,7 +1671,7 @@ import '@capacitor-community/safe-area';
     adminInformacionUsuarioIndividual.innerHTML = '';
 
     axios
-      .get('http://localhost:8000/backend/users/fetchusersdatabaseID.php', {
+      .get('https://estudiolucmar.com/backend/users/fetchusersdatabaseID.php', {
         params: {
           id: id,
         },
@@ -1697,7 +1697,7 @@ import '@capacitor-community/safe-area';
           const responsable = nombreCompleto;
 
           axios
-            .get('http://localhost:8000/backend/users/fetchinmueblesusuarios.php', {
+            .get('https://estudiolucmar.com/backend/users/fetchinmueblesusuarios.php', {
               params: {
                 responsable: responsable,
               },
@@ -1843,7 +1843,7 @@ import '@capacitor-community/safe-area';
     imgprofilephotoinformacionusuarioindividualedicion.src = '';
 
     axios
-      .get('http://localhost:8000/backend/users/fetchusersdatabaseID.php', {
+      .get('https://estudiolucmar.com/backend/users/fetchusersdatabaseID.php', {
         params: {
           id: id,
         },

@@ -81,7 +81,7 @@
       const contra = document.getElementById('password').value;
 
       axios
-        .get('http://localhost:8000/backend/auth/auth.php', {
+        .get('https://estudiolucmar.com/backend/auth/auth.php', {
           withCredentials: true,
           params: {
             email: email,
@@ -93,14 +93,14 @@
           if (response.data.success === true) {
             //Get cookie userID value and console log it
             axios
-              .get('http://localhost:8000/backend/auth/checkActiveSession.php', {
+              .get('https://estudiolucmar.com/backend/auth/checkActiveSession.php', {
                 withCredentials: true,
               })
               .then(function (response) {
                 console.log(response.data);
                 if (response.data.success === false) {
                   axios
-                    .get('http://localhost:8000/backend/auth/login.php', {
+                    .get('https://estudiolucmar.com/backend/auth/login.php', {
                       withCredentials: true,
                     })
                     .then(function (response) {

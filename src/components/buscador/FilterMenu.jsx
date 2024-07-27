@@ -72,7 +72,7 @@ const FilterMenu = ({ setFilters, currentPage, filters, data, setData, setCurren
   // Fetch zones and responsables
   const fetchOptions = async () => {
     try {
-      const [zonesResponse, responsablesResponse] = await Promise.all([axios.get('http://localhost:8000/backend/zonas/getZonesSelect.php'), axios.get('http://localhost:8000/backend/users/getResponsablesSelect.php')]);
+      const [zonesResponse, responsablesResponse] = await Promise.all([axios.get('https://estudiolucmar.com/backend/zonas/getZonesSelect.php'), axios.get('https://estudiolucmar.com/backend/users/getResponsablesSelect.php')]);
 
       setZones(zonesResponse.data);
       setResponsables(responsablesResponse.data);

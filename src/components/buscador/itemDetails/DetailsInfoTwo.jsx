@@ -30,7 +30,7 @@ const DetailsInfoTwo = ({ data }) => {
     // Fetch description from database
     const fetchDescripcion = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/backend/itemDetails/getDescripcion.php', {
+        const response = await axios.get('https://estudiolucmar.com/backend/itemDetails/getDescripcion.php', {
           params: {
             id: data.inmueble.id,
           },
@@ -61,7 +61,7 @@ const DetailsInfoTwo = ({ data }) => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/itemDetails/updateDescripcion.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/itemDetails/updateDescripcion.php', {
         params: {
           id: data.inmueble.id,
           descripcion: newDescripcion,

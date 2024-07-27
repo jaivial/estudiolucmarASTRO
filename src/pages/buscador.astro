@@ -114,7 +114,7 @@ import '../../ModalConfig.js';
   function fetchData(direccion, page) {
     ShowLoadingScreenTwo();
     axios
-      .get('http://localhost:8000/backend/inmuebles/tabla.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/tabla.php', {
         params: {
           direccion: direccion,
           itemsPerPage: itemsPerPage,
@@ -193,7 +193,7 @@ import '../../ModalConfig.js';
       tableBody.appendChild(row);
 
       axios
-        .get('http://localhost:8000/backend/inmuebles/inmueblemoreinfo.php?', {
+        .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php?', {
           params: {
             id: item.id,
           },
@@ -251,7 +251,7 @@ import '../../ModalConfig.js';
   function verMasInfo(clickedDiv) {
     showLoadingScreenMoreInfo();
     axios
-      .get('http://localhost:8000/backend/users/fetchusers.php', {
+      .get('https://estudiolucmar.com/backend/users/fetchusers.php', {
         withCredentials: true,
       })
       .then((response) => {
@@ -342,7 +342,7 @@ import '../../ModalConfig.js';
     // Function to fetch comments
     function fetchComments() {
       axios
-        .get('http://localhost:8000/backend/inmuebles/inmueblemoreinfo.php', {
+        .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
           params: {
             id: id,
           },
@@ -374,7 +374,7 @@ import '../../ModalConfig.js';
             encargocontainer.classList.add('flex');
 
             axios
-              .get('http://localhost:8000/backend/noticias/noticiasfetch.php', {
+              .get('https://estudiolucmar.com/backend/noticias/noticiasfetch.php', {
                 params: {
                   id: id,
                 },
@@ -421,7 +421,7 @@ import '../../ModalConfig.js';
             encargocontainer.classList.add('flex');
 
             axios
-              .get('http://localhost:8000/backend/encargos/encargosfetch.php', {
+              .get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
                 params: {
                   id: id,
                 },
@@ -434,7 +434,7 @@ import '../../ModalConfig.js';
                 const clienteID = response.data.cliente_id;
 
                 axios
-                  .get('http://localhost:8000/backend/clientes/seleccionaClienteID.php', {
+                  .get('https://estudiolucmar.com/backend/clientes/seleccionaClienteID.php', {
                     params: {
                       cliente_id: clienteID,
                     },
@@ -582,7 +582,7 @@ import '../../ModalConfig.js';
               fetchComments();
             } else {
               axios
-                .get('http://localhost:8000/backend/comentarios/insertarcomentario.php?', {
+                .get('https://estudiolucmar.com/backend/comentarios/insertarcomentario.php?', {
                   params: {
                     id: insertarID,
                     comentario: comentarioValue,
@@ -613,7 +613,7 @@ import '../../ModalConfig.js';
                 .catch((error) => console.error('Error inserting comment:', error));
 
               axios
-                .get('http://localhost:8000/backend/inmuebles/inmueblemoreinfo.php', {
+                .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
                   params: {
                     id: insertarID,
                   },
@@ -680,7 +680,7 @@ import '../../ModalConfig.js';
               comentariobox.appendChild(deletecomentario);
               deletecomentario.onclick = function () {
                 axios
-                  .get('http://localhost:8000/backend/comentarios/deletecomment.php', {
+                  .get('https://estudiolucmar.com/backend/comentarios/deletecomment.php', {
                     params: {
                       id: comentarioId,
                     },
@@ -779,7 +779,7 @@ import '../../ModalConfig.js';
     ano_construccion.textContent = '';
     categoria.textContent = '';
     axios
-      .get('http://localhost:8000/backend/inmuebles/inmueblemoreinfo.php', {
+      .get('https://estudiolucmar.com/backend/inmuebles/inmueblemoreinfo.php', {
         params: {
           id: id,
         },
@@ -807,7 +807,7 @@ import '../../ModalConfig.js';
         comercialtexto.textContent = '';
         if (noticiastate === '1') {
           axios
-            .get('http://localhost:8000/backend/noticias/noticiasfetch.php', {
+            .get('https://estudiolucmar.com/backend/noticias/noticiasfetch.php', {
               params: {
                 id: id,
               },
@@ -876,7 +876,7 @@ import '../../ModalConfig.js';
           encargocontainer.classList.remove('hidden');
           encargocontainer.classList.add('flex');
           axios
-            .get('http://localhost:8000/backend/encargos/encargosfetch.php', {
+            .get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
               params: {
                 id: id,
               },
@@ -890,7 +890,7 @@ import '../../ModalConfig.js';
               const clienteID = response.data.cliente_id;
               console.log('clienteID', clienteID);
               axios
-                .get('http://localhost:8000/backend/clientes/seleccionaClienteID.php', {
+                .get('https://estudiolucmar.com/backend/clientes/seleccionaClienteID.php', {
                   params: {
                     cliente_id: clienteID,
                   },
@@ -1317,7 +1317,7 @@ import '../../ModalConfig.js';
     loadingScreen.classList.add('flex');
 
     axios
-      .get('http://localhost:8000/backend/moreinfo/editMoreInfoOne.php', {
+      .get('https://estudiolucmar.com/backend/moreinfo/editMoreInfoOne.php', {
         params: {
           id: id,
           tipo: tipo,
@@ -1372,7 +1372,7 @@ import '../../ModalConfig.js';
     loadingScreen.classList.add('flex');
 
     axios
-      .get('http://localhost:8000/backend/moreinfo/editMoreInfoTwo.php', {
+      .get('https://estudiolucmar.com/backend/moreinfo/editMoreInfoTwo.php', {
         params: {
           id: id,
           categoria: categoria,
@@ -1408,7 +1408,7 @@ import '../../ModalConfig.js';
 
   function fetchComercial() {
     axios
-      .get('http://localhost:8000/backend/users/seleccionacomercial.php')
+      .get('https://estudiolucmar.com/backend/users/seleccionacomercial.php')
       .then((response) => {
         let data = response.data;
         const comercialNoticia = document.getElementById('agregar-noticia-edit-comercial');
@@ -1423,7 +1423,7 @@ import '../../ModalConfig.js';
       })
       .catch((error) => console.error('Error fetching JSON data:', error));
     axios
-      .get('http://localhost:8000/backend/users/seleccionacomercial.php')
+      .get('https://estudiolucmar.com/backend/users/seleccionacomercial.php')
       .then((response) => {
         let data = response.data;
         const responsableedit = document.getElementById('responsable-edit');
@@ -1441,7 +1441,7 @@ import '../../ModalConfig.js';
       })
       .catch((error) => console.error('Error fetching JSON data:', error));
     axios
-      .get('http://localhost:8000/backend/users/seleccionacomercial.php')
+      .get('https://estudiolucmar.com/backend/users/seleccionacomercial.php')
       .then((response) => {
         let data = response.data;
         const comercialEncargo = document.getElementById('agregar-encargo-edit-comercial');
@@ -1459,7 +1459,7 @@ import '../../ModalConfig.js';
 
   function fetchCliente() {
     axios
-      .get('http://localhost:8000/backend/clientes/seleccionaCliente.php')
+      .get('https://estudiolucmar.com/backend/clientes/seleccionaCliente.php')
       .then((response) => {
         const cliente = response.data;
         const clienteSelect = document.getElementById('agregar-encargo-edit-cliente');
@@ -1643,7 +1643,7 @@ import '../../ModalConfig.js';
         return false;
       } else {
         axios
-          .get('http://localhost:8000/backend/noticias/agregarnoticia.php', {
+          .get('https://estudiolucmar.com/backend/noticias/agregarnoticia.php', {
             params: {
               id: id,
               tipoPVA: tipoPVA,
@@ -1725,7 +1725,7 @@ import '../../ModalConfig.js';
       const tipoComision = document.querySelector('input[name="tipo-comision"]:checked').value;
 
       axios
-        .get('http://localhost:8000/backend/encargos/agregarencargo.php', {
+        .get('https://estudiolucmar.com/backend/encargos/agregarencargo.php', {
           params: {
             encargo_id: id,
             tipoEncargo: tipoEncargo,
@@ -1847,7 +1847,7 @@ import '../../ModalConfig.js';
     });
 
     axios
-      .get('http://localhost:8000/backend/noticias/noticiasfetch.php', {
+      .get('https://estudiolucmar.com/backend/noticias/noticiasfetch.php', {
         params: {
           id: id,
         },
@@ -1940,7 +1940,7 @@ import '../../ModalConfig.js';
     const comercialEncargo = document.getElementById('agregar-encargo-edit-comercial');
 
     axios
-      .get('http://localhost:8000/backend/encargos/encargosfetch.php', {
+      .get('https://estudiolucmar.com/backend/encargos/encargosfetch.php', {
         params: {
           id: id,
         },
@@ -1949,7 +1949,7 @@ import '../../ModalConfig.js';
         fechaEncargo.value = response.data.encargo_fecha;
 
         axios
-          .get('http://localhost:8000/backend/clientes/seleccionaClienteID.php', {
+          .get('https://estudiolucmar.com/backend/clientes/seleccionaClienteID.php', {
             params: {
               cliente_id: response.data.cliente_id,
             },
@@ -2022,7 +2022,7 @@ import '../../ModalConfig.js';
     const id = localStorage.getItem('currentInmueble');
     console.log(id);
     axios
-      .get('http://localhost:8000/backend/noticias/updatenoticia.php', {
+      .get('https://estudiolucmar.com/backend/noticias/updatenoticia.php', {
         params: {
           id: id,
           noticia_fecha: noticia_fecha,
@@ -2078,7 +2078,7 @@ import '../../ModalConfig.js';
     const id = localStorage.getItem('currentInmueble');
 
     axios
-      .get('http://localhost:8000/backend/encargos/updateEncargo.php', {
+      .get('https://estudiolucmar.com/backend/encargos/updateEncargo.php', {
         params: {
           id: id,
           encargo_fecha: fecha,
@@ -2127,7 +2127,7 @@ import '../../ModalConfig.js';
     loadingScreen.classList.add('flex');
     const id = localStorage.getItem('currentInmueble');
     axios
-      .get('http://localhost:8000/backend/noticias/deletenoticia.php', {
+      .get('https://estudiolucmar.com/backend/noticias/deletenoticia.php', {
         params: {
           id: id,
         },
@@ -2169,7 +2169,7 @@ import '../../ModalConfig.js';
     const id = localStorage.getItem('currentInmueble');
 
     axios
-      .get('http://localhost:8000/backend/encargos/deleteEncargo.php', {
+      .get('https://estudiolucmar.com/backend/encargos/deleteEncargo.php', {
         params: {
           id: id,
         },

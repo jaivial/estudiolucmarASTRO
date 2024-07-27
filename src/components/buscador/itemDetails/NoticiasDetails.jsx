@@ -68,7 +68,7 @@ const NoticiasDetails = ({ data, setOnAddNoticiaRefreshKey, onAddNoticiaRefreshK
       return;
     } else {
       try {
-        const response = await axios.get('http://localhost:8000/backend/noticias/fetchallnoticias.php', {
+        const response = await axios.get('https://estudiolucmar.com/backend/noticias/fetchallnoticias.php', {
           params: { id: data.inmueble.id },
         });
 
@@ -93,7 +93,7 @@ const NoticiasDetails = ({ data, setOnAddNoticiaRefreshKey, onAddNoticiaRefreshK
 
   const fetchAsesores = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/users/fetchusersdatabase.php');
+      const response = await axios.get('https://estudiolucmar.com/backend/users/fetchusersdatabase.php');
       if (Array.isArray(response.data)) {
         setAsesorOptions(
           response.data.map((user) => ({
@@ -163,8 +163,8 @@ const NoticiasDetails = ({ data, setOnAddNoticiaRefreshKey, onAddNoticiaRefreshK
       console.log('Sending params:', params);
 
       const endpoint = isEditing
-        ? 'http://localhost:8000/backend/noticias/updatenoticia.php' // Replace with your editing endpoint
-        : 'http://localhost:8000/backend/noticias/agregarnoticia.php';
+        ? 'https://estudiolucmar.com/backend/noticias/updatenoticia.php' // Replace with your editing endpoint
+        : 'https://estudiolucmar.com/backend/noticias/agregarnoticia.php';
 
       const response = await axios.get(endpoint, { params });
       console.log('response updated', response.data);
@@ -206,7 +206,7 @@ const NoticiasDetails = ({ data, setOnAddNoticiaRefreshKey, onAddNoticiaRefreshK
     }
 
     try {
-      const response = await axios.get('http://localhost:8000/backend/noticias/deletenoticia.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/noticias/deletenoticia.php', {
         params: {
           id: currentNoticiaId,
         },

@@ -91,7 +91,7 @@ import CalendarApp from '../calendar/Calendar.jsx';
     const userID = getCookieByName('userID');
 
     axios
-      .get('http://localhost:8000/backend/users/fetchusers.php', {
+      .get('https://estudiolucmar.com/backend/users/fetchusers.php', {
         withCredentials: true,
         params: {
           user_id: userID,

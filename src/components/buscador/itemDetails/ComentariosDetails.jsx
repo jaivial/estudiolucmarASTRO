@@ -54,7 +54,7 @@ const ComentariosDetails = ({ data }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/comentarios/getcomentarios.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/comentarios/getcomentarios.php', {
         params: {
           id: data.inmueble.id,
         },
@@ -123,7 +123,7 @@ const ComentariosDetails = ({ data }) => {
     const userId = getCookieByName('userID');
 
     try {
-      const response = await axios.get('http://localhost:8000/backend/comentarios/insertarcomentario.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/comentarios/insertarcomentario.php', {
         params: {
           id: data.inmueble.id,
           comentario: newComment,
@@ -153,7 +153,7 @@ const ComentariosDetails = ({ data }) => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/comentarios/deletecomment.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/comentarios/deletecomment.php', {
         params: {
           id: commentId,
         },

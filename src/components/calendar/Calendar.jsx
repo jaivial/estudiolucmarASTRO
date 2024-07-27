@@ -62,7 +62,7 @@ const CalendarApp = () => {
       const formattedDate = startOfDayUTC(day).toISOString().split('T')[0];
       console.log('Fetching tasks for:', formattedDate);
 
-      const response = await axios.get('http://localhost:8000/backend/calendar/tasks.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/calendar/tasks.php', {
         params: {
           day: formattedDate,
           userId: userId, // Include userId here
@@ -87,7 +87,7 @@ const CalendarApp = () => {
 
   const fetchAllTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/backend/calendar/tasks.php', {
+      const response = await axios.get('https://estudiolucmar.com/backend/calendar/tasks.php', {
         params: { userId: userId }, // Include userId here
       });
       const allTasks = response.data;
