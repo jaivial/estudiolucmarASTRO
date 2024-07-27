@@ -6,6 +6,7 @@ $allowedOrigins = [
     'https://www.estudiolucmar.com',
     'http://localhost:8000',
     'https://app.netlify.com/sites/lighthearted-conkies-3950d4/overview',
+    'https://main--lighthearted-conkies-3950d4.netlify.app/',
 ];
 
 // Function to handle CORS headers
