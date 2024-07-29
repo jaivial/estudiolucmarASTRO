@@ -15,5 +15,4 @@ export default defineConfig({
     // Add more integrations if needed
     react(),
   ],
-  define: { "process.env": process.env },
 });

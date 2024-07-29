@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Toastify from 'toastify-js';
-import { fetchUser } from '../../api/login/loginFunctions';
+import { fetchUser } from '../../api/login/loginFunctions.js';
+import { supabase } from '../../api/supabaseClient.js';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -23,26 +24,17 @@ const LoginForm = () => {
   };
 
   const login = async () => {
-    console.log('login function called'); // Debugging line
     try {
-      const { data } = await fetchUser(email, password);
-      console.log('data', data); // Debugging line
-      if (data.length === 0) {
-        showToast('El usuario no existe.', 'linear-gradient(to right bottom, #c62828, #b92125, #ac1a22, #a0131f, #930b1c)');
-        setNotificationVisible(true);
-        return;
-      }
-
-      showToast('Sesión iniciada.', 'linear-gradient(to right bottom, #00603c, #006f39, #007d31, #008b24, #069903)');
+      fetchUser(email, password);
+      console.log('fetchUser function called'); // Debugging line
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   const handleLoginClick = (event) => {
-    console.log('handleLoginClick'); // Debugging line
-    event.preventDefault();
     login();
+    console.log('handleLoginClick'); // Debugging line
   };
 
   const handleNotificationClose = () => {
