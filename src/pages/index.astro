@@ -2,22 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import logoLucmar from '../../public/assets/img/logolucmar.jpg';
-import LoginForm from '../components/loginform/loginForm.astro';
+import LoginForm from '../components/loginform/loginForm.jsx';
 import LoadingScreenTwo from '../components/LoadingScreenTwo.astro';
 import '@capacitor-community/safe-area';
 ---
 
-<script>
-  import axios from 'axios';
-  function showLoadingScreenTwo() {
-    const loadingScreen = document.getElementById('loading-screen-two');
-    loadingScreen.classList.remove('hidden');
-  }
-  function hideLoadingScreenTwo() {
-    const loadingScreen = document.getElementById('loading-screen-two');
-    loadingScreen.classList.add('hidden');
-  }
-</script>
 <Layout title="Iniciar sesión">
   <div style="padding-top: var(--safe-area-inset-top);  ">
     <LoadingScreenTwo />
